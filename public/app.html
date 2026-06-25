@@ -1604,8 +1604,8 @@ if('serviceWorker' in navigator){
 
     for (var i = 0; i < n; i++) {
       var car = cars[i];
-      var photo = (window.PHOTOS && window.PHOTOS[car.id]) ? window.PHOTOS[car.id] : '';
-      var vid   = (window.VIDEOS && window.VIDEOS[car.id]) ? window.VIDEOS[car.id] : '';
+      var photo = (typeof PHOTOS !== "undefined" && PHOTOS[car.id]) ? PHOTOS[car.id] : '';
+      var vid   = (typeof VIDEOS !== "undefined" && VIDEOS[car.id]) ? VIDEOS[car.id] : '';
       var price = car.price || 50;
       var name  = car.name || '';
       var color = car.color || '';
