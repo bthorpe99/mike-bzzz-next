@@ -930,6 +930,7 @@ function switchTab(t){
   else if(t==='deals') showPage('deals');
   else if(t==='profile') showPage('profile');
   else if(t==='game'){showPage('game');setTimeout(function(){if(typeof initGameTab==='function')initGameTab();},50);}
+  else if(t==='membership'){showPage('membership');}
 }
 function showPage(p){
   document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
