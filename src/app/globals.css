@@ -1,26 +1,106 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0a0900;
+  --card: #1a1800;
+  --yellow: #FFD60A;
+  --yellow-dark: #F5A500;
+  --yellow-soft: rgba(255, 214, 10, 0.15);
+  --blue-soft: rgba(255, 214, 10, 0.12);
+  --red: #FF6B35;
+  --red-soft: rgba(255, 107, 53, 0.18);
+  --green: #CCFF00;
+  --green-soft: rgba(204, 255, 0, 0.15);
+  --label: #FFD60A;
+  --label2: rgba(255, 214, 10, 0.65);
+  --label3: rgba(255, 214, 10, 0.35);
+  --label4: rgba(255, 214, 10, 0.12);
+  --fill: rgba(255, 214, 10, 0.1);
+  --separator: rgba(255, 214, 10, 0.12);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --radius-lg: 24px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--label);
+  font-family: -apple-system, 'Helvetica Neue', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.hide-scroll::-webkit-scrollbar { display: none; }
+.hide-scroll { scrollbar-width: none; }
+
+.bg-video-wrap {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-video-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 9, 0, 0.55);
+}
+.bg-video { width: 100%; height: 100%; object-fit: cover; }
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: rgba(10, 9, 0, 0.96);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--separator);
+  display: flex;
+  padding: 8px 0 22px;
+  z-index: 999;
+  box-shadow: 0 -18px 42px rgba(0,0,0,0.38);
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  padding: 4px 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: var(--label3);
+  transition: color 0.2s;
+}
+.tab-item.active { color: var(--yellow-dark); }
+.tab-item.active .tab-icon { filter: drop-shadow(0 0 10px rgba(255,214,10,0.58)); }
+.tab-icon { font-size: 22px; }
+.tab-label { font-size: 10px; font-weight: 500; }
+
+.member-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #FFD60A, #F5A500);
+  color: #000;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
 }
