@@ -5,8 +5,29 @@ import { useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 
 const CARS = [
-  { id: '2012-green', name: '2012 Ford Fusion', color: 'Dark Green', img: '/media/2012-ford-fusion-dark-green.jpg', price: 65, memberPrice: 52, features: ['Bluetooth', 'USB', 'AC', 'Cruise Control'], seats: 5, trans: 'Automatic', memberOnly: false },
-  { id: '2015-black', name: '2015 Ford Fusion', color: 'Midnight Black', img: '/media/2015-ford-fusion-black.jpg', price: 70, memberPrice: 56, features: ['Bluetooth', 'Backup Camera', 'AC', 'Navigation'], seats: 5, trans: 'Automatic', memberOnly: false },
+  { id: '1',  name: '2010 Ford Fusion', color: 'Baby Blue',   img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Hybrid Sedan' },
+  { id: '2',  name: '2010 Ford Fusion', color: 'Black Hybrid', img: '/media/2015-ford-fusion-black.jpg',      price: 50, memberPrice: 40, type: 'Hybrid Sedan' },
+  { id: '3',  name: '2010 Ford Fusion Hybrid', color: 'Grey',  img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '4',  name: '2010 Ford Fusion', color: 'Grey',         img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '5',  name: '2010 Ford Fusion', color: 'White Hybrid', img: '/media/2015-ford-fusion-black.jpg',      price: 50, memberPrice: 40, type: 'Hybrid Sedan' },
+  { id: '6',  name: '2010 Ford Fusion', color: 'Grey',         img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '7',  name: '2010 Ford Fusion', color: 'Silver',       img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '8',  name: '2011 Ford Fusion', color: 'White',        img: '/media/2015-ford-fusion-black.jpg',      price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '9',  name: '2012 Ford Fusion', color: 'Burgundy',     img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '10', name: '2012 Ford Fusion', color: 'White',        img: '/media/2015-ford-fusion-black.jpg',      price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '11', name: '2012 Ford Fusion', color: 'Red',          img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '12', name: '2012 Ford Fusion', color: 'Silver',       img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '13', name: '2016 Ford Fusion', color: 'Grey',         img: '/media/2012-ford-fusion-dark-green.jpg', price: 55, memberPrice: 44, type: 'Sedan' },
+  { id: '14', name: '2010 Ford Fusion', color: 'Black',        img: '/media/2015-ford-fusion-black.jpg',      price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '15', name: '2005 Toyota Camry', color: 'Blue',        img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '16', name: '2005 Toyota Camry', color: 'Silver',      img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '17', name: '2008 Toyota Camry', color: 'Gold',        img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '18', name: '2008 Toyota Camry', color: 'Silver',      img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '19', name: '2012 Ford Fusion', color: 'Dark Green',   img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '20', name: '2015 Ford Fusion', color: 'Black',        img: '/media/2015-ford-fusion-black.jpg',      price: 55, memberPrice: 44, type: 'Sedan' },
+  { id: '21', name: '2012 Chevy Malibu', color: 'Brown',       img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '22', name: '2013 Nissan Altima', color: 'Silver',     img: '/media/2012-ford-fusion-dark-green.jpg', price: 50, memberPrice: 40, type: 'Sedan' },
+  { id: '23', name: '2018 Honda Civic', color: 'Black',        img: '/media/2015-ford-fusion-black.jpg',      price: 55, memberPrice: 44, type: 'Sedan' },
 ]
 
 interface Props { user: User | null; isMember: boolean }
@@ -35,7 +56,7 @@ export default function BrowseTab({ isMember }: Props) {
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 55%)' }} />
               <div style={{ position: 'absolute', bottom: 14, left: 16 }}>
                 <div style={{ fontSize: 19, fontWeight: 700, color: '#fff' }}>{car.name}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{car.color} · {car.trans} · {car.seats} seats</div>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{car.color} · {car.type}</div>
               </div>
               {isMember && <div style={{ position: 'absolute', top: 12, right: 12 }}><span className="member-badge">VIP Rate</span></div>}
             </div>
@@ -45,11 +66,6 @@ export default function BrowseTab({ isMember }: Props) {
                   <span style={{ fontSize: 24, fontWeight: 700, color: 'var(--yellow)' }}>${isMember ? car.memberPrice : car.price}</span>
                   <span style={{ fontSize: 13, color: 'var(--label2)' }}>/day</span>
                   {isMember && <span style={{ fontSize: 12, color: 'var(--label3)', textDecoration: 'line-through', marginLeft: 8 }}>${car.price}</span>}
-                </div>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                  {car.features.slice(0, 2).map(f => (
-                    <span key={f} style={{ fontSize: 11, background: 'var(--fill)', color: 'var(--label2)', padding: '3px 8px', borderRadius: 8, fontWeight: 500 }}>{f}</span>
-                  ))}
                 </div>
               </div>
               <a
