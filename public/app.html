@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head><style>body{padding-top:env(safe-area-inset-top);}.tab-bar{padding-bottom:calc(8px + env(safe-area-inset-bottom));}.page{padding-top:env(safe-area-inset-top);}</style>
 <meta charset="UTF-8">
@@ -285,34 +285,30 @@
   <div class="home-scroll"><style>
 @import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap");
 
-/* ===== BASE ===== */
 #page-home .home-scroll { padding: 0; font-family: 'Inter', sans-serif; }
 
-/* ===== STICKY HEADER ===== */
+/* HEADER */
 .hz-header {
   position: sticky; top: 0; z-index: 100;
   padding: calc(env(safe-area-inset-top) + 10px) 18px 10px;
   display: flex; align-items: center; justify-content: space-between;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.6);
   backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
   border-bottom: 1px solid rgba(255,255,255,0.09);
 }
 .hz-brand { display: flex; align-items: center; gap: 9px; }
 .hz-brand-logo { width: 30px; height: 30px; border-radius: 7px; object-fit: cover; }
-.hz-brand-name {
-  font-family: 'Instrument Serif', serif;
-  font-size: 19px; color: #fff; letter-spacing: -0.01em;
-}
+.hz-brand-name { font-family: 'Instrument Serif', serif; font-size: 19px; color: #fff; }
 .hz-nav { display: flex; gap: 7px; }
 .hz-nav-pill {
   background: rgba(255,214,10,0.13); border: 1px solid rgba(255,214,10,0.28);
   border-radius: 999px; padding: 6px 13px;
   font-size: 12px; font-weight: 600; color: #FFD60A;
-  cursor: pointer; font-family: 'Inter', sans-serif; white-space: nowrap;
-  -webkit-appearance: none;
+  cursor: pointer; font-family: 'Inter', sans-serif;
+  -webkit-appearance: none; border: 1px solid rgba(255,214,10,0.28);
 }
 
-/* ===== HERO TEXT ===== */
+/* HERO TEXT */
 .hz-hero-text {
   padding: 32px 20px 20px; text-align: center;
   animation: hzFadeUp 0.6s ease both;
@@ -322,61 +318,60 @@
   background: rgba(255,214,10,0.12); border: 1px solid rgba(255,214,10,0.28);
   border-radius: 999px; padding: 5px 14px;
   font-size: 12px; font-weight: 600; color: #FFD60A;
-  margin-bottom: 14px; letter-spacing: 0.02em;
+  margin-bottom: 14px;
 }
 .hz-hero-h1 {
   font-family: 'Instrument Serif', serif;
-  font-size: clamp(36px, 9vw, 58px);
-  color: #fff; line-height: 1.1;
-  letter-spacing: -0.02em; margin-bottom: 12px;
+  font-size: clamp(36px, 9vw, 58px); color: #fff;
+  line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 12px;
   animation: hzFadeUp 0.65s 0.06s ease both;
 }
 .hz-hero-h1 em { font-style: italic; color: #FFD60A; }
 .hz-hero-sub {
   font-size: 14px; color: rgba(255,255,255,0.52);
-  line-height: 1.65; max-width: 360px;
-  margin: 0 auto 24px;
+  line-height: 1.65; max-width: 360px; margin: 0 auto 24px;
   animation: hzFadeUp 0.65s 0.12s ease both;
 }
 
-/* ===== GRID â€” desktop 3 col, tablet 2 col, mobile 1 col ===== */
+/* GRID â€” mobile first: single column */
 .hz-grid {
   display: grid;
-  grid-template-columns: 220px 1fr 220px;
+  grid-template-columns: 1fr;
   gap: 10px; padding: 0 14px 24px;
   animation: hzFadeUp 0.7s 0.18s ease both;
 }
-@media (max-width: 860px) {
-  .hz-grid { grid-template-columns: 1fr; }
-  .hz-col-left, .hz-col-right { display: none !important; }
+
+/* Left + right hidden on mobile by default */
+.hz-col-left  { display: none; flex-direction: column; gap: 10px; }
+.hz-col-right { display: none; flex-direction: column; gap: 10px; }
+
+/* Desktop: show all 3 cols */
+@media (min-width: 860px) {
+  .hz-grid { grid-template-columns: 210px 1fr 210px; }
+  .hz-col-left  { display: flex; }
+  .hz-col-right { display: flex; }
 }
 
-/* ===== GLASS CARD ===== */
+/* GLASS CARD */
 .hz-card {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.11);
   border-radius: 18px;
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-  overflow: hidden;
 }
 .hz-card-inner { padding: 18px; }
 
-/* ===== LEFT â€” score + booking ===== */
-.hz-col-left { display: flex; flex-direction: column; gap: 10px; }
-
+/* Score card */
 .hz-score-card {
-  background: linear-gradient(145deg, rgba(255,214,10,0.13) 0%, rgba(255,214,10,0.04) 100%);
+  background: linear-gradient(145deg,rgba(255,214,10,0.13),rgba(255,214,10,0.04));
   border-color: rgba(255,214,10,0.22);
 }
 .hz-score-label {
   font-size: 10px; font-weight: 700; color: rgba(255,214,10,0.65);
   letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 6px;
 }
-.hz-score-num {
-  font-family: 'Instrument Serif', serif;
-  font-size: 52px; color: #FFD60A; line-height: 1; margin-bottom: 3px;
-}
-.hz-score-stars { color: #FFD60A; font-size: 12px; margin-bottom: 3px; }
+.hz-score-num { font-family: 'Instrument Serif', serif; font-size: 52px; color: #FFD60A; line-height: 1; }
+.hz-score-stars { color: #FFD60A; font-size: 13px; margin: 4px 0 2px; }
 .hz-score-sub { font-size: 11px; color: rgba(255,255,255,0.38); }
 .hz-stat-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 12px; }
 .hz-chip {
@@ -386,50 +381,37 @@
 }
 .hz-chip span { display: block; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }
 
+/* Booking card */
 .hz-book-card {
-  background: linear-gradient(145deg, rgba(255,214,10,0.1) 0%, rgba(255,214,10,0.03) 100%);
+  background: linear-gradient(145deg,rgba(255,214,10,0.1),rgba(255,214,10,0.03));
   border-color: rgba(255,214,10,0.2);
 }
 .hz-book-label {
   font-size: 10px; font-weight: 700; color: rgba(255,214,10,0.7);
   letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
 }
-.hz-book-row {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 7px; font-weight: 500;
-}
+.hz-book-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 7px; }
 .hz-book-row strong { color: #fff; }
 .hz-book-btn {
-  display: block; width: 100%; margin-top: 12px;
-  padding: 12px; background: #FFD60A; color: #000;
-  border: none; border-radius: 12px;
+  display: block; width: 100%; margin-top: 12px; padding: 12px;
+  background: #FFD60A; color: #000; border: none; border-radius: 12px;
   font-size: 14px; font-weight: 700; cursor: pointer;
   font-family: 'Inter', sans-serif; text-align: center; text-decoration: none;
-  letter-spacing: -0.01em;
 }
 
-/* ===== CENTER â€” 3 action cards ===== */
+/* CENTER action cards */
 .hz-col-center { display: flex; flex-direction: column; gap: 10px; }
 
-.hz-action-card { padding: 20px; cursor: pointer; transition: transform 0.2s; }
+.hz-action-card { padding: 22px; cursor: pointer; transition: transform 0.2s; }
 .hz-action-card:active { transform: scale(0.98); }
 .hz-action-icon {
-  width: 42px; height: 42px; border-radius: 12px;
+  width: 44px; height: 44px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 20px; margin-bottom: 12px;
+  font-size: 22px; margin-bottom: 14px;
 }
-.hz-action-title {
-  font-size: 17px; font-weight: 700; color: #fff;
-  margin-bottom: 6px; letter-spacing: -0.01em;
-}
-.hz-action-sub {
-  font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6;
-}
-.hz-action-arrow {
-  display: inline-block; margin-top: 12px;
-  font-size: 12px; font-weight: 600;
-  color: rgba(255,255,255,0.45); letter-spacing: 0.02em;
-}
+.hz-action-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
+.hz-action-sub { font-size: 14px; color: rgba(255,255,255,0.52); line-height: 1.6; }
+.hz-action-arrow { display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600; }
 
 .hz-action-book { border-color: rgba(255,214,10,0.28); background: linear-gradient(145deg,rgba(255,214,10,0.12),rgba(255,214,10,0.04)); }
 .hz-action-book .hz-action-icon { background: rgba(255,214,10,0.15); }
@@ -443,9 +425,7 @@
 .hz-action-reviews .hz-action-icon { background: rgba(52,168,83,0.15); }
 .hz-action-reviews .hz-action-arrow { color: #6EE7A0; }
 
-/* ===== RIGHT â€” quick list + contact ===== */
-.hz-col-right { display: flex; flex-direction: column; gap: 10px; }
-
+/* RIGHT col */
 .hz-section-label {
   font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3);
   letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 12px;
@@ -456,30 +436,23 @@
   padding: 10px 8px; border-radius: 10px;
   font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 500;
   text-decoration: none; cursor: pointer; transition: background 0.15s;
-  gap: 10px;
 }
 .hz-quick-item:hover { background: rgba(255,255,255,0.07); }
 .hz-quick-item-left { display: flex; align-items: center; gap: 10px; }
 .hz-quick-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.hz-quick-chevron { font-size: 14px; color: rgba(255,255,255,0.25); flex-shrink: 0; }
+.hz-quick-chevron { font-size: 14px; color: rgba(255,255,255,0.25); }
 
-.hz-contact-num {
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px; color: #fff; margin-bottom: 3px;
-}
+.hz-contact-num { font-family: 'Instrument Serif', serif; font-size: 20px; color: #fff; margin-bottom: 3px; }
 .hz-contact-sub { font-size: 11px; color: rgba(255,255,255,0.38); margin-bottom: 14px; }
 .hz-contact-btns { display: flex; gap: 8px; }
 .hz-contact-btn {
   flex: 1; padding: 10px 8px; border-radius: 11px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.07);
   font-size: 13px; font-weight: 600; color: #fff;
-  text-align: center; text-decoration: none; cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  text-align: center; text-decoration: none; font-family: 'Inter', sans-serif;
 }
 .hz-contact-btn.primary { background: #FFD60A; color: #000; border-color: transparent; }
 
-/* ===== DIVIDER ===== */
 .hz-section-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 4px 16px 20px; }
 
 @keyframes hzFadeUp {
@@ -510,7 +483,6 @@
 <!-- GRID -->
 <div class="hz-grid">
 
-  <!-- LEFT -->
   <div class="hz-col-left">
     <div class="hz-card hz-score-card">
       <div class="hz-card-inner">
@@ -537,7 +509,6 @@
     </div>
   </div>
 
-  <!-- CENTER -->
   <div class="hz-col-center">
     <div class="hz-card hz-action-card hz-action-book" onclick="location.href='sms:+18047292812?body=Hi Mike! I want to book a car.'">
       <div class="hz-action-icon">&#128663;</div>
@@ -559,7 +530,6 @@
     </div>
   </div>
 
-  <!-- RIGHT -->
   <div class="hz-col-right">
     <div class="hz-card hz-card-inner">
       <div class="hz-section-label">Quick Actions</div>
@@ -583,8 +553,8 @@
   </div>
 
 </div>
-
 <div class="hz-section-divider"></div>
+
 
 <!-- COMMERCIAL VIDEO -->
     <div class="commercial-wrap">
