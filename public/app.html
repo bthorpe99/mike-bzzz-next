@@ -1,4 +1,4 @@
-﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1647,20 +1647,10 @@ if('serviceWorker' in navigator){
 
         if (isBack) {
           html += '<div style="position:absolute;inset:0;border-radius:18px;background:#0f0f0f;border:1px solid rgba(255,255,255,0.15);transform:translateZ(' + z + 'px) rotateX(180deg);overflow:hidden;backface-visibility:hidden;">';
-          // Animated gradient background
-          html += '<div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f,#1c1200,#0a0a0a,#180e00);background-size:300% 300%;animation:fcGradShift 6s ease infinite;"></div>';
-          // Blurred media overlay (subtle)
-          if (vid || photo) {
-            html += '<div style="position:absolute;inset:0;filter:blur(18px);transform:scale(1.2);overflow:hidden;opacity:0.3;">';
-            if (vid) {
-              html += '<video autoplay loop muted playsinline src="' + vid + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>';
-            } else {
-              html += '<img src="' + photo + '" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
-            }
-            html += '</div>';
-          }
-          // Yellow glow orb
-          html += '<div style="position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:90%;height:55%;background:radial-gradient(ellipse,rgba(255,214,10,0.22) 0%,transparent 70%);pointer-events:none;"></div>';
+          // Animated video background
+          html += '<video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.7;"></video>';
+          // Dark overlay so text stays readable
+          html += '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>';top:-20%;left:50%;transform:translateX(-50%);width:90%;height:55%;background:radial-gradient(ellipse,rgba(255,214,10,0.22) 0%,transparent 70%);pointer-events:none;"></div>';
 // Magnetic stripe
           html += '<div style="position:absolute;left:0;right:0;top:16px;height:32px;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);z-index:2;"></div>';
           // Car details bottom
