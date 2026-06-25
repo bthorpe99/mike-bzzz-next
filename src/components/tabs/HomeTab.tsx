@@ -22,7 +22,7 @@ export default function HomeTab({ user, isMember, onTabChange }: Props) {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 44, height: 44, borderRadius: 10, overflow: 'hidden', background: '#050500', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Image src="/mike-bzzz-logo.png" alt="Mike Bzzz" width={52} height={52} style={{ objectFit: 'contain' }} />
+              <Image src="/media/mike-bzzz-logo.png" alt="Mike Bzzz" width={52} height={52} style={{ objectFit: 'contain' }} />
             </div>
             <span style={{ fontSize: 17, fontWeight: 600 }}>Mike Bzzz Rentals</span>
           </div>
@@ -113,7 +113,7 @@ export default function HomeTab({ user, isMember, onTabChange }: Props) {
         {[
           { num: '100+', label: 'Rentals Done' },
           { num: '5★', label: 'Avg Rating' },
-          { num: '2', label: 'Cars Available' },
+          { num: '23', label: 'Cars Available' },
           { num: '24/7', label: 'Support' },
         ].map(s => (
           <div key={s.label} style={{ flexShrink: 0, background: 'var(--card)', borderRadius: 'var(--radius-sm)', padding: '12px 16px', minWidth: 95, textAlign: 'center' }}>
