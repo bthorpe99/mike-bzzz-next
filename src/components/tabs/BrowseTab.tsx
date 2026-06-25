@@ -53,7 +53,7 @@ export default function BrowseTab({ isMember }: Props) {
                 </div>
               </div>
               <a
-                href={`sms:+1XXXXXXXXXX?body=I want to book the ${car.name} (${car.color})`}
+                href={`sms:+18047292812?body=I want to book the ${car.name} (${car.color})`}
                 style={{ display: 'block', background: 'var(--yellow)', color: '#000', border: 'none', borderRadius: 13, padding: '13px', fontSize: 15, fontWeight: 700, cursor: 'pointer', textAlign: 'center', textDecoration: 'none' }}
               >
                 📲 Book via Text
