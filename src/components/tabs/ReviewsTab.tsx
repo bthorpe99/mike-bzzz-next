@@ -54,6 +54,43 @@ export default function ReviewsTab() {
         </div>
       </div>
 
+      {/* Video Testimonials */}
+      <div style={{ padding: '0 16px 8px' }}>
+        <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 14, letterSpacing: -0.4 }}>🎥 Video Testimonials</div>
+        {[
+          { id: 1, grad: 'linear-gradient(135deg,#4285F4,#34A853)', initial: 'D', name: 'Dyna1x' },
+          { id: 2, grad: 'linear-gradient(135deg,#EA4335,#FBBC05)', initial: 'D', name: 'Dyna1x' },
+          { id: 3, grad: 'linear-gradient(135deg,#34A853,#4285F4)', initial: 'D', name: 'Dyna1x' },
+          { id: 4, grad: 'linear-gradient(135deg,#FBBC05,#EA4335)', initial: 'D', name: 'Dyna1x' },
+          { id: 5, grad: 'linear-gradient(135deg,#4285F4,#EA4335)', initial: 'D', name: 'Dyna1x' },
+        ].map(t => (
+          <div key={t.id} style={{ background: 'var(--card)', borderRadius: 'var(--radius)', overflow: 'hidden', border: '1px solid rgba(255,214,10,0.1)', marginBottom: 12 }}>
+            <video controls playsInline preload="none" style={{ width: '100%', display: 'block', background: '#000', maxHeight: 320, objectFit: 'cover' }}>
+              <source src={`/media/testimony-${t.id}.mp4`} type="video/mp4" />
+            </video>
+            <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: t.grad, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#fff' }}>{t.initial}</div>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 600 }}>{t.name}</div>
+                <div style={{ color: '#FBBC05', fontSize: 12 }}>★★★★★</div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Leave a review CTA */}
+      <div style={{ padding: '0 16px 16px' }}>
+        <a href="https://www.google.com/search?q=MIKE+BZZ+RENTALS+LLC+reviews" target="_blank" rel="noreferrer" style={{ textDecoration: 'none', display: 'block' }}>
+          <div style={{ background: 'linear-gradient(135deg,rgba(255,214,10,0.15),rgba(255,214,10,0.08))', border: '1px solid rgba(255,214,10,0.3)', borderRadius: 'var(--radius)', padding: 18, textAlign: 'center' }}>
+            <div style={{ fontSize: 22, marginBottom: 6 }}>⭐</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--yellow)', marginBottom: 4 }}>Had a great experience?</div>
+            <div style={{ fontSize: 13, color: 'var(--label2)', marginBottom: 12 }}>Leave us a Google review — it means the world!</div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--yellow)', color: '#000', padding: '10px 24px', borderRadius: 20, fontSize: 14, fontWeight: 700 }}>Write a Review</div>
+          </div>
+        </a>
+      </div>
+
       {/* Static review list */}
       <div style={{ padding: '0 16px' }}>
         <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 14, letterSpacing: -0.4 }}>All Reviews</div>
