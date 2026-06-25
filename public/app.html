@@ -1,4 +1,4 @@
-﻿﻿<!DOCTYPE html>
+﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -268,7 +268,7 @@
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{animation-duration:0.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;}
   }
-</style>
+@keyframes fcGradShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}</style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
@@ -1647,17 +1647,21 @@ if('serviceWorker' in navigator){
 
         if (isBack) {
           html += '<div style="position:absolute;inset:0;border-radius:18px;background:#0f0f0f;border:1px solid rgba(255,255,255,0.15);transform:translateZ(' + z + 'px) rotateX(180deg);overflow:hidden;backface-visibility:hidden;">';
-          // Blurred media background
-          html += '<div style="position:absolute;inset:0;filter:blur(14px);transform:scale(1.15);overflow:hidden;">';
-          if (vid) {
-            html += '<video autoplay loop muted playsinline src="' + vid + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>';
-          } else if (photo) {
-            html += '<img src="' + photo + '" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
+          // Animated gradient background
+          html += '<div style="position:absolute;inset:0;background:linear-gradient(135deg,#0f0f0f,#1c1200,#0a0a0a,#180e00);background-size:300% 300%;animation:fcGradShift 6s ease infinite;"></div>';
+          // Blurred media overlay (subtle)
+          if (vid || photo) {
+            html += '<div style="position:absolute;inset:0;filter:blur(18px);transform:scale(1.2);overflow:hidden;opacity:0.3;">';
+            if (vid) {
+              html += '<video autoplay loop muted playsinline src="' + vid + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>';
+            } else {
+              html += '<img src="' + photo + '" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">';
+            }
+            html += '</div>';
           }
-          html += '</div>';
-          // Dark overlay
-          html += '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.55);"></div>';
-          // Magnetic stripe
+          // Yellow glow orb
+          html += '<div style="position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:90%;height:55%;background:radial-gradient(ellipse,rgba(255,214,10,0.22) 0%,transparent 70%);pointer-events:none;"></div>';
+// Magnetic stripe
           html += '<div style="position:absolute;left:0;right:0;top:16px;height:32px;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);z-index:2;"></div>';
           // Car details bottom
           html += '<div style="position:absolute;bottom:12px;left:14px;right:14px;z-index:3;">';
