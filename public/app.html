@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head><style>body{padding-top:env(safe-area-inset-top);}.tab-bar{padding-bottom:calc(8px + env(safe-area-inset-bottom));}.page{padding-top:env(safe-area-inset-top);}</style>
 <meta charset="UTF-8">
@@ -304,21 +304,16 @@
   background: rgba(255,214,10,0.13); border: 1px solid rgba(255,214,10,0.28);
   border-radius: 999px; padding: 6px 13px;
   font-size: 12px; font-weight: 600; color: #FFD60A;
-  cursor: pointer; font-family: 'Inter', sans-serif;
-  -webkit-appearance: none; border: 1px solid rgba(255,214,10,0.28);
+  cursor: pointer; font-family: 'Inter', sans-serif; -webkit-appearance: none;
 }
 
 /* HERO TEXT */
-.hz-hero-text {
-  padding: 32px 20px 20px; text-align: center;
-  animation: hzFadeUp 0.6s ease both;
-}
+.hz-hero-text { padding: 32px 20px 20px; text-align: center; animation: hzFadeUp 0.6s ease both; }
 .hz-hero-eyebrow {
   display: inline-flex; align-items: center; gap: 6px;
   background: rgba(255,214,10,0.12); border: 1px solid rgba(255,214,10,0.28);
   border-radius: 999px; padding: 5px 14px;
-  font-size: 12px; font-weight: 600; color: #FFD60A;
-  margin-bottom: 14px;
+  font-size: 12px; font-weight: 600; color: #FFD60A; margin-bottom: 14px;
 }
 .hz-hero-h1 {
   font-family: 'Instrument Serif', serif;
@@ -333,23 +328,13 @@
   animation: hzFadeUp 0.65s 0.12s ease both;
 }
 
-/* GRID â€” mobile first: single column */
+/* GRID */
 .hz-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px; padding: 0 14px 24px;
   animation: hzFadeUp 0.7s 0.18s ease both;
-}
-
-/* Left + right hidden on mobile by default */
-.hz-col-left  { display: none; flex-direction: column; gap: 10px; }
-.hz-col-right { display: none; flex-direction: column; gap: 10px; }
-
-/* Desktop: show all 3 cols */
-@media (min-width: 860px) {
-  .hz-grid { grid-template-columns: 210px 1fr 210px; }
-  .hz-col-left  { display: flex; }
-  .hz-col-right { display: flex; }
+  width: 100%; box-sizing: border-box; overflow: hidden;
 }
 
 /* GLASS CARD */
@@ -358,6 +343,7 @@
   border: 1px solid rgba(255,255,255,0.11);
   border-radius: 18px;
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-sizing: border-box;
 }
 .hz-card-inner { padding: 18px; }
 
@@ -366,10 +352,7 @@
   background: linear-gradient(145deg,rgba(255,214,10,0.13),rgba(255,214,10,0.04));
   border-color: rgba(255,214,10,0.22);
 }
-.hz-score-label {
-  font-size: 10px; font-weight: 700; color: rgba(255,214,10,0.65);
-  letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 6px;
-}
+.hz-score-label { font-size: 10px; font-weight: 700; color: rgba(255,214,10,0.65); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 6px; }
 .hz-score-num { font-family: 'Instrument Serif', serif; font-size: 52px; color: #FFD60A; line-height: 1; }
 .hz-score-stars { color: #FFD60A; font-size: 13px; margin: 4px 0 2px; }
 .hz-score-sub { font-size: 11px; color: rgba(255,255,255,0.38); }
@@ -377,38 +360,27 @@
 .hz-chip {
   background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
   border-radius: 10px; padding: 8px 10px;
-  font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 500;
+  font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 500; box-sizing: border-box;
 }
 .hz-chip span { display: block; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1px; }
 
 /* Booking card */
-.hz-book-card {
-  background: linear-gradient(145deg,rgba(255,214,10,0.1),rgba(255,214,10,0.03));
-  border-color: rgba(255,214,10,0.2);
-}
-.hz-book-label {
-  font-size: 10px; font-weight: 700; color: rgba(255,214,10,0.7);
-  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px;
-}
+.hz-book-card { background: linear-gradient(145deg,rgba(255,214,10,0.1),rgba(255,214,10,0.03)); border-color: rgba(255,214,10,0.2); }
+.hz-book-label { font-size: 10px; font-weight: 700; color: rgba(255,214,10,0.7); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
 .hz-book-row { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.65); margin-bottom: 7px; }
 .hz-book-row strong { color: #fff; }
 .hz-book-btn {
   display: block; width: 100%; margin-top: 12px; padding: 12px;
   background: #FFD60A; color: #000; border: none; border-radius: 12px;
-  font-size: 14px; font-weight: 700; cursor: pointer;
+  font-size: 14px; font-weight: 700; cursor: pointer; box-sizing: border-box;
   font-family: 'Inter', sans-serif; text-align: center; text-decoration: none;
 }
 
 /* CENTER action cards */
 .hz-col-center { display: flex; flex-direction: column; gap: 10px; }
-
-.hz-action-card { padding: 22px; cursor: pointer; transition: transform 0.2s; }
+.hz-action-card { padding: 22px; cursor: pointer; transition: transform 0.2s; box-sizing: border-box; }
 .hz-action-card:active { transform: scale(0.98); }
-.hz-action-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; margin-bottom: 14px;
-}
+.hz-action-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px; }
 .hz-action-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
 .hz-action-sub { font-size: 14px; color: rgba(255,255,255,0.52); line-height: 1.6; }
 .hz-action-arrow { display: inline-block; margin-top: 14px; font-size: 13px; font-weight: 600; }
@@ -416,49 +388,35 @@
 .hz-action-book { border-color: rgba(255,214,10,0.28); background: linear-gradient(145deg,rgba(255,214,10,0.12),rgba(255,214,10,0.04)); }
 .hz-action-book .hz-action-icon { background: rgba(255,214,10,0.15); }
 .hz-action-book .hz-action-arrow { color: #FFD60A; }
-
 .hz-action-vip { border-color: rgba(140,100,255,0.28); background: linear-gradient(145deg,rgba(140,100,255,0.12),rgba(140,100,255,0.04)); }
 .hz-action-vip .hz-action-icon { background: rgba(140,100,255,0.15); }
 .hz-action-vip .hz-action-arrow { color: #C4AAFF; }
-
 .hz-action-reviews { border-color: rgba(52,168,83,0.28); background: linear-gradient(145deg,rgba(52,168,83,0.12),rgba(52,168,83,0.04)); }
 .hz-action-reviews .hz-action-icon { background: rgba(52,168,83,0.15); }
 .hz-action-reviews .hz-action-arrow { color: #6EE7A0; }
 
 /* RIGHT col */
-.hz-section-label {
-  font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3);
-  letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 12px;
-}
+.hz-section-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3); letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 12px; }
 .hz-quick-list { list-style: none; padding: 0; margin: 0; }
 .hz-quick-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 10px 8px; border-radius: 10px;
   font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 500;
-  text-decoration: none; cursor: pointer; transition: background 0.15s;
+  text-decoration: none; transition: background 0.15s;
 }
 .hz-quick-item:hover { background: rgba(255,255,255,0.07); }
 .hz-quick-item-left { display: flex; align-items: center; gap: 10px; }
 .hz-quick-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .hz-quick-chevron { font-size: 14px; color: rgba(255,255,255,0.25); }
-
 .hz-contact-num { font-family: 'Instrument Serif', serif; font-size: 20px; color: #fff; margin-bottom: 3px; }
 .hz-contact-sub { font-size: 11px; color: rgba(255,255,255,0.38); margin-bottom: 14px; }
 .hz-contact-btns { display: flex; gap: 8px; }
-.hz-contact-btn {
-  flex: 1; padding: 10px 8px; border-radius: 11px;
-  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.07);
-  font-size: 13px; font-weight: 600; color: #fff;
-  text-align: center; text-decoration: none; font-family: 'Inter', sans-serif;
-}
+.hz-contact-btn { flex: 1; padding: 10px 8px; border-radius: 11px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.07); font-size: 13px; font-weight: 600; color: #fff; text-align: center; text-decoration: none; font-family: 'Inter', sans-serif; box-sizing: border-box; }
 .hz-contact-btn.primary { background: #FFD60A; color: #000; border-color: transparent; }
 
 .hz-section-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 4px 16px 20px; }
 
-@keyframes hzFadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
+@keyframes hzFadeUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
 <!-- GLASS HEADER -->
@@ -480,10 +438,10 @@
   <p class="hz-hero-sub">23 clean vehicles &mdash; Fusions, Camrys, Civics &amp; more. No credit check, no deposit, unlimited miles.</p>
 </div>
 
-<!-- GRID -->
-<div class="hz-grid">
+<!-- GRID: center always shown; left+right shown on wide screens via JS -->
+<div class="hz-grid" id="hz-grid">
 
-  <div class="hz-col-left">
+  <div class="hz-col-left" id="hz-col-left" style="display:none;flex-direction:column;gap:10px;">
     <div class="hz-card hz-score-card">
       <div class="hz-card-inner">
         <div class="hz-score-label">Fleet Score</div>
@@ -530,7 +488,7 @@
     </div>
   </div>
 
-  <div class="hz-col-right">
+  <div class="hz-col-right" id="hz-col-right" style="display:none;flex-direction:column;gap:10px;">
     <div class="hz-card hz-card-inner">
       <div class="hz-section-label">Quick Actions</div>
       <ul class="hz-quick-list">
@@ -553,7 +511,32 @@
   </div>
 
 </div>
+
+<script>
+(function(){
+  function hzLayout(){
+    var w = window.innerWidth || document.documentElement.clientWidth;
+    var left = document.getElementById('hz-col-left');
+    var right = document.getElementById('hz-col-right');
+    var grid = document.getElementById('hz-grid');
+    if(!left || !right || !grid) return;
+    if(w >= 860){
+      left.style.display = 'flex';
+      right.style.display = 'flex';
+      grid.style.gridTemplateColumns = '210px 1fr 210px';
+    } else {
+      left.style.display = 'none';
+      right.style.display = 'none';
+      grid.style.gridTemplateColumns = '1fr';
+    }
+  }
+  hzLayout();
+  window.addEventListener('resize', hzLayout);
+})();
+</script>
+
 <div class="hz-section-divider"></div>
+
 
 
 <!-- COMMERCIAL VIDEO -->
