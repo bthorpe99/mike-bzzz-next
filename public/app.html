@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1535,39 +1535,228 @@ if('serviceWorker' in navigator){
   }
 })();
 </script>
-<div id="page-membership" class="page" style="padding-bottom:100px;min-height:100vh;overflow-y:auto">
-  <div style="padding:52px 20px 16px">
-    <h1 style="font-size:28px;font-weight:700;letter-spacing:-0.6px">Members</h1>
-    <p style="font-size:13px;color:#888;margin-top:4px">VIP access &amp; exclusive member rates</p>
-  </div>
-  <div style="padding:0 16px">
-    <div style="background:linear-gradient(135deg,rgba(255,214,10,0.18),rgba(255,214,10,0.08));border:1px solid rgba(255,214,10,0.4);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:20px">
-      <div style="font-size:40px;margin-bottom:8px">&#11088;</div>
-      <div style="font-size:22px;font-weight:700;color:#FFD60A;margin-bottom:6px">Mike Bzzz VIP</div>
-      <div style="font-size:14px;color:#aaa;margin-bottom:20px">Only $7.99/month &mdash; cancel anytime</div>
-      <div style="background:rgba(0,0,0,0.3);border-radius:14px;padding:16px;margin-bottom:20px;text-align:left">
-        <div style="font-size:13px;color:#ccc;line-height:2">
-          &#10003; Up to 20% off daily rates<br>
-          &#10003; Priority booking &mdash; first pick of the fleet<br>
-          &#10003; Members-only deals and flash sales<br>
-          &#10003; Direct text line to Mike<br>
-          &#10003; Cancel anytime, no contracts
+<div id="page-membership" class="page" style="padding-bottom:100px;min-height:100vh;overflow-y:auto;background:#000;">
+
+<style>
+/* â”€â”€ Pricing page â”€â”€ */
+.pr-section { position:relative; width:100%; padding:52px 0 40px; }
+.pr-inner    { margin:0 auto; max-width:700px; padding:0 16px; }
+
+/* FadeUp */
+.fade-up { opacity:0; transform:translateY(24px); transition:opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.fade-up.visible { opacity:1; transform:translateY(0); }
+
+/* Pill badge */
+.pr-pill {
+  display:inline-flex; align-items:center; gap:8px;
+  border-radius:999px; border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08); backdrop-filter:blur(8px);
+  padding:4px 12px; font-size:11px; color:rgba(255,255,255,0.75);
+  margin-bottom:20px;
+}
+.pr-pill-dot { width:6px; height:6px; border-radius:999px; background:rgba(255,255,255,0.6); flex-shrink:0; }
+
+/* Header */
+.pr-heading { font-size:clamp(26px,6vw,36px); font-weight:400; letter-spacing:-0.02em; line-height:1.05; color:#fff; margin:0 0 12px; }
+.pr-sub     { font-size:14px; color:rgba(255,255,255,0.55); line-height:1.6; max-width:340px; margin:0 0 40px; }
+
+/* Grid */
+.pr-grid { display:grid; grid-template-columns:1fr; gap:20px; }
+@media(min-width:560px){ .pr-grid { grid-template-columns:1fr 1fr; } }
+
+/* SpotlightBorder card wrapper */
+.spot-wrap {
+  position:relative; border-radius:20px; padding:2px;
+  background:rgba(255,255,255,0.06);
+  --spot-x:-9999px; --spot-y:-9999px; --size:460px; --intensity:0.5;
+}
+.spot-ring {
+  position:absolute; inset:0; border-radius:20px; pointer-events:none;
+  background: radial-gradient(circle var(--size) at var(--spot-x) var(--spot-y),
+    rgba(255,255,255,var(--intensity)), transparent 60%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: destination-out; mask-composite: exclude;
+  padding:1px;
+}
+
+/* Card inner */
+.pr-card {
+  position:relative; display:flex; flex-direction:column;
+  border-radius:18px; border:1px solid rgba(255,255,255,0.1);
+  padding:28px 24px 24px;
+  height:100%;
+}
+
+/* Best Value badge */
+.pr-badge {
+  position:absolute; top:-13px; left:50%; transform:translateX(-50%);
+  border-radius:999px; border:1px solid rgba(255,255,255,0.15);
+  background:#fff; padding:3px 14px;
+  font-size:11px; font-weight:600; color:#000; white-space:nowrap;
+}
+
+/* Eyebrow */
+.pr-eyebrow { font-size:10px; text-transform:uppercase; letter-spacing:0.2em; color:rgba(255,255,255,0.5); }
+.pr-divider { border:none; border-top:1px solid rgba(255,255,255,0.1); margin:12px 0 28px; }
+
+/* Price row */
+.pr-price-row { display:flex; align-items:baseline; gap:10px; margin-bottom:10px; }
+.pr-price      { font-size:44px; line-height:1; font-weight:400; letter-spacing:-0.03em; color:#fff; }
+.pr-period     { font-size:15px; color:rgba(255,255,255,0.4); }
+.pr-orig       { font-size:16px; color:rgba(255,255,255,0.35); text-decoration:line-through; }
+
+/* Description */
+.pr-desc { font-size:13px; color:rgba(255,255,255,0.55); line-height:1.6; margin-bottom:24px; }
+
+/* Buttons */
+.pr-btn-primary, .pr-btn-secondary {
+  display:block; border-radius:999px; padding:10px 20px;
+  font-size:13px; font-weight:700; text-align:center; text-decoration:none;
+  letter-spacing:0.01em; transition:background 0.18s, opacity 0.18s;
+  margin-bottom:24px;
+}
+.pr-btn-primary   { background:rgba(255,255,255,0.85); color:#000; }
+.pr-btn-primary:hover { background:#fff; }
+.pr-btn-secondary { background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.12); }
+.pr-btn-secondary:hover { background:rgba(255,255,255,0.14); }
+
+/* Feature list */
+.pr-features { list-style:none; padding:0; margin:0; flex:1; display:flex; flex-direction:column; gap:0; }
+.pr-feat {
+  display:flex; align-items:center; gap:12px;
+  padding:14px 0; font-size:13px; color:rgba(255,255,255,0.8);
+}
+.pr-feat + .pr-feat { border-top:1px solid rgba(255,255,255,0.08); }
+.pr-feat.excluded   { color:rgba(255,255,255,0.35); }
+
+.pr-check-wrap {
+  flex-shrink:0; width:20px; height:20px; border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.06);
+}
+.pr-feat.excluded .pr-check-wrap {
+  border-color:rgba(255,255,255,0.1); background:transparent;
+}
+.pr-check-icon { font-size:12px; line-height:1; }
+
+/* Member active state */
+.pr-active-banner {
+  display:none; background:#34A853; color:#fff; border-radius:12px;
+  padding:14px 18px; font-size:14px; font-weight:700; text-align:center;
+  margin-bottom:24px;
+}
+</style>
+
+<section class="pr-section">
+  <div class="pr-inner">
+
+    <!-- HEADER -->
+    <div class="fade-up">
+      <div class="pr-pill"><span class="pr-pill-dot"></span>Membership</div>
+    </div>
+    <div class="fade-up" style="transition-delay:0.1s">
+      <h2 class="pr-heading">Simple pricing,<br>serious perks.</h2>
+    </div>
+    <div class="fade-up" style="transition-delay:0.2s">
+      <p class="pr-sub">No hidden fees. Cancel anytime. Members get the best rates and first pick of the fleet.</p>
+    </div>
+
+    <!-- CARDS -->
+    <div class="pr-grid">
+
+      <!-- Card 1: Free -->
+      <div class="fade-up spot-wrap" style="transition-delay:0.25s">
+        <div class="spot-ring"></div>
+        <div class="pr-card" style="background:#161616;">
+          <div class="pr-eyebrow">Standard</div>
+          <hr class="pr-divider">
+          <div class="pr-price-row">
+            <span class="pr-price">Free</span>
+          </div>
+          <p class="pr-desc">Browse and book any vehicle. No commitment required.</p>
+          <a href="sms:+18047292812" class="pr-btn-secondary">Book via Text</a>
+          <ul class="pr-features">
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Browse full fleet</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Standard daily rates</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Book by text anytime</li>
+            <li class="pr-feat excluded"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;color:rgba(255,255,255,0.35);font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">close</span></span>Member discounts</li>
+            <li class="pr-feat excluded"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;color:rgba(255,255,255,0.35);font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">close</span></span>Priority fleet access</li>
+            <li class="pr-feat excluded"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;color:rgba(255,255,255,0.35);font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">close</span></span>Flash sales &amp; exclusive deals</li>
+            <li class="pr-feat excluded"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;color:rgba(255,255,255,0.35);font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">close</span></span>Direct line to Mike</li>
+          </ul>
         </div>
       </div>
-      <a id="subscribe-btn" href="/api/stripe/simple-checkout" style="display:block;background:#FFD60A;color:#000;border-radius:14px;padding:15px;font-size:16px;font-weight:700;text-decoration:none;margin-bottom:10px">Subscribe for $7.99/month</a>
-      <div style="font-size:11px;color:#666">Secure payment via Stripe</div>
+
+      <!-- Card 2: VIP -->
+      <div class="fade-up spot-wrap" style="transition-delay:0.35s">
+        <div class="spot-ring"></div>
+        <div class="pr-badge">Best Value</div>
+        <div class="pr-card" style="background:#252525;">
+          <div class="pr-eyebrow">Mike Bzzz VIP</div>
+          <hr class="pr-divider" style="margin-top:12px">
+          <div class="pr-price-row">
+            <span class="pr-price">$7.99</span>
+            <span class="pr-period">/month</span>
+          </div>
+          <p class="pr-desc">Cancel anytime. Unlock member rates, priority booking, and direct access.</p>
+          <div id="pr-active-banner" class="pr-active-banner">&#10003; You are a VIP Member!</div>
+          <a id="pr-subscribe-btn" href="/api/stripe/simple-checkout" class="pr-btn-primary">Get VIP Access</a>
+          <ul class="pr-features">
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Browse full fleet</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Standard daily rates</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Book by text anytime</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Up to 20% off daily rates</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Priority fleet access</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Flash sales &amp; exclusive deals</li>
+            <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Direct line to Mike</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <div class="fade-up" style="transition-delay:0.45s;text-align:center;margin-top:20px;">
+      <p style="font-size:11px;color:rgba(255,255,255,0.3);">Secure payment via Stripe &nbsp;&middot;&nbsp; Cancel anytime</p>
     </div>
+
   </div>
-  <script>
-    (function(){
-      var p=new URLSearchParams(location.search);
-      if(p.get('member')==='1'){
-        switchTab('membership');
-        var b=document.getElementById('subscribe-btn');
-        if(b){b.textContent='You are a VIP Member!';b.style.background='#34A853';b.style.color='#fff';b.removeAttribute('href');}
-      }
-    })();
-  </script>
+</section>
+
+<script>
+(function(){
+  // SpotlightBorder mouse tracking
+  document.querySelectorAll('.spot-wrap').forEach(function(wrap){
+    wrap.addEventListener('pointermove', function(e){
+      var r = wrap.getBoundingClientRect();
+      wrap.style.setProperty('--spot-x', (e.clientX - r.left) + 'px');
+      wrap.style.setProperty('--spot-y', (e.clientY - r.top) + 'px');
+    });
+    wrap.addEventListener('pointerleave', function(){
+      wrap.style.setProperty('--spot-x', '-9999px');
+      wrap.style.setProperty('--spot-y', '-9999px');
+    });
+  });
+
+  // FadeUp intersection observer
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('visible'); obs.unobserve(en.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('#page-membership .fade-up').forEach(function(el){ obs.observe(el); });
+
+  // Member active state
+  var p = new URLSearchParams(location.search);
+  if(p.get('member')==='1'){
+    var btn = document.getElementById('pr-subscribe-btn');
+    var banner = document.getElementById('pr-active-banner');
+    if(btn){ btn.style.display='none'; }
+    if(banner){ banner.style.display='block'; }
+  }
+})();
+</script>
+
 </div>
 <!-- FLEET 3D CAROUSEL -->
 <script>
