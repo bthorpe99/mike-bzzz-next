@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1782,5 +1782,106 @@ if('serviceWorker' in navigator){
     document.removeEventListener('mouseleave', onMouseLeave);
   };
 })();
+</script><style>
+.legal-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;backdrop-filter:blur(4px);overflow-y:auto;padding:20px;}
+.legal-modal-bg.open{display:flex;align-items:flex-start;justify-content:center;}
+.legal-modal{background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:20px;max-width:600px;width:100%;padding:28px 24px 32px;margin:auto;position:relative;}
+.legal-modal h2{font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;}
+.legal-modal .legal-date{font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:20px;display:block;}
+.legal-modal h3{font-size:13px;font-weight:700;color:#FFD60A;margin:16px 0 6px;text-transform:uppercase;letter-spacing:0.05em;}
+.legal-modal p,.legal-modal li{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.7;}
+.legal-modal ul{padding-left:18px;margin:6px 0;}
+.legal-modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.08);border:none;color:#fff;border-radius:999px;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.legal-links{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:14px;}
+.legal-links a{font-size:11px;color:rgba(255,255,255,0.4);text-decoration:underline;cursor:pointer;}
+.legal-links a:hover{color:rgba(255,255,255,0.7);}
+</style>
+
+<!-- TERMS OF SERVICE MODAL -->
+<div class="legal-modal-bg" id="modal-tos">
+  <div class="legal-modal">
+    <button class="legal-modal-close" onclick="closeLegal('modal-tos')">&#215;</button>
+    <h2>Terms of Service</h2>
+    <span class="legal-date">Effective: June 2025 &nbsp;&middot;&nbsp; Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL</span>
+    <h3>1. Agreement</h3>
+    <p>By using this website or subscribing to Mike Bzzz Rentals VIP Membership, you agree to these Terms of Service. If you do not agree, do not use this service.</p>
+    <h3>2. Services</h3>
+    <p>Mike Bzzz Rentals LLC provides short-term vehicle rentals in the Fort Lauderdale, FL area. Rentals are arranged via phone or text and are subject to vehicle availability.</p>
+    <h3>3. VIP Membership Subscription</h3>
+    <p>The VIP Membership is a recurring monthly subscription of $7.99/month, billed automatically via Stripe. Membership benefits include discounted rental rates, priority access, and exclusive deals. Benefits are subject to change with notice.</p>
+    <h3>4. Eligibility</h3>
+    <p>You must be 21 years of age or older with a valid driver&rsquo;s license and proof of insurance to rent a vehicle. Membership subscriptions are available to anyone 18+.</p>
+    <h3>5. Payment</h3>
+    <p>All payments are processed securely by Stripe. By subscribing, you authorize Mike Bzzz Rentals LLC to charge your payment method on a monthly recurring basis until you cancel.</p>
+    <h3>6. Cancellation</h3>
+    <p>You may cancel your VIP Membership at any time by texting (804) 729-2812 or emailing us. Cancellations take effect at the end of the current billing period. No partial refunds are issued for unused days in a billing cycle.</p>
+    <h3>7. Limitation of Liability</h3>
+    <p>Mike Bzzz Rentals LLC is not liable for indirect, incidental, or consequential damages arising from use of our services. Our total liability shall not exceed the amount paid by you in the prior 30 days.</p>
+    <h3>8. Governing Law</h3>
+    <p>These terms are governed by the laws of the State of Florida. Any disputes shall be resolved in Broward County, Florida.</p>
+    <h3>9. Contact</h3>
+    <p>Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL &nbsp;&middot;&nbsp; (804) 729-2812</p>
+  </div>
+</div>
+
+<!-- PRIVACY POLICY MODAL -->
+<div class="legal-modal-bg" id="modal-privacy">
+  <div class="legal-modal">
+    <button class="legal-modal-close" onclick="closeLegal('modal-privacy')">&#215;</button>
+    <h2>Privacy Policy</h2>
+    <span class="legal-date">Effective: June 2025 &nbsp;&middot;&nbsp; Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL</span>
+    <h3>1. Information We Collect</h3>
+    <p>We collect information you provide directly, including your name, phone number, email address, driver&rsquo;s license number, and payment information when you rent a vehicle or subscribe to VIP Membership.</p>
+    <h3>2. How We Use Your Information</h3>
+    <ul>
+      <li>To process rentals and subscription payments</li>
+      <li>To contact you about your booking or membership</li>
+      <li>To send promotional offers (you may opt out at any time)</li>
+      <li>To comply with legal obligations</li>
+    </ul>
+    <h3>3. Payment Data</h3>
+    <p>Payment information is processed by Stripe, Inc. We do not store your credit card number. Stripe&rsquo;s privacy policy applies to all payment processing. See <a href="https://stripe.com/privacy" style="color:#FFD60A;">stripe.com/privacy</a>.</p>
+    <h3>4. Data Sharing</h3>
+    <p>We do not sell or rent your personal information to third parties. We may share data with service providers (e.g., Stripe, Supabase) solely to operate our services.</p>
+    <h3>5. Data Retention</h3>
+    <p>We retain your information for as long as necessary to provide our services and comply with legal obligations.</p>
+    <h3>6. Your Rights</h3>
+    <p>You may request access to, correction of, or deletion of your personal data by contacting us at (804) 729-2812.</p>
+    <h3>7. Cookies</h3>
+    <p>This website does not use tracking cookies. We may use session storage for basic app functionality.</p>
+    <h3>8. Contact</h3>
+    <p>Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL &nbsp;&middot;&nbsp; (804) 729-2812</p>
+  </div>
+</div>
+
+<!-- REFUND POLICY MODAL -->
+<div class="legal-modal-bg" id="modal-refund">
+  <div class="legal-modal">
+    <button class="legal-modal-close" onclick="closeLegal('modal-refund')">&#215;</button>
+    <h2>Cancellation &amp; Refund Policy</h2>
+    <span class="legal-date">Effective: June 2025 &nbsp;&middot;&nbsp; Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL</span>
+    <h3>VIP Membership Cancellation</h3>
+    <p>You may cancel your $7.99/month VIP Membership at any time. To cancel, text (804) 729-2812 with &ldquo;Cancel Membership&rdquo; and we will stop your next billing cycle immediately. Your membership benefits remain active through the end of the current paid period.</p>
+    <h3>Membership Refunds</h3>
+    <p>Membership fees are non-refundable once a billing cycle has started. If you are charged in error, contact us within 5 days for a full refund review.</p>
+    <h3>Vehicle Rental Cancellations</h3>
+    <p>Rental cancellations made more than 24 hours before the scheduled pickup are fully refunded. Cancellations within 24 hours of pickup may be subject to a one-day rental fee. No-shows are non-refundable.</p>
+    <h3>How to Cancel or Request a Refund</h3>
+    <ul>
+      <li>Text: (804) 729-2812</li>
+      <li>Include your name and the reason for cancellation or refund request</li>
+      <li>Refunds are processed within 5&ndash;10 business days to your original payment method</li>
+    </ul>
+    <h3>Contact</h3>
+    <p>Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL &nbsp;&middot;&nbsp; (804) 729-2812</p>
+  </div>
+</div>
+
+<script>
+function openLegal(id){document.getElementById(id).classList.add('open');document.body.style.overflow='hidden';}
+function closeLegal(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('.legal-modal-bg').forEach(function(bg){
+  bg.addEventListener('click',function(e){if(e.target===bg)closeLegal(bg.id);});
+});
 </script></body>
 </html>
