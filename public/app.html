@@ -1,4 +1,4 @@
-﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1646,30 +1646,24 @@ if('serviceWorker' in navigator){
         }
 
         if (isBack) {
-          html += '<div style="position:absolute;inset:0;border-radius:18px;background:#0f0f0f;border:1px solid rgba(255,255,255,0.15);transform:translateZ(' + z + 'px) rotateX(180deg);overflow:hidden;backface-visibility:hidden;">';
-          // Animated video background
-          html += '<video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.7;"></video>';
-          // Dark overlay so text stays readable
-          html += '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>';top:-20%;left:50%;transform:translateX(-50%);width:90%;height:55%;background:radial-gradient(ellipse,rgba(255,214,10,0.22) 0%,transparent 70%);pointer-events:none;"></div>';
-// Magnetic stripe
-          html += '<div style="position:absolute;left:0;right:0;top:16px;height:32px;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);z-index:2;"></div>';
-          // Car details bottom
+          html += '<div style="position:absolute;inset:0;border-radius:18px;background:#0a0a0a;border:1px solid rgba(255,255,255,0.15);transform:translateZ(' + z + 'px) rotateX(180deg);overflow:hidden;backface-visibility:hidden;">';
+          html += '<video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.75;"></video>';
+          html += '<div style="position:absolute;inset:0;background:rgba(0,0,0,0.4);"></div>';
+          html += '<div style="position:absolute;left:0;right:0;top:16px;height:32px;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:2;"></div>';
           html += '<div style="position:absolute;bottom:12px;left:14px;right:14px;z-index:3;">';
           html += '<div style="font-size:12px;font-weight:700;color:#FFD60A;letter-spacing:-0.2px;margin-bottom:4px;">' + name + '</div>';
-          html += '<div style="font-size:10px;color:rgba(255,255,255,0.65);margin-bottom:10px;">Auto Â· Gas Â· ' + color + (car.type ? ' Â· ' + car.type : '') + '</div>';
+          html += '<div style="font-size:10px;color:rgba(255,255,255,0.65);margin-bottom:10px;">' + color + (car.type ? ' · ' + car.type : '') + '</div>';
           html += '<a href="sms:+18047292812?body=' + smsMsg + '" style="display:block;background:#FFD60A;color:#000;border-radius:10px;padding:8px;text-align:center;font-size:12px;font-weight:700;text-decoration:none;">Book Now</a>';
           html += '</div>';
-          html += '</div>'; // end back
+          html += '</div>';
         }
-      }
-
       html += '</div>'; // end card
     }
 
     html += '</div></div>'; // stage + scene
 
     // Swipe hint
-    html += '<div id="fc-hint" style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.35);pointer-events:none;">Swipe to browse Â· ' + n + ' vehicles</div>';
+    html += '<div id="fc-hint" style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.35);pointer-events:none;">Swipe to browse · ' + n + ' vehicles</div>';
 
     return html;
   }
