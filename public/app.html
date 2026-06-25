@@ -1699,14 +1699,16 @@ if('serviceWorker' in navigator){
     var ch = Math.round(cw / 1.5925);
     var D = 1350;
 
+    // Clamp progress to valid range
+    carouselProgress.val = Math.max(0, Math.min(n - 1, carouselProgress.val));
     var cont = carouselProgress.val;
     var rounded = Math.round(cont);
     var diff = cont - rounded;
     var eased = Math.sign(diff) * Math.pow(Math.abs(diff) * 2, 4.2) / 2;
-    var vActive = rounded + eased;
+    var vActive = Math.max(0, Math.min(n - 1, rounded + eased));
 
     // Update displayed car index for info
-    var ci = ((Math.round(cont) % n) + n) % n;
+    var ci = Math.max(0, Math.min(n - 1, Math.round(cont)));
     if (ci !== displayedCarIdx) {
       displayedCarIdx = ci;
     }
