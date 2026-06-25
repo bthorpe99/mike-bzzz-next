@@ -1716,9 +1716,7 @@ if('serviceWorker' in navigator){
       if (!card) continue;
 
       var offset = i - vActive;
-      var half = n / 2;
-      while (offset > half) offset -= n;
-      while (offset < -half) offset += n;
+      // no wrapping — clamped list
 
       var abs = Math.abs(offset);
       var sign = Math.sign(offset);
@@ -1776,7 +1774,8 @@ if('serviceWorker' in navigator){
 
   function onWheel(e) {
     e.preventDefault();
-    targetProgress += e.deltaY > 0 ? 1 : -1;
+    var n = cardRefs.length;
+    targetProgress = Math.max(0, Math.min(n - 1, targetProgress + (e.deltaY > 0 ? 1 : -1)));
   }
 
   function onTouchStart(e) {
@@ -1786,8 +1785,9 @@ if('serviceWorker' in navigator){
   function onTouchEnd(e) {
     var dy = touchStartY - e.changedTouches[0].clientY;
     var dt = Date.now() - touchStartTime;
+    var n = cardRefs.length;
     if (Math.abs(dy) > 40 || (Math.abs(dy) > 20 && dt < 250)) {
-      targetProgress += dy > 0 ? 1 : -1;
+      targetProgress = Math.max(0, Math.min(n - 1, targetProgress + (dy > 0 ? 1 : -1)));
     }
   }
 
