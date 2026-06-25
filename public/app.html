@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head><style>body{padding-top:env(safe-area-inset-top);}.tab-bar{padding-bottom:calc(8px + env(safe-area-inset-bottom));}.page{padding-top:env(safe-area-inset-top);}</style>
 <meta charset="UTF-8">
@@ -282,32 +282,295 @@
 
 <!-- HOME -->
 <div id="page-home" class="page active">
-  <div class="home-scroll">
-    <div class="status-bar">
-      <span style="font-size:16px;font-weight:700;">9:41</span>
-      <div style="display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
-    </div>
-    <div class="large-title-header">
-      <div class="app-nav">
-        <div class="app-icon-wrap"><div class="app-icon"><img class="app-icon-logo" src="media/mike-bzzz-logo.png" alt="Mike Bzzz logo"></div><span class="app-icon-name">Mike Bzzz</span></div>
-        <button class="btn-profile">M</button>
+  <div class="home-scroll"><style>
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap");
+
+/* ===== HERO RESET ===== */
+#page-home .home-scroll { padding: 0; }
+
+/* ===== PILL HEADER ===== */
+.hz-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: calc(env(safe-area-inset-top) + 10px) 16px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.hz-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hz-brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.hz-brand-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.hz-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hz-nav-pill {
+  background: rgba(255,214,10,0.12);
+  border: 1px solid rgba(255,214,10,0.25);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFD60A;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+.hz-nav-pill:active { background: rgba(255,214,10,0.22); }
+
+/* ===== HERO TEXT ===== */
+.hz-hero-text {
+  padding: 36px 20px 12px;
+  text-align: center;
+}
+.hz-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,214,10,0.12);
+  border: 1px solid rgba(255,214,10,0.3);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #FFD60A;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 14px;
+  animation: hzFadeUp 0.6s ease both;
+}
+.hz-hero-h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(38px, 8vw, 64px);
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  animation: hzFadeUp 0.65s 0.05s ease both;
+}
+.hz-hero-h1 em {
+  font-style: italic;
+  color: #FFD60A;
+}
+.hz-hero-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto 24px;
+  animation: hzFadeUp 0.65s 0.1s ease both;
+}
+
+/* ===== GRID ===== */
+.hz-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 0 12px 20px;
+  animation: hzFadeUp 0.7s 0.15s ease both;
+}
+@media (max-width: 700px) {
+  .hz-grid { grid-template-columns: 1fr; }
+  .hz-col-left, .hz-col-right { display: none; }
+  .hz-col-center { display: grid !important; }
+}
+
+/* ===== GLASS CARD ===== */
+.hz-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+.hz-card-inner { padding: 16px; }
+
+/* ===== SCORE CARD ===== */
+.hz-score-card {
+  background: linear-gradient(135deg, rgba(255,214,10,0.15) 0%, rgba(255,214,10,0.04) 100%);
+  border-color: rgba(255,214,10,0.2);
+  margin-bottom: 10px;
+}
+.hz-score-label { font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+.hz-score-num { font-family: 'Instrument Serif', serif; font-size: 48px; color: #FFD60A; line-height: 1; margin-bottom: 4px; }
+.hz-score-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
+.hz-stat-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.hz-chip { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 6px 10px; font-size: 11px; color: rgba(255,255,255,0.65); font-weight: 500; }
+.hz-chip span { display: block; font-size: 13px; font-weight: 700; color: #fff; }
+
+/* ===== BOOKING CARD ===== */
+.hz-book-card { background: rgba(255,214,10,0.08); border-color: rgba(255,214,10,0.2); }
+.hz-book-label { font-size: 11px; color: rgba(255,214,10,0.7); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.hz-book-detail { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 6px; font-weight: 500; }
+.hz-book-detail strong { color: #fff; }
+.hz-book-btn { width: 100%; margin-top: 10px; padding: 11px; background: #FFD60A; color: #000; border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif; text-align: center; display: block; text-decoration: none; }
+.hz-book-btn:active { opacity: 0.85; }
+
+/* ===== CENTER ACTION CARDS ===== */
+.hz-col-center { display: flex; flex-direction: column; gap: 10px; }
+.hz-action-card { padding: 16px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+.hz-action-card:active { transform: scale(0.98); }
+.hz-action-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 10px; }
+.hz-action-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+.hz-action-sub { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+.hz-action-arrow { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 8px; }
+
+.hz-action-book { border-color: rgba(255,214,10,0.25); background: linear-gradient(135deg,rgba(255,214,10,0.1) 0%,rgba(255,214,10,0.03) 100%); }
+.hz-action-book .hz-action-icon { background: rgba(255,214,10,0.15); }
+
+.hz-action-vip { border-color: rgba(120,80,255,0.25); background: linear-gradient(135deg,rgba(120,80,255,0.1) 0%,rgba(120,80,255,0.03) 100%); }
+.hz-action-vip .hz-action-icon { background: rgba(120,80,255,0.15); }
+
+.hz-action-reviews { border-color: rgba(52,168,83,0.25); background: linear-gradient(135deg,rgba(52,168,83,0.1) 0%,rgba(52,168,83,0.03) 100%); }
+.hz-action-reviews .hz-action-icon { background: rgba(52,168,83,0.15); }
+
+/* ===== RIGHT COLUMN ===== */
+.hz-col-right { display: flex; flex-direction: column; gap: 10px; }
+.hz-quick-card { padding: 14px; }
+.hz-quick-title { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.35); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; }
+.hz-quick-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.hz-quick-item { display: flex; align-items: center; justify-content: space-between; padding: 9px 10px; border-radius: 10px; font-size: 13px; color: rgba(255,255,255,0.75); font-weight: 500; text-decoration: none; cursor: pointer; transition: background 0.15s; }
+.hz-quick-item:hover, .hz-quick-item:active { background: rgba(255,255,255,0.07); }
+.hz-quick-item-left { display: flex; align-items: center; gap: 10px; }
+.hz-quick-item-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.hz-quick-item-cht { font-size: 11px; color: rgba(255,255,255,0.3); }
+.hz-contact-card { background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%); }
+.hz-contact-number { font-family: 'Instrument Serif', serif; font-size: 22px; color: #fff; margin-bottom: 4px; }
+.hz-contact-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.hz-contact-btns { display: flex; gap: 8px; }
+.hz-contact-btn { flex: 1; padding: 9px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); font-size: 12px; font-weight: 600; color: #fff; text-align: center; text-decoration: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+.hz-contact-btn.primary { background: #FFD60A; color: #000; border-color: transparent; }
+.hz-contact-btn:active { opacity: 0.8; }
+
+/* ===== DIVIDER before rest of page ===== */
+.hz-section-divider { height: 1px; background: rgba(255,255,255,0.07); margin: 8px 16px 20px; }
+
+/* ===== FADE UP ANIM ===== */
+@keyframes hzFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<!-- NEXAR HERO HEADER -->
+<div class="hz-header">
+  <div class="hz-brand">
+    <img class="hz-brand-logo" src="/media/mike-bzzz-logo.png" alt="Mike Bzzz">
+    <span class="hz-brand-name">Mike Bzzz</span>
+  </div>
+  <div class="hz-nav">
+    <button class="hz-nav-pill" onclick="switchTab('browse')">Browse Fleet</button>
+    <button class="hz-nav-pill" onclick="switchTab('membership')">VIP</button>
+  </div>
+</div>
+
+<!-- HERO TEXT -->
+<div class="hz-hero-text">
+  <div class="hz-hero-eyebrow">&#11835; Fort Lauderdale&rsquo;s Favorite Rental &#11835;</div>
+  <h1 class="hz-hero-h1">Your Next Ride,<br><em>Ready Today</em></h1>
+  <p class="hz-hero-sub">23 clean vehicles &mdash; Fusions, Camrys, Civics &amp; more. No credit check, no deposit, unlimited miles.</p>
+</div>
+
+<!-- 3-COL NEXAR GRID -->
+<div class="hz-grid">
+
+  <!-- LEFT: Stats + Booking -->
+  <div class="hz-col-left">
+    <div class="hz-card hz-score-card">
+      <div class="hz-card-inner">
+        <div class="hz-score-label">Fleet Score</div>
+        <div class="hz-score-num">5.0</div>
+        <div class="hz-score-sub">&#9733;&#9733;&#9733;&#9733;&#9733; &nbsp;Google Rating</div>
+        <div class="hz-stat-chips">
+          <div class="hz-chip"><span>23</span>Vehicles</div>
+          <div class="hz-chip"><span>$50</span>Starting/day</div>
+          <div class="hz-chip"><span>0</span>Deposit</div>
+          <div class="hz-chip"><span>&infin;</span>Miles</div>
+        </div>
       </div>
     </div>
-    <div class="large-title">Find Your Ride 🚗</div>
-
-    <!-- HERO with baby blue fusion -->
-    <div class="hero-card">
-      <img class="hero-bg" src="/media/car-1.jpg" alt="Fleet">
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="hero-tag">🐝 23 Available Now — From $50/Day</div>
-        <div class="hero-title">Ft. Lauderdale's<br>Favorite Rental</div>
-        <div class="hero-sub">23 Vehicles · Fusions · Camrys · Civic · Malibu · Altima</div>
+    <div class="hz-card hz-book-card">
+      <div class="hz-card-inner">
+        <div class="hz-book-label">&#128338; Available Now</div>
+        <div class="hz-book-detail">&#128663; <strong>23 vehicles</strong>&nbsp;ready</div>
+        <div class="hz-book-detail">&#9989; No credit check</div>
+        <div class="hz-book-detail">&#128181; No deposit needed</div>
+        <a href="sms:+18047292812?body=Hi Mike! I want to book a car." class="hz-book-btn">&#128172; Text to Book Now</a>
       </div>
     </div>
+  </div>
 
-    <!-- AVAILABLE NOW thumbnails -->
-        <!-- COMMERCIAL VIDEO -->
+  <!-- CENTER: Action Cards -->
+  <div class="hz-col-center">
+    <div class="hz-card hz-action-card hz-action-book" onclick="location.href='sms:+18047292812?body=Hi Mike! I want to book a car.'">
+      <div class="hz-action-icon">&#128663;</div>
+      <div class="hz-action-title">Book a Car</div>
+      <div class="hz-action-sub">Same-day pickup available. Text Mike directly and get rolling in hours.</div>
+      <div class="hz-action-arrow">Text to Book &rsaquo;</div>
+    </div>
+    <div class="hz-card hz-action-card hz-action-vip" onclick="switchTab('membership')">
+      <div class="hz-action-icon">&#11088;</div>
+      <div class="hz-action-title">VIP Membership &mdash; $7.99/mo</div>
+      <div class="hz-action-sub">20% off rates, priority access &amp; a direct line to Mike. Cancel anytime.</div>
+      <div class="hz-action-arrow">Get VIP &rsaquo;</div>
+    </div>
+    <div class="hz-card hz-action-card hz-action-reviews" onclick="window.open('https://www.google.com/search?sca_esv=7ffa1e0982d56932&biw=428&bih=781&kgmid=%2Fg%2F11wfsgq3gm&q=MIKE%20BZZ%20RENTALS%20LLC&shem=epsd1%2Cltac%2Crimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fact%2Fm4%2F3','_blank')">
+      <div class="hz-action-icon">&#127758;</div>
+      <div class="hz-action-title">5-Star on Google</div>
+      <div class="hz-action-sub">Real customers, perfect reviews. See why everyone comes back to Mike Bzzz.</div>
+      <div class="hz-action-arrow">Read Reviews &rsaquo;</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Quick Actions + Contact -->
+  <div class="hz-col-right">
+    <div class="hz-card hz-quick-card">
+      <div class="hz-quick-title">Quick Actions</div>
+      <ul class="hz-quick-list">
+        <li><a class="hz-quick-item" href="sms:+18047292812?body=Hi Mike! I want to book a car."><span class="hz-quick-item-left"><span class="hz-quick-item-dot" style="background:#FFD60A;"></span>Book a Car</span><span class="hz-quick-item-cht">&rsaquo;</span></a></li>
+        <li><a class="hz-quick-item" onclick="switchTab('browse');return false;" href="#"><span class="hz-quick-item-left"><span class="hz-quick-item-dot" style="background:#60A5FA;"></span>Browse Fleet</span><span class="hz-quick-item-cht">&rsaquo;</span></a></li>
+        <li><a class="hz-quick-item" onclick="switchTab('membership');return false;" href="#"><span class="hz-quick-item-left"><span class="hz-quick-item-dot" style="background:#A78BFA;"></span>Get VIP Access</span><span class="hz-quick-item-cht">&rsaquo;</span></a></li>
+        <li><a class="hz-quick-item" onclick="switchTab('deals');return false;" href="#"><span class="hz-quick-item-left"><span class="hz-quick-item-dot" style="background:#34D399;"></span>Watch Testimonials</span><span class="hz-quick-item-cht">&rsaquo;</span></a></li>
+        <li><a class="hz-quick-item" href="https://www.google.com/search?sca_esv=7ffa1e0982d56932&biw=428&bih=781&kgmid=%2Fg%2F11wfsgq3gm&q=MIKE%20BZZ%20RENTALS%20LLC&shem=epsd1%2Cltac%2Crimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fact%2Fm4%2F3" target="_blank"><span class="hz-quick-item-left"><span class="hz-quick-item-dot" style="background:#F87171;"></span>Leave a Review</span><span class="hz-quick-item-cht">&rsaquo;</span></a></li>
+      </ul>
+    </div>
+    <div class="hz-card hz-quick-card hz-contact-card">
+      <div class="hz-quick-title">Contact Mike</div>
+      <div class="hz-contact-number">(804) 729-2812</div>
+      <div class="hz-contact-sub">Fort Lauderdale, FL &nbsp;&middot;&nbsp; Mon&ndash;Fri 8AM&ndash;8PM</div>
+      <div class="hz-contact-btns">
+        <a href="sms:+18047292812?body=Hi Mike!" class="hz-contact-btn primary">&#128172; Text</a>
+        <a href="tel:+18047292812" class="hz-contact-btn">&#128222; Call</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="hz-section-divider"></div>
+<!-- COMMERCIAL VIDEO -->
     <div class="commercial-wrap">
       <div class="commercial-header">
         <span class="commercial-header-icon">&#127916;</span>
