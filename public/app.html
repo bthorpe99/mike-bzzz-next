@@ -928,7 +928,7 @@ function switchTab(t){
   document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
   document.getElementById('tab-'+t)&&document.getElementById('tab-'+t).classList.add('active');
   if(t==='home') showPage('home');
-  else if(t==='browse'){doSearch();setTimeout(function(){if(typeof initBrowseCarousel==='function')initBrowseCarousel();},80);}
+  else if(t==='browse'){doSearch();setTimeout(initBrowseCarousel,150);}
   else if(t==='deals') showPage('deals');
   else if(t==='profile') showPage('profile');
   else if(t==='game'){showPage('game');setTimeout(function(){if(typeof initGameTab==='function')initGameTab();},50);}
@@ -950,7 +950,7 @@ function doSearch(){
   S.to=document.getElementById('home-to').value;
   const d=getDays();
   document.getElementById('browse-sub').textContent=`${CARS.length} Vehicles${d>0?' · '+d+' days':''} · Ft. Lauderdale, FL`;
-  showPage('browse');setTimeout(function(){if(typeof initBrowseCarousel==='function')initBrowseCarousel();},80);
+  showPage('browse');
   document.getElementById('tab-home').classList.remove('active');
   document.getElementById('tab-browse').classList.add('active');
 }
@@ -1596,7 +1596,7 @@ if('serviceWorker' in navigator){
   function buildCarouselHTML() {
     var cw = getCardW();
     var ch = Math.round(cw / 1.5925);
-    var cars = window.CARS || [];
+    var cars = typeof CARS !== "undefined" ? CARS : [];
     var n = cars.length;
 
     var html = '<div id="fc-scene" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:1350px;">';
@@ -1794,7 +1794,10 @@ if('serviceWorker' in navigator){
   window.initBrowseCarousel = function() {
     var container = document.getElementById('fleet-carousel');
     if (!container) return;
-    if (isActive) return; // already running
+    // Always stop previous loop cleanly
+    isActive = false;
+    if (carouselRaf) { cancelAnimationFrame(carouselRaf); carouselRaf = null; }
+    cardRefs = [];
 
     container.innerHTML = buildCarouselHTML();
 
