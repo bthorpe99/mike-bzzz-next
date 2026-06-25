@@ -1100,6 +1100,8 @@ function finishPurchase(){
 // Background video rotation
 (function(){
   const bgData = [];
+  let current = 0;
+  const vid = document.getElementById('bgvid');
   bgData.push('/media/bg-video-1.mp4','/media/bg-video-2.mp4','/media/bg-video-3.mp4');
   function playNext(){
     if(!bgData[current]){ current=(current+1)%bgData.length; return; }
@@ -1130,7 +1132,7 @@ setTimeout(function(){
     if(TESTIMONIES[i]){
       var s=document.getElementById('ts'+i);
       var v=document.getElementById('tv'+i);
-      if(s&&v){s.src=TESTIMONIES[i];v.load();}
+      if(v){v.src=TESTIMONIES[i];}
     }
   }
 },300);
