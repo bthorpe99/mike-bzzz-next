@@ -1,0 +1,1567 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mike Bzzz Rentals</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FFD60A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MikeBzzz">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+
+  /* BACKGROUND VIDEO */
+  .bg-video-wrap{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden;pointer-events:none;}
+  .bg-video-wrap::after{content:'';position:absolute;inset:0;background:rgba(10,9,0,0.55);}
+  .bg-video{width:100%;height:100%;object-fit:cover;opacity:1;}
+  :root {
+    --bg:#0a0900;--card:#1a1800;--yellow:#FFD60A;--yellow-dark:#F5A500;
+    --yellow-soft:rgba(255,214,10,0.15);--blue-soft:rgba(255,214,10,0.12);
+    --red:#FF6B35;--red-soft:rgba(255,107,53,0.18);--green:#CCFF00;
+    --green-soft:rgba(204,255,0,0.15);--label:#FFD60A;
+    --label2:rgba(255,214,10,0.65);--label3:rgba(255,214,10,0.35);
+    --label4:rgba(255,214,10,0.12);--fill:rgba(255,214,10,0.1);
+    --separator:rgba(255,214,10,0.12);--radius:18px;--radius-sm:12px;--radius-lg:24px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--label);font-family:-apple-system,'Helvetica Neue',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;overflow-x:hidden;}
+  .page{display:none;min-height:100vh;} .page.active{display:block;}
+
+  /* HOME */
+  .home-scroll{overflow-y:auto;padding-bottom:90px;}
+  .status-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font-size:15px;font-weight:600;}
+  .large-title-header{padding:10px 20px 0;}
+  .app-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .app-icon-wrap{display:flex;align-items:center;gap:10px;}
+  .app-icon{width:52px;height:44px;border-radius:10px;background:linear-gradient(145deg,#050500,#171500);display:flex;align-items:center;justify-content:center;font-size:26px;overflow:hidden;}
+  .app-icon-logo{width:58px;height:58px;object-fit:contain;display:block;filter:drop-shadow(0 0 8px rgba(255,214,10,0.35));}
+  .app-icon-name{font-size:17px;font-weight:600;}
+  .btn-profile{width:34px;height:34px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;border:none;cursor:pointer;}
+  .large-title{font-size:32px;font-weight:700;letter-spacing:-0.8px;padding:6px 20px 12px;}
+
+  /* HERO */
+  .hero-card{margin:0 16px 14px;border-radius:var(--radius-lg);overflow:hidden;position:relative;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 8px 32px rgba(0,0,0,0.4);}
+  .hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+  .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.9) 0%,rgba(0,0,0,0.3) 55%,rgba(0,0,0,0.05) 100%);z-index:1;}
+  .hero-content{position:relative;z-index:2;padding:20px 20px 22px;}
+  .hero-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(255,214,10,0.25);border:1px solid rgba(255,214,10,0.4);color:var(--yellow);font-size:11px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:10px;width:fit-content;}
+  .hero-title{font-size:28px;font-weight:700;color:#fff;line-height:1.15;margin-bottom:5px;text-shadow:0 2px 8px rgba(0,0,0,0.5);}
+  .hero-sub{font-size:13px;color:rgba(255,255,255,0.7);}
+
+  /* AVAILABLE STRIP */
+  .avail-strip{margin:0 16px 14px;background:var(--card);border-radius:var(--radius);padding:14px 16px;}
+  .avail-strip-title{font-size:13px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;}
+  .avail-cars{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
+  .avail-cars::-webkit-scrollbar{display:none;}
+  .avail-car-thumb{flex-shrink:0;width:110px;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,214,10,0.15);}
+  .avail-car-thumb img{width:100%;height:70px;object-fit:cover;display:block;}
+  .avail-car-label{padding:6px 8px;background:rgba(255,214,10,0.07);}
+  .avail-car-name{font-size:10px;font-weight:600;color:var(--label);line-height:1.3;}
+  .avail-car-price{font-size:10px;color:var(--yellow);font-weight:700;}
+
+  /* CUSTOMER STRIP */
+  .customer-strip{margin:0 16px 14px;border-radius:var(--radius);overflow:hidden;position:relative;height:88px;}
+  .customer-strip img{width:100%;height:100%;object-fit:cover;object-position:center 20%;}
+  .cs-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.78) 0%,rgba(0,0,0,0.15) 100%);display:flex;align-items:center;padding:0 16px;}
+  .cs-text{color:#fff;font-size:13px;font-weight:600;line-height:1.45;}
+  .cs-text span{color:var(--yellow);}
+
+  .search-wrap{padding:0 16px 10px;}
+  .search-bar{display:flex;align-items:center;gap:10px;background:var(--fill);border-radius:var(--radius-sm);padding:10px 14px;}
+  .search-bar input{flex:1;background:none;border:none;outline:none;font-size:15px;color:var(--label);font-family:inherit;cursor:pointer;}
+  .search-bar input::placeholder{color:var(--label3);}
+  .date-row{display:flex;gap:10px;padding:0 16px 10px;}
+  .date-pill{flex:1;background:var(--card);border-radius:var(--radius-sm);padding:11px 14px;}
+  .date-pill-label{font-size:11px;font-weight:600;color:var(--label3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px;}
+  .date-pill input{background:none;border:none;outline:none;font-size:15px;font-weight:500;color:var(--label);font-family:inherit;width:100%;cursor:pointer;}
+  .cta-wrap{padding:8px 16px 14px;}
+  .btn-cta{width:100%;background:var(--yellow);color:#000;border:none;border-radius:var(--radius);padding:15px;font-size:17px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(255,214,10,0.5);}
+  .section-header{display:flex;justify-content:space-between;align-items:baseline;padding:14px 20px 10px;}
+  .section-label{font-size:20px;font-weight:700;letter-spacing:-0.5px;}
+  .stats-row{display:flex;gap:10px;padding:0 16px 4px;overflow-x:auto;scrollbar-width:none;}
+  .stats-row::-webkit-scrollbar{display:none;}
+  .stat-chip{flex-shrink:0;background:var(--card);border-radius:var(--radius-sm);padding:12px 16px;min-width:95px;text-align:center;}
+  .stat-chip-num{font-size:22px;font-weight:700;color:var(--yellow-dark);}
+  .stat-chip-label{font-size:11px;color:var(--label2);font-weight:500;margin-top:2px;}
+  .features-row{padding:0 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px;}
+  .feat-tile{background:var(--card);border-radius:var(--radius);padding:16px;}
+  .feat-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:9px;}
+  .feat-icon.y{background:var(--yellow-soft);} .feat-icon.g{background:var(--green-soft);}
+  .feat-icon.r{background:var(--red-soft);} .feat-icon.b{background:var(--blue-soft);}
+  .feat-title{font-size:13px;font-weight:600;margin-bottom:3px;}
+  .feat-desc{font-size:11px;color:var(--label2);line-height:1.5;}
+  .pickup-notice{margin:0 16px 10px;background:var(--blue-soft);border-radius:var(--radius-sm);padding:11px 14px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--yellow);font-weight:500;}
+
+  /* COMMERCIAL SECTION */
+  .commercial-wrap{margin:0 16px 0;border-radius:var(--radius-lg) var(--radius-lg) 0 0;overflow:hidden;background:#000;box-shadow:0 8px 32px rgba(0,0,0,0.5);}  .commercial-header{display:flex;align-items:center;gap:8px;padding:12px 16px 8px;background:rgba(255,214,10,0.08);}  .commercial-header-icon{font-size:20px;}  .commercial-header-text{font-size:13px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:var(--yellow);}  .commercial-vid{width:100%;display:block;object-fit:contain;background:#000;}
+  .perks-wrap{margin:0 16px 14px;background:var(--card);border-radius:0 0 var(--radius-lg) var(--radius-lg);overflow:hidden;border-top:2px solid var(--yellow);}  .perks-title{font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:var(--yellow);padding:10px 16px 8px;border-bottom:1px solid var(--separator);}  .perks-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--separator);}  .perk-item{background:var(--card);padding:11px 14px;display:flex;align-items:center;gap:10px;}  .perk-emoji{font-size:19px;flex-shrink:0;}  .perk-text{font-size:12px;font-weight:600;color:var(--label);line-height:1.35;}  .perk-item:last-child:nth-child(odd){grid-column:1/-1;}
+
+  /* TAB BAR */
+  .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,9,0,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--separator);display:flex;padding:8px 0 22px;z-index:999;}
+  .tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;border:none;background:none;font-family:inherit;}
+  .tab-icon{font-size:22px;} .tab-label{font-size:10px;font-weight:500;color:var(--label3);}
+  .tab-item.active .tab-label{color:var(--yellow-dark);}
+
+  /* BROWSE */
+  .browse-header{padding:52px 20px 12px;background:rgba(10,9,0,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--separator);position:sticky;top:0;z-index:10;}
+  .browse-title{font-size:26px;font-weight:700;letter-spacing:-0.6px;margin-bottom:6px;}
+  .browse-sub{font-size:13px;color:var(--label2);margin-bottom:8px;}
+  .avail-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-soft);color:var(--green);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:600;}
+  .cars-list{padding:12px 16px 100px;display:flex;flex-direction:column;gap:14px;}
+
+  /* CAR CARD */
+  .car-card{background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 12px rgba(255,214,10,0.07);cursor:pointer;transition:transform 0.15s;}
+  .car-card:active{transform:scale(0.98);}
+  .car-card.booked{opacity:0.47;cursor:not-allowed;} .car-card.booked:active{transform:none;}
+  .car-photo-wrap{position:relative;height:160px;overflow:hidden;background:linear-gradient(135deg,#1c1b00,#0d0c00);}
+  .car-photo{width:100%;height:100%;object-fit:cover;display:block;}
+  .car-photo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;}
+  .car-status-ov{position:absolute;top:10px;right:10px;}
+  .car-info{padding:13px 16px 14px;}
+  .car-info-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px;}
+  .car-name{font-size:15px;font-weight:600;letter-spacing:-0.3px;line-height:1.3;flex:1;}
+  .car-price{font-size:15px;font-weight:700;color:var(--yellow);white-space:nowrap;}
+  .car-specs{font-size:12px;color:var(--label2);margin-bottom:10px;}
+  .car-footer{display:flex;align-items:center;justify-content:space-between;}
+  .badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;}
+  .badge.av{background:var(--green-soft);color:var(--green);}
+  .badge.bk{background:rgba(255,214,10,0.08);color:var(--label3);}
+  .badge.ht{background:var(--red-soft);color:var(--red);}
+  .btn-book{background:var(--yellow);color:#000;border:none;border-radius:10px;padding:7px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;}
+
+  /* BOOKING */
+  .booking-scroll{overflow-y:auto;padding-bottom:110px;}
+  .booking-nav{display:flex;align-items:center;gap:12px;padding:52px 16px 12px;background:rgba(10,9,0,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--separator);position:sticky;top:0;z-index:10;}
+  .btn-back{background:none;border:none;color:var(--yellow);font-size:17px;cursor:pointer;font-family:inherit;}
+  .booking-nav-title{font-size:17px;font-weight:600;flex:1;text-align:center;}
+  .sel-hero{margin:16px;border-radius:var(--radius-lg);overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.25);}
+  .sel-photo{width:100%;height:170px;object-fit:cover;display:block;}
+  .sel-ph{width:100%;height:170px;background:linear-gradient(135deg,#1c1b00,#0d0c00);display:flex;align-items:center;justify-content:center;font-size:64px;}
+  .sel-info{background:linear-gradient(145deg,#1c1b00,#0f0e00);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
+  .sel-name{font-size:17px;font-weight:700;color:#fff;margin-bottom:3px;}
+  .sel-sub{font-size:12px;color:rgba(255,255,255,0.5);}
+  .sel-price{font-size:28px;font-weight:700;color:var(--yellow);}
+  .sel-price-sub{font-size:11px;color:rgba(255,255,255,0.4);text-align:right;}
+  .gsec{margin:0 16px 18px;}
+  .glabel{font-size:12px;font-weight:500;color:var(--label2);text-transform:uppercase;letter-spacing:0.4px;padding:0 4px 8px;}
+  .gtable{background:var(--card);border-radius:var(--radius);overflow:hidden;}
+  .grow{display:flex;align-items:center;padding:13px 16px;gap:12px;border-bottom:1px solid var(--separator);}
+  .grow:last-child{border-bottom:none;}
+  .gicon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+  .glb{font-size:15px;font-weight:400;flex:1;color:var(--label);}
+  .grow input,.grow select{background:none;border:none;outline:none;font-size:15px;color:var(--label2);font-family:inherit;text-align:right;max-width:180px;}
+  .grow select{cursor:pointer;} .grow input::placeholder{color:var(--label3);}
+  .chev{color:var(--label3);font-size:13px;margin-left:4px;}
+  .addon-row{display:flex;align-items:center;padding:13px 16px;gap:12px;border-bottom:1px solid var(--separator);cursor:pointer;}
+  .addon-row:last-child{border-bottom:none;}
+  .addon-info{flex:1;} .addon-name{font-size:15px;font-weight:400;margin-bottom:2px;} .addon-pr{font-size:12px;color:var(--label2);}
+  .toggle{position:relative;width:51px;height:31px;flex-shrink:0;}
+  .toggle input{opacity:0;width:0;height:0;}
+  .tslider{position:absolute;inset:0;background:var(--label4);border-radius:20px;transition:background 0.25s;cursor:pointer;}
+  .tslider::before{content:'';position:absolute;width:27px;height:27px;border-radius:50%;background:#fff;top:2px;left:2px;transition:transform 0.25s;box-shadow:0 2px 6px rgba(0,0,0,0.25);}
+  .toggle input:checked + .tslider{background:var(--green);}
+  .toggle input:checked + .tslider::before{transform:translateX(20px);}
+  .sumcard{background:var(--card);border-radius:var(--radius);overflow:hidden;}
+  .srow{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--separator);font-size:15px;}
+  .srow:last-child{border-bottom:none;} .slbl{color:var(--label2);font-weight:400;} .sval{font-weight:500;}
+  .srow.total{background:rgba(255,214,10,0.12);border:1px solid rgba(255,214,10,0.2);}
+  .srow.total .slbl{color:var(--yellow);font-weight:600;font-size:16px;}
+  .srow.total .sval{color:var(--yellow);font-weight:700;font-size:18px;}
+  .cfield{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid var(--separator);gap:12px;}
+  .cfield:last-child{border-bottom:none;} .cfl{font-size:15px;color:var(--label);flex:1;}
+  .cfield input{background:none;border:none;outline:none;font-size:15px;color:var(--label2);font-family:inherit;text-align:right;max-width:180px;}
+  .cfield input::placeholder{color:var(--label3);}
+  .pay-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,9,0,0.97);backdrop-filter:blur(20px);border-top:1px solid var(--separator);padding:12px 16px 26px;z-index:999;}
+  .btn-pay{width:100%;background:var(--yellow);color:#000;border:none;border-radius:var(--radius);padding:16px;font-size:17px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(255,214,10,0.5);}
+
+  /* PAYMENT SHEET */
+  .ov{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);align-items:flex-end;justify-content:center;}
+  .ov.show{display:flex;}
+  .sheet{width:100%;max-width:430px;background:#111100;border-radius:24px 24px 0 0;overflow:hidden;transform:translateY(100%);transition:transform 0.42s cubic-bezier(0.32,0.72,0,1);padding-bottom:24px;}
+  .sheet.open{transform:translateY(0);}
+  .shandle{width:36px;height:5px;background:rgba(255,214,10,0.25);border-radius:3px;margin:10px auto 0;}
+  .sstep{display:none;padding:0 0 8px;} .sstep.active{display:block;}
+  .stitle{font-size:20px;font-weight:700;text-align:center;padding:18px 20px 4px;}
+  .ssub{font-size:13px;color:var(--label2);text-align:center;padding:0 20px 14px;}
+  .smerch{display:flex;align-items:center;gap:14px;padding:12px 20px;background:rgba(255,214,10,0.07);margin:0 16px 12px;border-radius:12px;}
+  .smi{width:44px;height:44px;border-radius:10px;background:linear-gradient(145deg,#1c1b00,#0f0e00);display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .smn{font-size:15px;font-weight:600;} .sml{font-size:12px;color:var(--label2);margin-top:2px;}
+  .samt{display:flex;justify-content:space-between;padding:10px 20px;font-size:15px;border-bottom:1px solid var(--separator);}
+  .saml{color:var(--label2);}
+  .stotal{display:flex;justify-content:space-between;padding:14px 20px;background:rgba(255,214,10,0.18);font-size:17px;font-weight:700;margin:8px 16px;border-radius:12px;}
+  .stv{color:var(--yellow-dark);}
+  .cardprev{margin:0 16px 14px;background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;color:#fff;}
+  .chip{width:28px;height:22px;background:linear-gradient(135deg,#ffd700,#b8860b);border-radius:4px;margin-right:10px;}
+  .cnum{font-size:14px;font-weight:600;letter-spacing:2px;color:rgba(255,255,255,0.9);}
+  .bspay{width:calc(100% - 32px);margin:4px 16px 8px;background:var(--yellow);color:#000;border:none;border-radius:14px;padding:17px;font-size:16px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;}
+  .bscan{width:calc(100% - 32px);margin:0 16px 6px;background:rgba(255,214,10,0.1);color:var(--yellow);border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:500;cursor:pointer;font-family:inherit;}
+  .fwrap{padding:28px 20px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;}
+  .fring{width:100px;height:100px;border-radius:28px;border:3px solid var(--yellow);display:flex;align-items:center;justify-content:center;font-size:48px;position:relative;animation:fPulse 1.5s ease-in-out infinite;}
+  @keyframes fPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,214,10,0.5);}50%{box-shadow:0 0 0 12px rgba(255,214,10,0);}}
+  .fscan{position:absolute;left:8px;right:8px;height:2px;background:linear-gradient(90deg,transparent,var(--yellow),transparent);top:10px;animation:fsLine 1.2s ease-in-out infinite;}
+  @keyframes fsLine{0%{top:10px;opacity:0;}20%{opacity:1;}80%{opacity:1;}100%{top:80px;opacity:0;}}
+  .pwrap{padding:40px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;}
+  .spinner{width:56px;height:56px;border:4px solid var(--fill);border-top-color:var(--yellow);border-radius:50%;animation:spin 0.85s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .psteps{display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;margin-top:8px;}
+  .pstep{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--label2);opacity:0;transform:translateX(-8px);transition:opacity 0.4s,transform 0.4s,color 0.3s;}
+  .pstep.done{opacity:1;transform:translateX(0);color:var(--label);}
+  .picon{width:24px;height:24px;border-radius:50%;background:var(--fill);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;transition:background 0.3s;}
+  .pstep.done .picon{background:var(--yellow);color:#000;}
+  .awrap{padding:32px 20px 8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;}
+  .aring{width:80px;height:80px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 6px 20px rgba(255,214,10,0.45);animation:popIn 0.45s cubic-bezier(0.175,0.885,0.32,1.275) both;}
+  @keyframes popIn{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .confirm-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px 100px;text-align:center;}
+  .ccheck{width:80px;height:80px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 20px;box-shadow:0 8px 24px rgba(255,214,10,0.45);animation:popIn 0.5s cubic-bezier(0.175,0.885,0.32,1.275) both;}
+  .etost{position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1a1800;border-radius:14px;border:1px solid rgba(255,214,10,0.25);padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;z-index:3000;opacity:0;transition:opacity 0.25s;pointer-events:none;max-width:340px;width:calc(100% - 40px);}
+  .etost.show{opacity:1;} .emsg{color:#FF6B35;}
+  ::-webkit-scrollbar{display:none;}
+  .fade-up{animation:fadeUp 0.35s ease both;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+  /* MotionSites-inspired polish */
+  body::before{
+    content:'';position:fixed;inset:-20%;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(circle at 22% 12%,rgba(255,214,10,0.18),transparent 28%),
+      radial-gradient(circle at 82% 34%,rgba(204,255,0,0.09),transparent 24%),
+      linear-gradient(140deg,rgba(255,214,10,0.08),transparent 45%);
+    filter:blur(12px);animation:bgDrift 12s ease-in-out infinite alternate;
+  }
+  .app-icon{box-shadow:0 0 0 1px rgba(255,214,10,0.18),0 10px 24px rgba(255,214,10,0.18);animation:beeFloat 3.8s ease-in-out infinite;}
+  .btn-profile{box-shadow:0 0 20px rgba(255,214,10,0.42);}
+  .large-title{background:linear-gradient(90deg,#fff7b0 0%,var(--yellow) 40%,#ccff00 72%,#fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 18px 42px rgba(255,214,10,0.2);}
+  .hero-card{isolation:isolate;border:1px solid rgba(255,214,10,0.22);box-shadow:0 18px 50px rgba(0,0,0,0.55),0 0 34px rgba(255,214,10,0.18);transform:translateZ(0);animation:heroRise 0.75s cubic-bezier(0.16,1,0.3,1) both;}
+  .hero-card::before{content:'';position:absolute;inset:-2px;z-index:1;background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,0.22) 28%,transparent 42%);transform:translateX(-135%);animation:heroSweep 5.5s ease-in-out infinite;}
+  .hero-card::after{content:'';position:absolute;inset:auto 18px 14px;height:46px;z-index:1;background:radial-gradient(ellipse at center,rgba(255,214,10,0.38),transparent 68%);filter:blur(18px);opacity:0.85;}
+  .hero-bg{transform:scale(1.04);animation:slowZoom 13s ease-in-out infinite alternate;}
+  .hero-overlay{background:linear-gradient(to top,rgba(0,0,0,0.93) 0%,rgba(15,12,0,0.52) 48%,rgba(255,214,10,0.08) 100%);}
+  .hero-content{animation:contentLift 0.75s 0.12s cubic-bezier(0.16,1,0.3,1) both;}
+  .hero-tag{box-shadow:0 0 18px rgba(255,214,10,0.22);animation:pulseTag 2.8s ease-in-out infinite;}
+  .hero-title{font-size:30px;text-shadow:0 3px 16px rgba(0,0,0,0.7),0 0 22px rgba(255,214,10,0.22);}
+  .search-bar,.date-pill,.avail-strip,.stat-chip,.feat-tile,.pickup-notice{border:1px solid rgba(255,214,10,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.05),0 10px 28px rgba(0,0,0,0.24);}
+  .btn-cta,.btn-book,.btn-pay,.bspay{position:relative;overflow:hidden;box-shadow:0 10px 26px rgba(255,214,10,0.34),0 0 0 1px rgba(255,255,255,0.18) inset;transition:transform 0.18s ease,box-shadow 0.18s ease;}
+  .btn-cta::after,.btn-book::after,.btn-pay::after,.bspay::after{content:'';position:absolute;inset:-40% -25%;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,0.55),transparent 65%);transform:translateX(-125%);animation:buttonSheen 4s ease-in-out infinite;}
+  .btn-cta:active,.btn-book:active,.btn-pay:active,.bspay:active{transform:translateY(1px) scale(0.985);}
+  .avail-car-thumb,.stat-chip,.feat-tile,.car-card{transition:transform 0.2s ease,border-color 0.2s ease,box-shadow 0.2s ease;}
+  .avail-car-thumb:active,.stat-chip:active,.feat-tile:active{transform:translateY(-2px) scale(0.99);}
+  .car-card{border:1px solid rgba(255,214,10,0.12);box-shadow:0 14px 34px rgba(0,0,0,0.28),0 0 0 1px rgba(255,214,10,0.04) inset;}
+  .car-card:active{transform:scale(0.985) translateY(-2px);box-shadow:0 20px 42px rgba(0,0,0,0.34),0 0 20px rgba(255,214,10,0.14);}
+  .car-photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.2),transparent 45%);pointer-events:none;}
+  .badge.av{box-shadow:0 0 16px rgba(204,255,0,0.22);}
+  .commercial-wrap{border:1px solid rgba(255,214,10,0.16);box-shadow:0 18px 48px rgba(0,0,0,0.45),0 0 24px rgba(255,214,10,0.1);}
+  .tab-bar{box-shadow:0 -18px 42px rgba(0,0,0,0.38);}
+  .tab-item.active .tab-icon{filter:drop-shadow(0 0 10px rgba(255,214,10,0.58));}
+  @keyframes bgDrift{from{transform:translate3d(-2%,-1%,0) scale(1);}to{transform:translate3d(2%,1%,0) scale(1.04);}}
+  @keyframes beeFloat{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-3px) rotate(2deg);}}
+  @keyframes heroRise{from{opacity:0;transform:translateY(18px) scale(0.985);}to{opacity:1;transform:translateY(0) scale(1);}}
+  @keyframes heroSweep{0%,42%{transform:translateX(-135%);}58%,100%{transform:translateX(135%);}}
+  @keyframes slowZoom{from{transform:scale(1.04) translateX(-1%);}to{transform:scale(1.1) translateX(1%);}}
+  @keyframes contentLift{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pulseTag{0%,100%{border-color:rgba(255,214,10,0.35);background:rgba(255,214,10,0.2);}50%{border-color:rgba(204,255,0,0.45);background:rgba(255,214,10,0.3);}}
+  @keyframes buttonSheen{0%,46%{transform:translateX(-125%);}64%,100%{transform:translateX(125%);}}
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:0.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;}
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+</head>
+<body>
+
+<div class="bg-video-wrap">
+  <video class="bg-video" id="bgvid" autoplay muted playsinline></video>
+</div>
+
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="home-scroll">
+    <div class="status-bar">
+      <span style="font-size:16px;font-weight:700;">9:41</span>
+      <div style="display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;"><span>●●●</span><span>WiFi</span><span>🔋</span></div>
+    </div>
+    <div class="large-title-header">
+      <div class="app-nav">
+        <div class="app-icon-wrap"><div class="app-icon"><img class="app-icon-logo" src="media/mike-bzzz-logo.png" alt="Mike Bzzz logo"></div><span class="app-icon-name">Mike Bzzz</span></div>
+        <button class="btn-profile">M</button>
+      </div>
+    </div>
+    <div class="large-title">Find Your Ride 🚗</div>
+
+    <!-- HERO with baby blue fusion -->
+    <div class="hero-card">
+      <img class="hero-bg" src="/media/car-1.jpg" alt="Fleet">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-tag">🐝 23 Available Now — From $50/Day</div>
+        <div class="hero-title">Ft. Lauderdale's<br>Favorite Rental</div>
+        <div class="hero-sub">23 Vehicles · Fusions · Camrys · Civic · Malibu · Altima</div>
+      </div>
+    </div>
+
+    <!-- AVAILABLE NOW thumbnails -->
+        <!-- COMMERCIAL VIDEO -->
+    <div class="commercial-wrap">
+      <div class="commercial-header">
+        <span class="commercial-header-icon">&#127916;</span>
+        <span class="commercial-header-text">Mike Bzzz Rentals &#8212; See What You Get</span>
+      </div>
+      <video id="commercialVid" class="commercial-vid" controls playsinline preload="auto">
+        <source src="/media/commercial.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="perks-wrap">
+      <div class="perks-title">&#9989; Everything Included With Every Rental</div>
+      <div class="perks-grid">
+        <div class="perk-item"><span class="perk-emoji">&#128295;</span><span class="perk-text">Maintenance Included</span></div>
+        <div class="perk-item"><span class="perk-emoji">&#128680;</span><span class="perk-text">Roadside Assistance</span></div>
+        <div class="perk-item"><span class="perk-emoji">&#8734;</span><span class="perk-text">Unlimited Miles</span></div>
+        <div class="perk-item"><span class="perk-emoji">&#128683;</span><span class="perk-text">No Credit Check</span></div>
+        <div class="perk-item"><span class="perk-emoji">&#128181;</span><span class="perk-text">No Deposit Required</span></div>
+        <div class="perk-item"><span class="perk-emoji">&#128737;</span><span class="perk-text">Insurance Included</span></div>
+        <div class="perk-item"><span class="perk-emoji">&#9881;</span><span class="perk-text">Oil Check Every 30 Days</span></div>
+      </div>
+    </div>
+
+    <div class="avail-strip">
+      <div class="avail-strip-title">🟢 Available Now</div>
+      <div class="avail-cars">
+        <div class="avail-car-thumb" onclick="switchTab('browse')">
+          <img src="media/2012-ford-fusion-dark-green.jpg" alt="2012 Ford Fusion Dark Green">
+          <div class="avail-car-label"><div class="avail-car-name">2012 Ford Fusion</div><div class="avail-car-price">$50/day</div></div>
+        </div>
+        <div class="avail-car-thumb" onclick="switchTab('browse')">
+          <img src="media/2015-ford-fusion-black.jpg" alt="2015 Ford Fusion Black">
+          <div class="avail-car-label"><div class="avail-car-name">2015 Ford Fusion</div><div class="avail-car-price">$55/day</div></div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- REAL GOOGLE REVIEWS CAROUSEL -->
+    <div style="margin:0 0 14px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:0 20px 10px;">
+        <span style="font-size:20px;font-weight:700;letter-spacing:-0.5px;">⭐ Real Reviews</span>
+        <a href="https://www.google.com/search?q=MIKE+BZZ+RENTALS+LLC+reviews" target="_blank" style="font-size:13px;color:var(--yellow-dark);text-decoration:none;font-weight:500;">See all on Google ›</a>
+      </div>
+      <div style="overflow:hidden;position:relative;">
+        <div id="review-track" style="display:flex;gap:12px;padding:0 16px 4px;width:max-content;animation:scrollReviews 32s linear infinite;">
+
+          <!-- Review 1 -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#34A853);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">D</div>
+              <div><div style="font-size:13px;font-weight:600;">Dyna1x</div><div style="font-size:11px;color:var(--label3);">2 reviews · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"Found Mike through an ad and it's been nothing but a great experience! Their prices are unbeatable, extremely cooperative and professional. This is my go-to rental company from now on, and I highly recommend booking!"</div>
+          </div>
+
+          <!-- Review 2 -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#EA4335,#FBBC05);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">K</div>
+              <div><div style="font-size:13px;font-weight:600;">Kaylene Christina</div><div style="font-size:11px;color:var(--label3);">Local Guide · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"My go to Rental company in SoFlo for business or personal. Always amazing customer service, amazing communication, always available and easy to reach. Also used the car to do UberEats for some extra $$. Thanks Mike! Will definitely be a returning customer."</div>
+          </div>
+
+          <!-- Review 3 -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#34A853,#4285F4);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">L</div>
+              <div><div style="font-size:13px;font-weight:600;">Lorenzo T. Sweet</div><div style="font-size:11px;color:var(--label3);">2 reviews · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"Very impressed!! Professional rental service, great vehicles, great daily, weekly and monthly prices. Highly recommend Mike Bzzz Rentals to anyone looking for a reliable and affordable rental!"</div>
+          </div>
+
+          <!-- Review 4 -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FBBC05,#EA4335);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">L</div>
+              <div><div style="font-size:13px;font-weight:600;">Lotus</div><div style="font-size:11px;color:var(--label3);">1 review · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"Very satisfied with this rental service! Great vehicles, excellent rates, and professional team. I'll definitely recommend to family and friends!"</div>
+          </div>
+
+          <!-- Review 5 -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00BCD4,#3F51B5);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">T</div>
+              <div><div style="font-size:13px;font-weight:600;">Tasia Bri</div><div style="font-size:11px;color:var(--label3);">2 reviews · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"I've been renting a car from Mike BZZ Rentals LLC for about 3 months now and I am really impressed with the service. The process was smooth and straightforward, very professional and accommodating. The car was in great condition and clean."</div>
+          </div>
+
+          <!-- Review 6 -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#9C27B0,#E91E63);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">N</div>
+              <div><div style="font-size:13px;font-weight:600;">Nina ThaPrettyone</div><div style="font-size:11px;color:var(--label3);">1 review · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"Recently I've rented with Mike Bzz Rentals and the experience has been pretty good — amazing! Anytime I've needed to get into contact with him he's always available. If anything is ever wrong with the car he fixes it right away."</div>
+          </div>
+
+          <!-- Duplicate set for seamless loop -->
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#34A853);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">D</div>
+              <div><div style="font-size:13px;font-weight:600;">Dyna1x</div><div style="font-size:11px;color:var(--label3);">2 reviews · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"Found Mike through an ad and it's been nothing but a great experience! Their prices are unbeatable, extremely cooperative and professional. This is my go-to rental company from now on, and I highly recommend booking!"</div>
+          </div>
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#EA4335,#FBBC05);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">K</div>
+              <div><div style="font-size:13px;font-weight:600;">Kaylene Christina</div><div style="font-size:11px;color:var(--label3);">Local Guide · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"My go to Rental company in SoFlo for business or personal. Always amazing customer service, amazing communication, always available and easy to reach. Also used the car to do UberEats for some extra $$. Thanks Mike! Will definitely be a returning customer."</div>
+          </div>
+          <div style="flex-shrink:0;width:280px;background:var(--card);border-radius:var(--radius);padding:16px;border:1px solid rgba(255,214,10,0.12);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FBBC05,#EA4335);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;">L</div>
+              <div><div style="font-size:13px;font-weight:600;">Lotus</div><div style="font-size:11px;color:var(--label3);">1 review · Google</div></div>
+              <div style="margin-left:auto;"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#4285F4" d="M44.5 20H24v8.5h11.8C34.5 33.3 30 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-7.7 19.7-20 0-1.3-.1-2.7-.2-4z"/><path fill="#34A853" d="M6.3 14.7l7 5.1C15 16 19.2 13 24 13c3 0 5.8 1.1 7.9 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 16.3 4 9.7 8.4 6.3 14.7z"/><path fill="#FBBC05" d="M24 44c5.8 0 10.7-1.9 14.3-5.2l-6.6-5.4C29.8 35 27 36 24 36c-6 0-10.5-2.7-11.8-7.5l-6.9 5.3C8.9 40 15.9 44 24 44z"/><path fill="#EA4335" d="M44.5 20H24v8.5h11.8c-.5 2.3-1.9 4.3-3.8 5.7l6.6 5.4C42.5 36.4 44.5 31 44.5 24c0-1.3-.1-2.7-.2-4z"/></svg></div>
+            </div>
+            <div style="color:#FBBC05;font-size:13px;margin-bottom:8px;">★★★★★</div>
+            <div style="font-size:13px;color:var(--label2);line-height:1.55;">"Very satisfied with this rental service! Great vehicles, excellent rates, and professional team. I'll definitely recommend to family and friends!"</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <style>
+      @keyframes scrollReviews {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      #review-track:hover { animation-play-state: paused; }
+    </style>
+    <div class="search-wrap">
+      <div class="search-bar">
+        <span style="color:var(--label3);">🔍</span>
+        <input type="text" placeholder="Ford Fusion, Camry, Civic…" readonly onclick="doSearch()">
+      </div>
+    </div>
+    <div class="date-row">
+      <div class="date-pill"><div class="date-pill-label">Pick-Up</div><input type="date" id="home-from"></div>
+      <div class="date-pill"><div class="date-pill-label">Return</div><input type="date" id="home-to"></div>
+    </div>
+    <div class="cta-wrap"><button class="btn-cta" onclick="doSearch()">🐝 Search Available Cars</button></div>
+
+    <div class="section-header"><span class="section-label">Quick Stats</span></div>
+    <div class="stats-row">
+      <div class="stat-chip"><div class="stat-chip-num">$50</div><div class="stat-chip-label">Per Day</div></div>
+      <div class="stat-chip"><div class="stat-chip-num">23</div><div class="stat-chip-label">Available</div></div>
+      <div class="stat-chip"><div class="stat-chip-num">23</div><div class="stat-chip-label">Total Fleet</div></div>
+      <div class="stat-chip"><div class="stat-chip-num">$0</div><div class="stat-chip-label">Hidden Fees</div></div>
+    </div>
+
+    <div class="section-header"><span class="section-label">Why Mike Bzzz?</span></div>
+    <div class="features-row">
+      <div class="feat-tile"><div class="feat-icon y">⚡</div><div class="feat-title">Book Instantly</div><div class="feat-desc">Reserve in under 2 minutes.</div></div>
+      <div class="feat-tile"><div class="feat-icon b">💰</div><div class="feat-title">Flat $50/Day</div><div class="feat-desc">Same rate across all models.</div></div>
+      <div class="feat-tile"><div class="feat-icon g">🔓</div><div class="feat-title">Free Cancel</div><div class="feat-desc">Up to 24 hrs before pickup.</div></div>
+      <div class="feat-tile"><div class="feat-icon r">&#128683;</div><div class="feat-title">No Credit Check</div><div class="feat-desc">Anyone can qualify to rent.</div></div>
+      <div class="feat-tile"><div class="feat-icon y">&#128181;</div><div class="feat-title">No Deposit</div><div class="feat-desc">No hidden upfront costs.</div></div>
+      <div class="feat-tile"><div class="feat-icon g">&#8734;</div><div class="feat-title">Unlimited Miles</div><div class="feat-desc">Drive as far as you need.</div></div>
+      <div class="feat-tile"><div class="feat-icon b">&#128737;</div><div class="feat-title">Insurance Incl.</div><div class="feat-desc">You are fully covered.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BROWSE -->
+<div id="page-browse" class="page">
+  <div class="browse-header">
+    <div class="browse-title">Available Fleet</div>
+    <div class="browse-sub" id="browse-sub">23 Vehicles · Ft. Lauderdale, FL</div>
+    <div class="avail-badge">● 23 Available Now</div>
+  </div>
+  <div class="cars-list fade-up" id="cars-list"></div>
+</div>
+
+<!-- BOOKING -->
+<div id="page-booking" class="page">
+  <div class="booking-scroll">
+    <div class="booking-nav">
+      <button class="btn-back" onclick="goBack()">‹ Fleet</button>
+      <div class="booking-nav-title">Book Your Ride</div>
+      <div style="width:60px;"></div>
+    </div>
+    <div class="sel-hero">
+      <img id="b-photo" class="sel-photo" src="" alt="" style="display:none;">
+      <div id="b-ph" class="sel-ph">🚗</div>
+      <div class="sel-info">
+        <div><div class="sel-name" id="b-name">Vehicle</div><div class="sel-sub">Economy · Automatic · Gasoline</div></div>
+        <div style="text-align:right;"><div class="sel-price" id="b-price">$50</div><div class="sel-price-sub">per day</div></div>
+      </div>
+    </div>
+    <div class="gsec"><div class="glabel">Trip Details</div>
+      <div class="gtable">
+        <div class="grow"><div class="gicon" style="background:var(--green-soft)">📅</div><div class="glb">Pick-Up</div><span id="b-from" style="font-size:15px;color:var(--label2);">—</span><span class="chev">›</span></div>
+        <div class="grow"><div class="gicon" style="background:var(--red-soft)">🏁</div><div class="glb">Return</div><span id="b-to" style="font-size:15px;color:var(--label2);">—</span><span class="chev">›</span></div>
+        <div class="grow"><div class="gicon" style="background:var(--blue-soft)">⏱</div><div class="glb">Duration</div><span id="b-days" style="font-size:15px;color:var(--label2);">3 days</span></div>
+      </div>
+    </div>
+    <div class="gsec"><div class="glabel">Driver Information</div>
+      <div class="gtable">
+        <div class="grow"><div class="gicon" style="background:var(--blue-soft)">👤</div><div class="glb">First Name</div><input type="text" placeholder="James" id="f-first"></div>
+        <div class="grow"><div class="gicon" style="background:var(--blue-soft)">👤</div><div class="glb">Last Name</div><input type="text" placeholder="Rivera" id="f-last"></div>
+        <div class="grow"><div class="gicon" style="background:var(--green-soft)">📧</div><div class="glb">Email</div><input type="email" placeholder="you@email.com" id="f-email"></div>
+        <div class="grow"><div class="gicon" style="background:var(--yellow-soft)">📱</div><div class="glb">Phone</div><input type="tel" placeholder="+1 (555) 000-0000" id="f-phone"></div>
+        <div class="grow"><div class="gicon" style="background:var(--red-soft)">🪪</div><div class="glb">License #</div><input type="text" placeholder="D12345678" id="f-lic"></div>
+        <div class="grow"><div class="gicon" style="background:var(--fill)">🎂</div><div class="glb">Age Range</div><select id="f-age"><option>21–24 (fee applies)</option><option selected>25–65</option><option>65+</option></select><span class="chev">›</span></div>
+      </div>
+    </div>
+    <div class="gsec"><div class="glabel">Payment</div>
+      <div style="background:rgba(255,214,10,0.08);border:1px solid rgba(255,214,10,0.35);border-radius:14px;padding:16px;margin-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+          <div style="font-size:22px;">&#x1F4B3;</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--yellow);">$5 Reservation Deposit &mdash; Card Required</div>
+            <div style="font-size:11px;color:var(--label2);margin-top:2px;">Secures your booking. Remaining balance paid in cash at pickup.</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;margin-bottom:10px;">
+          <input id="card-num" type="tel" inputmode="numeric" maxlength="19" placeholder="Card Number" oninput="fmtCard(this)" style="background:none;border:none;outline:none;color:#fff;font-size:15px;width:100%;font-family:inherit;" />
+        </div>
+        <div style="display:flex;gap:10px;">
+          <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;">
+            <input id="card-exp" type="tel" inputmode="numeric" maxlength="5" placeholder="MM / YY" oninput="fmtExp(this)" style="background:none;border:none;outline:none;color:#fff;font-size:15px;width:100%;font-family:inherit;" />
+          </div>
+          <div style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:12px 14px;">
+            <input id="card-cvv" type="tel" inputmode="numeric" maxlength="4" placeholder="CVV" style="background:none;border:none;outline:none;color:#fff;font-size:15px;width:100%;font-family:inherit;" />
+          </div>
+        </div>
+        <div id="card-err" style="color:#ff6b6b;font-size:12px;margin-top:10px;display:none;">Please enter a valid card number, expiry, and CVV.</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+        <div style="font-size:18px;">&#x1F4B5;</div>
+        <div style="font-size:12px;color:var(--label2);">Remaining balance collected <strong style="color:#fff;">in cash</strong> at pickup. No exceptions.</div>
+      </div>
+    </div>
+    <div class="gsec"><div class="glabel">Order Summary</div>
+      <div class="sumcard">
+        <div class="srow"><span class="slbl">Base rate</span><span class="sval" id="s-base">—</span></div>
+        <div class="srow" id="s-addon-row" style="display:none"><span class="slbl">Add-ons</span><span class="sval" id="s-addon">—</span></div>
+        <div class="srow"><span class="slbl">Taxes & fees (12%)</span><span class="sval" id="s-tax">—</span></div>
+        <div class="srow"><span class="slbl" style="color:var(--yellow);">Deposit due now (card)</span><span class="sval" style="color:var(--yellow);">$5</span></div>
+        <div class="srow total"><span class="slbl">Balance due at pickup (cash)</span><span class="sval" id="s-total">-</span></div>
+      </div>
+    </div>
+    <div style="height:20px;"></div>
+  </div>
+  <div class="pay-bar"><button class="btn-pay" onclick="confirmBooking()">&#x1F4B3; Pay $5 Deposit &amp; Reserve <span id="pay-total"></span></button></div>
+</div>
+
+<!-- CONFIRM -->
+<div id="page-confirm" class="page">
+  <div class="confirm-page fade-up">
+    <div class="ccheck">✓</div>
+    <div style="font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--label2);margin-bottom:8px;" id="conf-id">Booking #MBZ-000000</div>
+    <div style="font-size:30px;font-weight:700;margin-bottom:8px;">You're All Set! 🎉</div>
+    <div style="font-size:15px;color:var(--label2);line-height:1.5;max-width:300px;margin:0 auto 24px;">Check your email for pickup instructions.</div>
+    <div style="width:100%;background:var(--card);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;text-align:left;">
+      <div class="srow"><span class="slbl">Vehicle</span><span class="sval" id="conf-car">—</span></div>
+      <div class="srow"><span class="slbl">Pick-Up</span><span class="sval" id="conf-pu">—</span></div>
+      <div class="srow"><span class="slbl">Return</span><span class="sval" id="conf-ret">—</span></div>
+      <div class="srow"><span class="slbl">Pickup Location</span><span class="sval" style="font-size:12px;text-align:right;line-height:1.6;color:var(--yellow);">Call <a href="tel:+18047292812" style="color:var(--yellow);text-decoration:none;font-weight:600;">(804) 729-2812</a><br><span style="color:var(--label2);">for pickup address</span></span></div>
+      <div class="srow"><span class="slbl" style="color:#4cd964;">&#x2705; $5 Deposit</span><span class="sval" style="color:#4cd964;">Paid (Card)</span></div>
+      <div class="srow total"><span class="slbl">Balance Due at Pickup (Cash)</span><span class="sval" id="conf-total">-</span></div>
+    </div>
+    <button style="width:100%;background:var(--yellow);color:#000;border:none;border-radius:var(--radius);padding:16px;font-size:17px;font-weight:600;cursor:pointer;font-family:inherit;" onclick="goHome()">Done</button>
+  </div>
+</div>
+
+<!-- PAYMENT OVERLAY -->
+<div class="ov" id="pov" onclick="ovTap(event)">
+  <div class="sheet" id="psheet">
+    <div class="shandle"></div>
+    <div class="sstep active" id="step-review">
+      <div class="stitle">Confirm Payment</div><div class="ssub">Review before paying</div>
+      <div class="smerch"><div class="smi">🐝</div><div><div class="smn">Mike Bzzz Rentals</div><div class="sml">2201 NW 9th Ave · Ft. Lauderdale</div></div></div>
+      <div class="samt"><span class="saml">Base rental</span><span id="sl-base">—</span></div>
+      <div id="sl-addon-row" class="samt" style="display:none"><span class="saml">Add-ons</span><span id="sl-addon">—</span></div>
+      <div class="samt"><span class="saml">Taxes & fees</span><span id="sl-tax">—</span></div>
+      <div class="stotal"><span>Total</span><span class="stv" id="sl-total">—</span></div>
+      <div class="cardprev"><div style="display:flex;align-items:center;"><div class="chip"></div><div class="cnum" id="cdisplay">•••• •••• •••• ••••</div></div><span style="font-size:22px;">💳</span></div>
+      <button class="bspay" onclick="startPurchase()">😐 Pay with Face ID</button>
+      <button class="bscan" onclick="closeSheet()">Cancel</button>
+    </div>
+    <div class="sstep" id="step-faceid">
+      <div class="fwrap"><div class="fring"><span>😐</span><div class="fscan"></div></div><div style="font-size:20px;font-weight:700;">Confirm with Face ID</div><div style="font-size:14px;color:var(--label2);line-height:1.5;">Look at your iPhone to authenticate</div></div>
+    </div>
+    <div class="sstep" id="step-processing">
+      <div class="pwrap"><div class="spinner"></div><div style="font-size:20px;font-weight:700;">Processing…</div>
+      <div class="psteps">
+        <div class="pstep" id="ps-1"><div class="picon" id="pi-1">1</div><span>Verifying card</span></div>
+        <div class="pstep" id="ps-2"><div class="picon" id="pi-2">2</div><span>Contacting bank</span></div>
+        <div class="pstep" id="ps-3"><div class="picon" id="pi-3">3</div><span>Securing reservation</span></div>
+        <div class="pstep" id="ps-4"><div class="picon" id="pi-4">4</div><span>Generating confirmation</span></div>
+      </div></div>
+    </div>
+    <div class="sstep" id="step-approved">
+      <div class="awrap"><div class="aring">✓</div><div style="font-size:24px;font-weight:700;">Payment Approved!</div><div style="font-size:14px;color:var(--label2);">Your vehicle is locked in.</div>
+      <div style="background:rgba(255,214,10,0.08);border:1px solid rgba(255,214,10,0.2);border-radius:10px;padding:10px 20px;font-size:13px;color:var(--label2);width:100%;text-align:center;"><strong id="ap-code" style="color:var(--label);font-weight:600;display:block;font-size:15px;margin-bottom:2px;">MBZ-000000</strong>Booking confirmation</div>
+      <div style="width:100%;margin-top:12px;">
+        <button class="bspay" style="margin:0 0 8px;width:100%;" onclick="finishPurchase()">View Booking ›</button>
+        <button class="bscan" onclick="finishPurchase()">Done</button>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<div class="etost" id="etost"><span>⚠️</span><span class="emsg" id="emsg">Error</span></div>
+
+
+<!-- PROFILE PAGE -->
+<div id="page-profile" class="page">
+  <div style="overflow-y:auto;padding-bottom:100px;">
+    <div style="padding:52px 20px 16px;background:rgba(10,9,0,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--separator);position:sticky;top:0;z-index:10;">
+      <div style="font-size:26px;font-weight:700;letter-spacing:-0.6px;margin-bottom:4px;">My Profile 👤</div>
+      <div style="font-size:13px;color:var(--label2);">Your account & contact info</div>
+    </div>
+    <div style="padding:24px 20px;display:flex;flex-direction:column;gap:16px;">
+      <div style="background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid var(--separator);">
+        <div style="font-size:13px;color:var(--label2);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Contact Us</div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--separator);">
+          <span style="font-size:22px;">📞</span>
+          <div>
+            <div style="font-size:15px;font-weight:600;">Call Mike Bzzz</div>
+            <a href="tel:+19547234565" style="color:var(--yellow);font-size:13px;text-decoration:none;">(954) 723-4565</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--separator);">
+          <span style="font-size:22px;">💬</span>
+          <div>
+            <div style="font-size:15px;font-weight:600;">Text Us</div>
+            <a href="sms:+19547234565" style="color:var(--yellow);font-size:13px;text-decoration:none;">Send a text message</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 0;">
+          <span style="font-size:22px;">📍</span>
+          <div>
+            <div style="font-size:15px;font-weight:600;">Location</div>
+            <div style="color:var(--label2);font-size:13px;">Fort Lauderdale, FL</div>
+          </div>
+        </div>
+      </div>
+      <div style="background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid var(--separator);">
+        <div style="font-size:13px;color:var(--label2);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Business Hours</div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--separator);font-size:14px;"><span style="color:var(--label2);">Mon &#8212; Fri</span><span style="color:var(--yellow);font-weight:600;">8AM &#8212; 8PM</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--separator);font-size:14px;"><span style="color:var(--label2);">Saturday</span><span style="color:var(--yellow);font-weight:600;">9AM &#8212; 6PM</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;"><span style="color:var(--label2);">Sunday</span><span style="color:var(--yellow);font-weight:600;">10AM &#8212; 4PM</span></div>
+      </div>
+      <div style="background:var(--card);border-radius:var(--radius);padding:20px;border:1px solid var(--separator);">
+        <div style="font-size:13px;color:var(--label2);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Quick Facts</div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--separator);"><span style="font-size:18px;">&#128663;</span><span style="font-size:14px;color:var(--label);">23 Vehicles Available</span></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--separator);"><span style="font-size:18px;">&#11088;</span><span style="font-size:14px;color:var(--label);">5.0 Google Rating</span></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--separator);"><span style="font-size:18px;">&#128181;</span><span style="font-size:14px;color:var(--label);">From $50/Day &#8212; Flat Rate</span></div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;"><span style="font-size:18px;">&#128205;</span><span style="font-size:14px;color:var(--label);">Fort Lauderdale, FL</span></div>
+      </div>
+      <a href="tel:+19547234565" style="display:block;width:100%;background:var(--yellow);color:#000;border:none;border-radius:var(--radius);padding:16px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(255,214,10,0.4);text-align:center;text-decoration:none;">&#128222; Call to Book Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- DEALS / REVIEWS PAGE -->
+<div id="page-deals" class="page">
+  <div style="overflow-y:auto;padding-bottom:100px;">
+    <div style="padding:52px 20px 16px;background:rgba(10,9,0,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--separator);position:sticky;top:0;z-index:10;">
+      <div style="font-size:26px;font-weight:700;letter-spacing:-0.6px;margin-bottom:4px;">Customer Reviews 🌟</div>
+      <div style="font-size:13px;color:var(--label2);">Real Google reviews from real customers</div>
+    </div>
+
+
+    <!-- VIDEO TESTIMONIALS -->
+    </div>
+
+    <div style="margin:16px 16px 12px;background:var(--card);border-radius:var(--radius);padding:20px;display:flex;align-items:center;gap:20px;border:1px solid rgba(255,214,10,0.2);">
+      <div style="text-align:center;">
+        <div style="font-size:52px;font-weight:700;color:var(--yellow);line-height:1;">5.0</div>
+        <div style="color:#FBBC05;font-size:18px;margin:4px 0;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-size:11px;color:var(--label2);">Google Rating</div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;"><span style="font-size:11px;color:var(--label2);width:20px;">5</span><div style="flex:1;height:6px;background:var(--fill);border-radius:3px;overflow:hidden;"><div style="width:95%;height:100%;background:#FBBC05;border-radius:3px;"></div></div></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;"><span style="font-size:11px;color:var(--label2);width:20px;">4</span><div style="flex:1;height:6px;background:var(--fill);border-radius:3px;overflow:hidden;"><div style="width:5%;height:100%;background:#FBBC05;border-radius:3px;"></div></div></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;"><span style="font-size:11px;color:var(--label2);width:20px;">3</span><div style="flex:1;height:6px;background:var(--fill);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;background:#FBBC05;border-radius:3px;"></div></div></div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;"><span style="font-size:11px;color:var(--label2);width:20px;">2</span><div style="flex:1;height:6px;background:var(--fill);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;background:#FBBC05;border-radius:3px;"></div></div></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;color:var(--label2);width:20px;">1</span><div style="flex:1;height:6px;background:var(--fill);border-radius:3px;overflow:hidden;"><div style="width:0%;height:100%;background:#FBBC05;border-radius:3px;"></div></div></div>
+        <div style="margin-top:10px;">
+          <a href="https://www.google.com/search?q=MIKE+BZZ+RENTALS+LLC+reviews" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,214,10,0.12);border:1px solid rgba(255,214,10,0.25);color:var(--yellow);font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;text-decoration:none;">See all on Google &#8250;</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:0 16px;display:flex;flex-direction:column;gap:12px;">
+
+      <div style="background:var(--card);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,214,10,0.1);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#34A853);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">D</div>
+          <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--label);">Dyna1x</div><div style="font-size:11px;color:var(--label3);">2 reviews &middot; 1 photo</div></div>
+        </div>
+        <div style="color:#FBBC05;font-size:14px;margin-bottom:8px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-size:14px;color:var(--label);line-height:1.6;">"Found Mike through an ad and it's been nothing but a great experience! Their prices are unbeatable, extremely cooperative and professional. This is my go-to rental company from now on, and I highly recommend booking!"</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--label3);">a year ago &middot; Google Review</div>
+      </div>
+
+      <div style="background:var(--card);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,214,10,0.1);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#EA4335,#FBBC05);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">K</div>
+          <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--label);">Kaylene Christina</div><div style="font-size:11px;color:var(--label3);">Local Guide &middot; 23 reviews</div></div>
+        </div>
+        <div style="color:#FBBC05;font-size:14px;margin-bottom:8px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-size:14px;color:var(--label);line-height:1.6;">"My go to Rental company in SoFlo for business or personal. Always amazing customer service, amazing communication, always available and easy to reach. Also used the car to do UberEats for some extra $$. Thanks Mike! Will definitely be a returning customer."</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--label3);">6 months ago &middot; Google Review</div>
+      </div>
+
+      <div style="background:var(--card);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,214,10,0.1);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#34A853,#4285F4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">L</div>
+          <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--label);">Lorenzo T. Sweet</div><div style="font-size:11px;color:var(--label3);">2 reviews &middot; Google</div></div>
+        </div>
+        <div style="color:#FBBC05;font-size:14px;margin-bottom:8px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-size:14px;color:var(--label);line-height:1.6;">"Very impressed!! Professional rental service, great vehicles, great daily, weekly and monthly prices. Highly recommend Mike Bzzz Rentals to anyone looking for a reliable and affordable rental!"</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--label3);">3 months ago &middot; Google Review</div>
+      </div>
+
+      <div style="background:var(--card);border-radius:var(--radius);padding:18px;border:1px solid rgba(255,214,10,0.1);">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#FBBC05,#EA4335);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">T</div>
+          <div style="flex:1;"><div style="font-size:14px;font-weight:600;color:var(--label);">Tay Tay</div><div style="font-size:11px;color:var(--label3);">1 review &middot; Google</div></div>
+        </div>
+        <div style="color:#FBBC05;font-size:14px;margin-bottom:8px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-size:14px;color:var(--label);line-height:1.6;">"Mike is amazing! Got me in a car same day with no hassle. Clean car, great price, and he's super easy to work with. I'll definitely be coming back!"</div>
+        <div style="margin-top:10px;font-size:11px;color:var(--label3);">2 months ago &middot; Google Review</div>
+      </div>
+
+
+      <!-- VIDEO TESTIMONIALS SECTION -->
+      <div style="margin-bottom:4px;">
+        <div style="font-size:18px;font-weight:700;letter-spacing:-0.4px;margin-bottom:12px;padding:0 2px;">🎥 Video Testimonials</div>
+
+        <!-- Testimony 1 -->
+        <div style="background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,214,10,0.1);margin-bottom:12px;">
+          <video controls playsinline preload="none" poster="" id="tv1"
+            style="width:100%;display:block;background:#000;max-height:320px;object-fit:cover;"></video>
+          <div style="padding:14px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#34A853);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;">C</div>
+              <div><div style="font-size:13px;font-weight:600;color:var(--label);">Dyna1x</div><div style="color:#FBBC05;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimony 2 -->
+        <div style="background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,214,10,0.1);margin-bottom:12px;">
+          <video controls playsinline preload="none" id="tv2"
+            style="width:100%;display:block;background:#000;max-height:320px;object-fit:cover;"></video>
+          <div style="padding:14px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#EA4335,#FBBC05);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;">C</div>
+              <div><div style="font-size:13px;font-weight:600;color:var(--label);">Dyna1x</div><div style="color:#FBBC05;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimony 3 -->
+        <div style="background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,214,10,0.1);margin-bottom:12px;">
+          <video controls playsinline preload="none" id="tv3"
+            style="width:100%;display:block;background:#000;max-height:320px;object-fit:cover;"></video>
+          <div style="padding:14px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#34A853,#4285F4);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;">C</div>
+              <div><div style="font-size:13px;font-weight:600;color:var(--label);">Dyna1x</div><div style="color:#FBBC05;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimony 4 -->
+        <div style="background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,214,10,0.1);margin-bottom:12px;">
+          <video controls playsinline preload="none" id="tv4"
+            style="width:100%;display:block;background:#000;max-height:320px;object-fit:cover;"></video>
+          <div style="padding:14px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#FBBC05,#EA4335);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;">C</div>
+              <div><div style="font-size:13px;font-weight:600;color:var(--label);">Dyna1x</div><div style="color:#FBBC05;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimony 5 -->
+        <div style="background:var(--card);border-radius:var(--radius);overflow:hidden;border:1px solid rgba(255,214,10,0.1);margin-bottom:12px;">
+          <video controls playsinline preload="none" id="tv5"
+            style="width:100%;display:block;background:#000;max-height:320px;object-fit:cover;"></video>
+          <div style="padding:14px 16px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+              <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4285F4,#EA4335);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;">C</div>
+              <div><div style="font-size:13px;font-weight:600;color:var(--label);">Dyna1x</div><div style="color:#FBBC05;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a href="https://www.google.com/search?q=MIKE+BZZ+RENTALS+LLC+reviews" target="_blank" style="text-decoration:none;">
+        <div style="background:linear-gradient(135deg,rgba(255,214,10,0.15),rgba(255,214,10,0.08));border:1px solid rgba(255,214,10,0.3);border-radius:var(--radius);padding:18px;text-align:center;">
+          <div style="font-size:22px;margin-bottom:6px;">&#11088;</div>
+          <div style="font-size:15px;font-weight:700;color:var(--yellow);margin-bottom:4px;">Had a great experience?</div>
+          <div style="font-size:13px;color:var(--label2);margin-bottom:12px;">Leave us a Google review &mdash; it means the world!</div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--yellow);color:#000;padding:10px 24px;border-radius:20px;font-size:14px;font-weight:700;">Write a Review</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</div>
+
+<div class="tab-bar">
+  <button class="tab-item active" id="tab-home" onclick="switchTab('home')"><span class="tab-icon">🏠</span><span class="tab-label">Home</span></button>
+  <button class="tab-item" id="tab-browse" onclick="switchTab('browse')"><span class="tab-icon">🚗</span><span class="tab-label">Fleet</span></button>
+  <button class="tab-item" id="tab-deals" onclick="switchTab('deals')"><span class="tab-icon">🏷️</span><span class="tab-label">Reviews</span></button>
+  <button class="tab-item" id="tab-profile" onclick="switchTab('profile')"><span class="tab-icon">👤</span><span class="tab-label">Profile</span></button>
+  <button class="tab-item" id="tab-game" onclick="switchTab('game')"><span class="tab-icon">&#x1F3AE;</span><span class="tab-label">Game</span></button>
+  <button class="tab-item" id="tab-membership" onclick="switchTab('membership')"><span class="tab-icon">&#x2B50;</span><span class="tab-label">Members</span></button>
+</div>
+
+<script>
+// ── COMPLETE PHOTO MAP ──
+// ── VIDEO MAP: id → base64 video for cars with walkthrough videos ──
+// Car videos - direct file paths
+const VIDEOS = {};
+VIDEOS[3]='/media/car-video-3.mp4';
+VIDEOS[4]='/media/car-video-4.mp4';
+VIDEOS[5]='/media/car-video-5.mp4';
+VIDEOS[9]='/media/car-video-9.mp4';
+VIDEOS[13]='/media/car-video-13.mp4';
+VIDEOS[16]='/media/car-video-16.mp4';
+VIDEOS[17]='/media/car-video-17.mp4';
+VIDEOS[19]='/media/2012-ford-fusion-dark-green.mp4';
+VIDEOS[20]='/media/2015-ford-fusion-black.mp4';
+VIDEOS[21]='/media/car-video-21.mp4';
+
+const PHOTOS = {
+  1:  "/media/car-1.jpg",
+  2:  "/media/car-2.jpg",
+  3:  "/media/car-3.jpg",
+  4:  "/media/car-4.jpg",
+  5:  "/media/car-5.jpg",
+  6:  "/media/car-6.jpg",
+  7:  "/media/car-7.jpg",
+  8:  "/media/car-8.jpg",
+  9:  "/media/car-9.jpg",
+  10: "/media/car-10.jpg",
+  11: "/media/car-11.jpg",
+  12: "/media/car-12.jpg",
+  13: "/media/car-13.jpg",
+  14: "/media/car-14.jpg",
+  15: "/media/car-15.jpg",
+  16: "/media/car-16.jpg",
+  17: "/media/car-17.jpg",
+  18: "/media/car-18.jpg",
+  19: "/media/car-19.jpg",
+  20: "/media/car-20.jpg",
+  21: "/media/car-21.jpg",
+  22: "/media/car-22.jpg",
+  23: "/media/car-23.jpg"
+};
+
+const CARS = [
+  {id:1,  name:'2010 Ford Fusion – Baby Blue MJ',   color:'Baby Blue', booked:false,  price:50, type:'Sedan'},
+  {id:2,  name:'2010 Ford Fusion – Black Hybrid T', color:'Black',     booked:false,  price:50, type:'Hybrid Sedan'},
+  {id:3,  name:'2010 Ford Fusion Hybrid T',        color:'Grey',      booked:false,  price:50, type:'Sedan'},
+  {id:4,  name:'2010 Ford Fusion – Grey SL',        color:'Grey',      booked:false,  price:50, type:'Sedan'},
+  {id:5,  name:'2010 Ford Fusion – Black Hybrid T', color:'White',     booked:false,  price:50, type:'Hybrid Sedan'},
+  {id:6,  name:'2010 Ford Fusion – Grey ULM',       color:'Grey',      booked:false,  price:50, type:'Sedan'},
+  {id:7,  name:'2010 Ford Fusion MP',       color:'Silver',    booked:false,  price:50, type:'Sedan'},
+  {id:8,  name:'2011 Ford Fusion Silver M',        color:'White',     booked:false,  price:50, type:'Sedan'},
+  {id:9,  name:'2012 Ford Fusion – Burgundy S',     color:'Burgundy',  booked:false,  price:50, type:'Sedan'},
+  {id:10, name:'2012 Ford Fusion – White MT #2',    color:'White',     booked:false,  price:50, type:'Sedan'},
+  {id:11, name:'2012 Ford Fusion – Red L',          color:'Red',       booked:false,  price:50, type:'Sedan'},
+  {id:12, name:'2012 Ford Fusion – Silver ML',      color:'Silver',    booked:false,  price:50, type:'Sedan'},
+  {id:13, name:'2016 Ford Fusion – Grey B',         color:'Grey',      booked:false,  price:55, type:'Sedan'},
+  {id:14, name:'2010 Ford Fusion – Black MK',       color:'Black',     booked:false,  price:50, type:'Sedan'},
+  {id:15, name:'2005 Toyota Camry M',               color:'Blue',      booked:false,  price:50, type:'Sedan'},
+  {id:16, name:'2005 Toyota Camry – Silver ML',     color:'Silver',    booked:false,  price:50, type:'Sedan'},
+  {id:17, name:'2008 Toyota Camry – Gold S',        color:'Gold',      booked:false,  price:50, type:'Sedan'},
+  {id:18, name:'2008 Toyota Camry – Silver ML',     color:'Silver',    booked:false,  price:50, type:'Sedan'},
+  {id:19, name:'2012 Ford Fusion – Dark Green',       color:'Dark Green', booked:false, price:50, type:'Sedan'},
+  {id:20, name:'2015 Ford Fusion – Black',            color:'Black',      booked:false, price:55, type:'Sedan'},
+  {id:21, name:'2012 Chevy Malibu – Brown LS',      color:'Brown',     booked:false,  price:50, type:'Sedan'},
+  {id:22, name:'2013 Nissan Altima S',              color:'Silver',    booked:false,  price:50, type:'Sedan'},
+  {id:23, name:'2018 Honda Civic L',                color:'Black',     booked:false, price:55, type:'Sedan'},
+];
+
+let S = {from:'',to:'',car:null,addons:{cdw:false,road:false,gps:false},rates:{cdw:12,road:6,gps:5}};
+
+(function init(){
+  const t=new Date(),t2=new Date(t),t3=new Date(t);
+  t2.setDate(t.getDate()+1);t3.setDate(t.getDate()+4);
+  const fmt=d=>d.toISOString().split('T')[0];
+  document.getElementById('home-from').value=fmt(t2);
+  document.getElementById('home-to').value=fmt(t3);
+  S.from=fmt(t2);S.to=fmt(t3);
+  renderCars();
+})();
+
+function switchTab(t){
+  document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
+  document.getElementById('tab-'+t)&&document.getElementById('tab-'+t).classList.add('active');
+  if(t==='home') showPage('home');
+  else if(t==='browse') doSearch();
+  else if(t==='deals') showPage('deals');
+  else if(t==='profile') showPage('profile');
+  else if(t==='game'){showPage('game');setTimeout(function(){if(typeof initGameTab==='function')initGameTab();},50);}
+}
+function showPage(p){
+  document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
+  const pg=document.getElementById('page-'+p);
+  if(pg) pg.classList.add('active');
+  document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
+  var tabMap={home:'tab-home',browse:'tab-browse',deals:'tab-deals',profile:'tab-profile',game:'tab-game',membership:'tab-membership'};
+  if(tabMap[p]&&document.getElementById(tabMap[p])) document.getElementById(tabMap[p]).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goBack(){showPage('browse');}
+function goHome(){showPage('home');}
+function doSearch(){
+  S.from=document.getElementById('home-from').value;
+  S.to=document.getElementById('home-to').value;
+  const d=getDays();
+  document.getElementById('browse-sub').textContent=`${CARS.length} Vehicles${d>0?' · '+d+' days':''} · Ft. Lauderdale, FL`;
+  renderCars();showPage('browse');
+  document.getElementById('tab-home').classList.remove('active');
+  document.getElementById('tab-browse').classList.add('active');
+}
+function renderCars(){
+  const avail=CARS.filter(c=>!c.booked).length;
+  document.getElementById('cars-list').innerHTML=CARS.map(c=>{
+    const photo=PHOTOS[c.id];
+    const bt=c.booked?'Booked':(avail===1?'1 Left!':'Available');
+    const bc=c.booked?'bk':(avail===1?'ht':'av');
+    const col=c.color?` · ${c.color}`:'';
+    const vid=VIDEOS[c.id];
+    const photoHTML=vid
+      ?`<video class="car-photo" autoplay loop muted playsinline preload="auto" style="background:#000"><source src="${vid}" type="video/mp4">Your browser does not support video.</video>`
+      :photo?`<img class="car-photo" src="${photo}" alt="${c.name}">`
+      :`<div class="car-photo-ph">🚗</div>`;
+    const typeTag=c.type?` · ${c.type}`:'';
+    return `<div class="car-card ${c.booked?'booked':''}" onclick="${c.booked?'showErr()':'selCar('+c.id+')'}">
+      <div class="car-photo-wrap">${photoHTML}<div class="car-status-ov"><span class="badge ${bc}">${bt}</span></div></div>
+      <div class="car-info">
+        <div class="car-info-top"><div class="car-name">${c.name}</div><div class="car-price">$${c.price}<span style="font-size:11px;font-weight:400;color:var(--label2);">/day</span></div></div>
+        <div class="car-specs">Auto · Gas${col}${typeTag}</div>
+        <div class="car-footer"><span class="badge ${bc}">${bt}</span>${!c.booked?`<button class="btn-book" onclick="event.stopPropagation();selCar(${c.id})">Book Now</button>`:''}</div>
+      </div></div>`;
+  }).join('');
+}
+function showErr(){showError('Vehicle currently booked. Check available ones!');}
+function selCar(id){
+  const car=CARS.find(c=>c.id===id);if(!car||car.booked)return;
+  S.car=car;S.addons={cdw:false,road:false,gps:false};
+  ['cdw','road','gps'].forEach(k=>{const e=document.getElementById('tog-'+k);if(e)e.checked=false;});
+  const ph=document.getElementById('b-photo'),pp=document.getElementById('b-ph');
+  const photo=PHOTOS[car.id];
+  const carVid=VIDEOS[car.id];
+  const oldV=document.getElementById('b-vid');if(oldV)oldV.remove();
+  if(carVid){
+    ph.style.display='none';pp.style.display='none';
+    const v=document.createElement('video');
+    v.id='b-vid';v.src=carVid;v.autoplay=true;v.loop=true;v.muted=true;v.controls=false;v.preload="auto";
+    v.setAttribute('playsinline','');v.className='sel-photo';
+    document.querySelector('.sel-hero').insertBefore(v,document.querySelector('.sel-info'));
+  } else if(photo){ph.src=photo;ph.style.display='block';pp.style.display='none';}
+  else{ph.style.display='none';pp.style.display='flex';pp.textContent='🚗';}
+  document.getElementById('b-name').textContent=car.name;
+  document.getElementById('b-price').textContent='$'+car.price;
+  document.getElementById('b-from').textContent=S.from||'—';
+  document.getElementById('b-to').textContent=S.to||'—';
+  document.getElementById('b-days').textContent=getDays()+' days';
+  updSum();showPage('booking');
+}
+function tAddon(k,r){const t=document.getElementById('tog-'+k);t.checked=!t.checked;S.addons[k]=t.checked;updSum();}
+function tAddonId(k){S.addons[k]=document.getElementById('tog-'+k).checked;updSum();}
+function getDays(){
+  if(!S.from||!S.to)return 3;
+  const d=(new Date(S.to)-new Date(S.from))/86400000;return d>0?d:3;
+}
+function updSum(){
+  const car=S.car;if(!car)return;
+  const d=getDays(),base=car.price*d;
+  const addT=Object.keys(S.addons).reduce((s,k)=>s+(S.addons[k]?S.rates[k]*d:0),0);
+  const tax=Math.round((base+addT)*0.12),total=base+addT+tax;
+  document.getElementById('s-base').textContent='$'+base;
+  document.getElementById('s-tax').textContent='$'+tax;
+  document.getElementById('s-total').textContent='$'+total;
+  document.getElementById('pay-total').textContent='$'+total;
+  const ar=document.getElementById('s-addon-row');
+  if(addT>0){ar.style.display='flex';document.getElementById('s-addon').textContent='$'+addT;}
+  else ar.style.display='none';
+}
+function validateForm(){
+  const fl=[['f-first','First Name'],['f-last','Last Name'],['f-email','Email'],['f-phone','Phone'],['f-lic','License']];
+  const ci=document.querySelectorAll('.cfield input');
+  for(const[id,l] of fl){const e=document.getElementById(id);if(!e||!e.value.trim()){showError('Please enter your '+l);return false;}}
+  if(!ci[0]||ci[0].value.replace(/\s/g,'').length<16){showError('Enter valid 16-digit card number');return false;}
+  if(!ci[1]||!/^\d{2}\s*\/\s*\d{2}$/.test(ci[1].value)){showError('Enter expiry MM / YY');return false;}
+  if(!ci[2]||ci[2].value.length<3){showError('Enter CVV');return false;}
+  if(!ci[3]||!ci[3].value.trim()){showError('Enter name on card');return false;}
+  return true;
+}
+function showError(msg){
+  document.getElementById('emsg').textContent=msg;
+  const t=document.getElementById('etost');t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+let pcode='';
+function fmtCard(el){var v=el.value.replace(/\D/g,"").substring(0,16);el.value=v.replace(/(.{4})/g,"$1 ").trim();}
+function fmtExp(el){var v=el.value.replace(/\D/g,"");if(v.length>=3)v=v.substring(0,2)+"/"+v.substring(2,4);el.value=v;}
+function confirmBooking(){
+  var num=document.getElementById("card-num").value.replace(/\s/g,"");
+  var exp=document.getElementById("card-exp").value;
+  var cvv=document.getElementById("card-cvv").value;
+  var err=document.getElementById("card-err");
+  if(num.length<15||exp.length<5||cvv.length<3){err.style.display="block";document.getElementById("card-num").scrollIntoView({behavior:"smooth",block:"center"});return;}
+  err.style.display="none";
+  var btn=document.querySelector(".btn-pay");
+  btn.textContent="Processing $5 deposit...";btn.disabled=true;btn.style.opacity="0.7";
+  setTimeout(function(){confirmBookingProceed();btn.disabled=false;btn.style.opacity="1";btn.innerHTML="&#x1F4B3; Pay $5 Deposit &amp; Reserve";},1800);
+}
+function confirmBookingProceed(){
+  if(!S.car){showError('No vehicle selected');return;}
+  if(!validateForm())return;
+  const car=S.car,d=getDays(),base=car.price*d;
+  const addT=Object.keys(S.addons).reduce((s,k)=>s+(S.addons[k]?S.rates[k]*d:0),0);
+  const tax=Math.round((base+addT)*0.12),total=base+addT+tax;
+  document.getElementById('sl-base').textContent='$'+base;
+  document.getElementById('sl-tax').textContent='$'+tax;
+  document.getElementById('sl-total').textContent='$'+total;
+  const al=document.getElementById('sl-addon-row');
+  if(addT>0){al.style.display='flex';document.getElementById('sl-addon').textContent='$'+addT;}
+  else al.style.display='none';
+  const ci=document.querySelectorAll('.cfield input');
+  const l4=(ci[0]&&ci[0].value||'').replace(/\s/g,'').slice(-4)||'••••';
+  document.getElementById('cdisplay').textContent=`•••• •••• •••• ${l4}`;
+  pcode='MBZ-'+Math.floor(100000+Math.random()*900000);
+  openSheet();
+}
+function openSheet(){
+  setStep('review');
+  const ov=document.getElementById('pov'),sh=document.getElementById('psheet');
+  ov.classList.add('show');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>sh.classList.add('open')));
+}
+function closeSheet(){
+  document.getElementById('psheet').classList.remove('open');
+  setTimeout(()=>{document.getElementById('pov').classList.remove('show');setStep('review');},420);
+}
+function ovTap(e){if(e.target===document.getElementById('pov'))closeSheet();}
+function setStep(n){document.querySelectorAll('.sstep').forEach(s=>s.classList.remove('active'));document.getElementById('step-'+n).classList.add('active');}
+function startPurchase(){
+  setStep('faceid');
+  setTimeout(()=>{setStep('processing');[1,2,3,4].forEach(i=>setTimeout(()=>{
+    document.getElementById('ps-'+i).classList.add('done');
+    document.getElementById('pi-'+i).textContent='✓';
+    if(i===4)setTimeout(()=>{document.getElementById('ap-code').textContent=pcode;setStep('approved');},600);
+  },i*600));},1800);
+}
+function finishPurchase(){
+  const car=S.car,d=getDays(),base=car.price*d;
+  const addT=Object.keys(S.addons).reduce((s,k)=>s+(S.addons[k]?S.rates[k]*d:0),0);
+  const tax=Math.round((base+addT)*0.12);
+  document.getElementById('conf-id').textContent='Booking #'+pcode;
+  document.getElementById('conf-car').textContent=car.name;
+  document.getElementById('conf-pu').textContent=S.from||'—';
+  document.getElementById('conf-ret').textContent=S.to||'—';
+  document.getElementById('conf-total').textContent='$'+(base+addT+tax);
+  closeSheet();setTimeout(()=>showPage('confirm'),440);
+}
+</script>
+
+<script>
+// Background video rotation
+(function(){
+  const bgData = [];
+  bgData.push('/media/bg-video-1.mp4','/media/bg-video-2.mp4','/media/bg-video-3.mp4');
+  function playNext(){
+    if(!bgData[current]){ current=(current+1)%bgData.length; return; }
+    vid.src=bgData[current];
+    vid.play().catch(()=>{});
+    current=(current+1)%bgData.length;
+  }
+  vid.addEventListener('ended',playNext);
+  vid.addEventListener('error',playNext);
+  playNext();
+})();
+</script>
+
+<script>
+// Testimony videos - direct file paths
+const TESTIMONIES = {};
+TESTIMONIES[1]='/media/testimony-1.mp4';
+TESTIMONIES[2]='/media/testimony-2.mp4';
+TESTIMONIES[3]='/media/testimony-3.mp4';
+TESTIMONIES[4]='/media/testimony-4.mp4';
+TESTIMONIES[5]='/media/testimony-5.mp4';
+</script>
+
+<script>
+// Set testimony video sources after blobs are created
+setTimeout(function(){
+  for(var i=1;i<=5;i++){
+    if(TESTIMONIES[i]){
+      var s=document.getElementById('ts'+i);
+      var v=document.getElementById('tv'+i);
+      if(s&&v){s.src=TESTIMONIES[i];v.load();}
+    }
+  }
+},300);
+</script>
+
+<script>
+// Testimony videos loaded above
+</script>
+
+<div id="page-game" class="page" style="padding:0;overflow:hidden;">
+  <div id="game-wrap" style="position:relative;width:100%;height:calc(100dvh - 56px);background:#0d0d1a;overflow:hidden;">
+    <canvas id="game-canvas" style="display:block;width:100%;height:100%;image-rendering:pixelated;"></canvas>
+    <!-- START SCREEN -->
+    <div id="game-start" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.82);z-index:10;">
+      <div style="font-size:52px;margin-bottom:8px;">&#x1F3AE;</div>
+      <div style="font-size:28px;font-weight:800;color:#FFD60A;letter-spacing:2px;margin-bottom:4px;">MBZ RUNNER</div>
+      <div style="font-size:13px;color:#aaa;margin-bottom:6px;">Collect keys &bull; Dodge traffic</div>
+      <div id="game-hi-start" style="font-size:12px;color:#FFD60A;margin-bottom:28px;">&#x1F3C6; Best: 0</div>
+      <button onclick="startMBZGame()" style="background:#FFD60A;color:#000;border:none;border-radius:50px;padding:16px 48px;font-size:18px;font-weight:800;cursor:pointer;font-family:inherit;letter-spacing:1px;box-shadow:0 0 30px rgba(255,214,10,0.4);">TAP TO PLAY</button>
+      <div style="margin-top:24px;color:#555;font-size:12px;">Swipe UP / DOWN to change lanes</div>
+    </div>
+    <!-- GAME OVER -->
+    <div id="game-over-screen" style="position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.88);z-index:10;">
+      <div style="font-size:44px;margin-bottom:8px;">&#x1F4A5;</div>
+      <div style="font-size:26px;font-weight:800;color:#ff4444;margin-bottom:4px;">GAME OVER</div>
+      <div id="game-final-score" style="font-size:18px;color:#FFD60A;margin-bottom:4px;">&#x1F511; 0 Keys Collected</div>
+      <div id="game-hi-over" style="font-size:13px;color:#888;margin-bottom:28px;">&#x1F3C6; Best: 0</div>
+      <button onclick="startMBZGame()" style="background:#FFD60A;color:#000;border:none;border-radius:50px;padding:14px 44px;font-size:17px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:12px;">PLAY AGAIN</button>
+      <button onclick="switchTab('home')" style="background:transparent;color:#aaa;border:1px solid #333;border-radius:50px;padding:10px 32px;font-size:14px;cursor:pointer;font-family:inherit;">Back to App</button>
+    </div>
+    <!-- HUD -->
+    <div id="game-hud" style="position:absolute;top:0;left:0;right:0;display:none;padding:10px 16px;z-index:5;pointer-events:none;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div id="hud-lives" style="font-size:20px;letter-spacing:2px;">&#x2764;&#xFE0F;&#x2764;&#xFE0F;&#x2764;&#xFE0F;</div>
+        <div style="text-align:center;">
+          <div style="font-size:10px;color:#555;font-weight:700;letter-spacing:2px;">MBZ RENTALS</div>
+        </div>
+        <div id="hud-score" style="font-size:20px;font-weight:800;color:#FFD60A;">&#x1F511; 0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function mbzCloud(ctx,x,y,r){ctx.fillStyle="rgba(255,255,255,0.78)";ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.arc(x+r*0.72,y-r*0.1,r*0.75,0,Math.PI*2);ctx.arc(x+r*1.38,y,r*0.85,0,Math.PI*2);ctx.fill();}
+function mbzPalm(ctx,x,y,h2){var tip=y+h2;ctx.save();ctx.strokeStyle="#5a3a1a";ctx.lineWidth=5;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+h2*0.18,y+h2*0.5,x+h2*0.12,tip);ctx.stroke();var dirs=[[1,0.3],[0.7,-0.8],[0,-1],[-0.7,-0.8],[-1,0.2],[0.5,0.9],[-0.5,0.9]];dirs.forEach(function(d){ctx.strokeStyle="#2a6020";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x+h2*0.12,tip);ctx.lineTo(x+h2*0.12+d[0]*24,tip+d[1]*16);ctx.stroke();ctx.strokeStyle="#3a8a2a";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+h2*0.12,tip);ctx.lineTo(x+h2*0.12+d[0]*18,tip+d[1]*11);ctx.stroke();});ctx.restore();}
+function drawMBZBG(ctx,c,offset){
+  var w=c.width,h=c.height,skyH=Math.floor(h*0.38);
+  var sky=ctx.createLinearGradient(0,0,0,skyH);sky.addColorStop(0,"#0d5fab");sky.addColorStop(0.55,"#2e8fd4");sky.addColorStop(1,"#6bb8e8");ctx.fillStyle=sky;ctx.fillRect(0,0,w,skyH);
+  ctx.save();ctx.shadowColor="#FFD60A";ctx.shadowBlur=30;ctx.fillStyle="#FFE040";ctx.beginPath();ctx.arc(w*0.80,skyH*0.22,22,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;ctx.restore();
+  ctx.strokeStyle="rgba(255,230,50,0.15)";ctx.lineWidth=14;for(var ri=0;ri<8;ri++){var ra=ri*Math.PI/4;ctx.beginPath();ctx.moveTo(w*0.80+Math.cos(ra)*24,skyH*0.22+Math.sin(ra)*24);ctx.lineTo(w*0.80+Math.cos(ra)*52,skyH*0.22+Math.sin(ra)*52);ctx.stroke();}
+  var co=(offset*0.07)%(w+160);mbzCloud(ctx,(w*0.12-co+w*3)%(w+160)-80,skyH*0.18,28);mbzCloud(ctx,(w*0.45-co+w*3)%(w+160)-80,skyH*0.10,20);mbzCloud(ctx,(w*0.72-co+w*3)%(w+160)-80,skyH*0.22,16);
+  var bo=(offset*0.18)%(w*1.6);
+  var bd=[{rx:0.0,bw:52,bh:0.88},{rx:0.08,bw:36,bh:0.62},{rx:0.15,bw:68,bh:1.0},{rx:0.25,bw:44,bh:0.74},{rx:0.33,bw:82,bh:0.90},{rx:0.45,bw:40,bh:0.58},{rx:0.52,bw:62,bh:0.96},{rx:0.62,bw:48,bh:0.80},{rx:0.70,bw:78,bh:1.0},{rx:0.80,bw:52,bh:0.70},{rx:0.88,bw:88,bh:0.86},{rx:0.98,bw:46,bh:0.68},{rx:1.06,bw:68,bh:0.94},{rx:1.15,bw:52,bh:0.62},{rx:1.23,bw:76,bh:0.88}];
+  var bc=["#1a3d5c","#1e4870","#14304a","#243d5a","#1a3050","#0f2840"];
+  bd.forEach(function(b,idx){var bx=(b.rx*w-bo+w*2)%(w*1.7)-70;var bh2=skyH*b.bh;var by=skyH-bh2;ctx.fillStyle=bc[idx%bc.length];ctx.fillRect(bx,by,b.bw,bh2);ctx.fillStyle="rgba(80,160,230,0.18)";for(var gx=bx+3;gx<bx+b.bw-3;gx+=8){ctx.fillRect(gx,by+4,4,bh2-8);}ctx.fillStyle="rgba(255,245,130,0.65)";for(var wy=by+8;wy<skyH-5;wy+=10){for(var wx=bx+5;wx<bx+b.bw-4;wx+=8){if((Math.floor(wy/10)+Math.floor((wx-bx)/8)+idx*3)%4!==0)ctx.fillRect(wx,wy,4,5);}}ctx.fillStyle="rgba(255,255,255,0.1)";ctx.fillRect(bx+b.bw/2-2,by-5,3,7);});
+  var hg=ctx.createLinearGradient(0,skyH-10,0,skyH+8);hg.addColorStop(0,"rgba(110,180,255,0)");hg.addColorStop(0.5,"rgba(110,180,255,0.12)");hg.addColorStop(1,"rgba(110,180,255,0)");ctx.fillStyle=hg;ctx.fillRect(0,skyH-10,w,18);
+}
+function draw3DRoad(ctx,c,g,offset){
+  var vx=g.VPX,vy=g.VPY,by=g.RBY,hw=g.RHW;
+  // Road surface with perspective gradient
+  var rg=ctx.createLinearGradient(0,vy,0,by);rg.addColorStop(0,"#3a3a3a");rg.addColorStop(0.5,"#404040");rg.addColorStop(1,"#2a2a2a");ctx.fillStyle=rg;
+  ctx.beginPath();ctx.moveTo(vx,vy);ctx.lineTo(vx-hw,by);ctx.lineTo(vx+hw,by);ctx.closePath();ctx.fill();
+  // Animated depth grid lines (horizontal)
+  for(var i=0;i<g.roadLines.length;i++){
+    var z=g.roadLines[i];
+    var sy=vy+(by-vy)*z;var sw=hw*z*0.97;
+    var alp=Math.pow(z,0.5)*0.3;
+    ctx.strokeStyle="rgba(255,255,255,"+alp+")";ctx.lineWidth=z*2.5;
+    ctx.beginPath();ctx.moveTo(vx-sw,sy);ctx.lineTo(vx+sw,sy);ctx.stroke();
+  }
+  // Lane dividers (converging to VP)
+  var ls=hw*0.62;
+  ctx.strokeStyle="rgba(255,255,255,0.55)";ctx.lineWidth=2;ctx.setLineDash([14,22]);ctx.lineDashOffset=-offset*0.7;
+  ctx.beginPath();ctx.moveTo(vx,vy+2);ctx.lineTo(vx-ls,by);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(vx,vy+2);ctx.lineTo(vx+ls,by);ctx.stroke();
+  ctx.setLineDash([]);
+  // Gold edge lines
+  ctx.strokeStyle="#FFD60A";ctx.lineWidth=3;
+  ctx.beginPath();ctx.moveTo(vx,vy);ctx.lineTo(vx-hw,by);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(vx,vy);ctx.lineTo(vx+hw,by);ctx.stroke();
+  // Sidewalks
+  ctx.fillStyle="#888";
+  ctx.beginPath();ctx.moveTo(vx,vy);ctx.lineTo(vx-hw,by);ctx.lineTo(vx-hw-22,by);ctx.lineTo(vx-1,vy);ctx.fill();
+  ctx.beginPath();ctx.moveTo(vx,vy);ctx.lineTo(vx+hw,by);ctx.lineTo(vx+hw+22,by);ctx.lineTo(vx+1,vy);ctx.fill();
+  // Palm trees on sidewalks (parallax)
+  var po=(offset*0.55)%(c.width+130);
+  for(var pi=0;pi<6;pi++){
+    var px2=(pi*(c.width+130)/5-po+c.width*2)%(c.width+140)-25;
+    var frac=(px2/c.width); var palmZ=Math.max(0.1,Math.min(frac,1.0));
+    var leftX=vx-hw-22+5; var rightX=vx+hw+22-5;
+    var palmScale=0.3+palmZ*0.7;
+    mbzPalm(ctx,vx-hw-14-(1-palmZ)*30,by-((by-vy)*palmZ)*0.05,-(c.height*0.10*palmScale));
+    mbzPalm(ctx,vx+hw+14+(1-palmZ)*30,by-((by-vy)*palmZ)*0.05,-(c.height*0.10*palmScale));
+  }
+  // Streetlights along edges
+  var slo=(offset*0.85)%(c.width+80);
+  for(var si=0;si<5;si++){
+    var slz=0.15+si*0.2;
+    var slLX=vx+((-hw-30)-vx)*slz; var slRX=vx+((hw+30)-vx)*slz;
+    var slY=vy+(by-vy)*slz;
+    var slH=35*slz; var slW=3*slz;
+    ctx.fillStyle="#777";ctx.fillRect(slLX-slW/2,slY-slH,slW,slH);ctx.fillRect(slRX-slW/2,slY-slH,slW,slH);
+    ctx.save();ctx.shadowColor="rgba(255,240,120,0.9)";ctx.shadowBlur=8*slz;
+    ctx.fillStyle="rgba(255,240,120,0.9)";
+    ctx.beginPath();ctx.arc(slLX,slY-slH,5*slz,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(slRX,slY-slH,5*slz,0,Math.PI*2);ctx.fill();
+    ctx.shadowBlur=0;ctx.restore();
+  }
+}
+function initMBZ3DChar(){
+  if(mbzThree||typeof THREE==="undefined") return;
+  var W=150,H=210;
+  var renderer=new THREE.WebGLRenderer({alpha:true,antialias:true,preserveDrawingBuffer:true});
+  renderer.setSize(W,H);renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  renderer.shadowMap.enabled=false;
+  var scene=new THREE.Scene();
+  var camera=new THREE.PerspectiveCamera(44,W/H,0.1,100);
+  camera.position.set(-0.6,1.8,3.6);camera.lookAt(0,0.4,0);
+  scene.add(new THREE.AmbientLight(0x334466,1.1));
+  var sun=new THREE.DirectionalLight(0xffffff,1.3);sun.position.set(3,6,4);scene.add(sun);
+  var rim=new THREE.DirectionalLight(0x4488ff,0.55);rim.position.set(-3,1,-4);scene.add(rim);
+  var fill=new THREE.DirectionalLight(0xffaa44,0.25);fill.position.set(2,-1,3);scene.add(fill);
+  var L=THREE.MeshLambertMaterial,P=THREE.MeshPhongMaterial;
+  var mSkin=new P({color:0x8a4a25,shininess:22});
+  var mDkSk=new P({color:0x5c2e12,shininess:8});
+  var mBlk =new L({color:0x111111});
+  var mCapG=new P({color:0x0d0d0d,shininess:80,specular:0x444444});
+  var mBlue=new P({color:0x1a80e0,shininess:70,specular:0x88ccff});
+  var mGold=new P({color:0xFFD700,shininess:180,specular:0xffffff});
+  var mChr =new P({color:0xcccccc,shininess:200,specular:0xffffff});
+  var mTire=new L({color:0x090909});
+  var mYel =new P({color:0xFFD700,shininess:80});
+  var mWht =new L({color:0xf8f8f8});
+  var mPant=new L({color:0x1a1a28});
+  var mBrd =new L({color:0x0d0906});
+  var mSeat=new L({color:0x1a1a26});
+  var G=new THREE.Group();scene.add(G);
+  function add(geo,mat,x,y,z,rx,ry,rz,sx,sy,sz){
+    var m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);
+    if(rx)m.rotation.x=rx;if(ry)m.rotation.y=ry;if(rz)m.rotation.z=rz;
+    if(sx)m.scale.set(sx,sy||sx,sz||sx);G.add(m);return m;
+  }
+  function tube(r,len,mat,x,y,z,rx,ry,rz){return add(new THREE.CylinderGeometry(r,r,len,6),mat,x,y,z,rx,ry,rz);}
+  tube(0.024,1.18,mChr, 0,-0.30,-0.10, 0,0,Math.PI/2);
+  function mkWhl(gp){
+    var t=new THREE.Mesh(new THREE.TorusGeometry(0.50,0.082,8,32),mTire);t.rotation.y=Math.PI/2;gp.add(t);
+    for(var s=0;s<8;s++){var sp=new THREE.Mesh(new THREE.CylinderGeometry(0.012,0.012,0.92,4),mChr);sp.rotation.z=s*Math.PI/8;sp.rotation.y=Math.PI/2;gp.add(sp);}
+    var h=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.12,12),mChr);h.rotation.z=Math.PI/2;gp.add(h);
+    var r=new THREE.Mesh(new THREE.TorusGeometry(0.43,0.020,5,32),new P({color:0xdddddd,shininess:180,specular:0xffffff}));r.rotation.y=Math.PI/2;gp.add(r);
+  }
+  var LW=new THREE.Group();LW.position.set(-0.59,-0.30,-0.10);mkWhl(LW);G.add(LW);
+  var RW=new THREE.Group();RW.position.set( 0.59,-0.30,-0.10);mkWhl(RW);G.add(RW);
+  tube(0.030,0.70,mBlue,-0.52, 0.06,-0.06, 0.08,0,0);
+  tube(0.030,0.70,mBlue, 0.52, 0.06,-0.06,-0.08,0,0);
+  tube(0.026,0.80,mBlue,-0.40,-0.04, 0.28,-0.52,0, 0.08);
+  tube(0.026,0.80,mBlue, 0.40,-0.04, 0.28,-0.52,0,-0.08);
+  tube(0.024,1.10,mBlue, 0, 0.38,-0.10, 0,0,Math.PI/2);
+  tube(0.022,0.92,mBlue, 0,-0.10, 0.20, 0,0,Math.PI/2);
+  [-0.46,0.46].forEach(function(hx){
+    var hm=new THREE.Mesh(new THREE.CylinderGeometry(0.026,0.026,0.50,6),new L({color:0x222222}));hm.position.set(hx,0.66,-0.22);G.add(hm);
+    var hh=new THREE.Mesh(new THREE.CylinderGeometry(0.020,0.020,0.16,6),new L({color:0x333333}));hh.rotation.x=Math.PI/2;hh.position.set(hx,0.91,-0.14);G.add(hh);
+  });
+  add(new THREE.BoxGeometry(0.86,0.07,0.50),mSeat, 0,0.40, 0.04);
+  add(new THREE.BoxGeometry(0.76,0.56,0.06),mSeat, 0,0.70,-0.22);
+  tube(0.021,0.82,mBlue, 0,-0.36,0.50, 0,0,Math.PI/2);
+  add(new THREE.BoxGeometry(0.58,0.04,0.20),new L({color:0x111111}), 0,-0.40,0.52);
+  [-0.30,0.30].forEach(function(cx){
+    var cg=new THREE.Group();cg.position.set(cx,-0.46,0.55);
+    var ct=new THREE.Mesh(new THREE.TorusGeometry(0.12,0.050,6,16),mTire);ct.rotation.y=Math.PI/2;cg.add(ct);
+    G.add(cg);
+  });
+  [-0.17,0.17].forEach(function(lx){var l=new THREE.Mesh(new THREE.CylinderGeometry(0.11,0.09,0.42,8),mPant);l.position.set(lx,0.28,0.25);l.rotation.x=-1.1;G.add(l);});
+  [-0.17,0.17].forEach(function(sx){
+    var sh=new THREE.Mesh(new THREE.BoxGeometry(0.19,0.15,0.30),mYel);sh.position.set(sx,-0.13,0.52);G.add(sh);
+    var so=new THREE.Mesh(new THREE.BoxGeometry(0.21,0.05,0.32),mWht);so.position.set(sx,-0.21,0.52);G.add(so);
+  });
+  add(new THREE.CylinderGeometry(0.29,0.25,0.70,10),mBlk, 0,0.80,0);
+  add(new THREE.BoxGeometry(0.20,0.14,0.02),new P({color:0x111111,emissive:0xFFD700,emissiveIntensity:0.3}), 0,0.80,0.28);
+  [1.10,1.02,0.94].forEach(function(cy,ci){var ch=new THREE.Mesh(new THREE.TorusGeometry(0.20+ci*0.02,0.015,5,22),mGold);ch.position.set(0,cy,0.07);ch.rotation.x=1.1;G.add(ch);});
+  add(new THREE.SphereGeometry(0.058,8,8),mGold, 0,0.84,0.26);
+  add(new THREE.CylinderGeometry(0.12,0.15,0.16,8),mDkSk, 0,1.22,0.02);
+  [[-0.33,0.40],[0.33,-0.40]].forEach(function(a){
+    var ag=new THREE.Group();ag.position.set(a[0],0.98,0.05);ag.rotation.z=a[1]*0.80;ag.rotation.x=0.18;
+    var arm=new THREE.Mesh(new THREE.CylinderGeometry(0.09,0.08,0.58,8),mDkSk);arm.position.y=-0.29;ag.add(arm);
+    var hnd=new THREE.Mesh(new THREE.SphereGeometry(0.095,7,7),mDkSk);hnd.position.y=-0.60;ag.add(hnd);
+    G.add(ag);
+  });
+  var head=new THREE.Mesh(new THREE.SphereGeometry(0.30,14,14),mSkin);
+  head.scale.set(1.06,1.02,0.92);head.position.set(0,1.54,0.04);G.add(head);
+  [-0.30,0.30].forEach(function(ex){var ear=new THREE.Mesh(new THREE.SphereGeometry(0.082,7,6),mSkin);ear.scale.set(0.45,0.65,0.9);ear.position.set(ex,1.52,0.02);G.add(ear);});
+  var brd=new THREE.Mesh(new THREE.SphereGeometry(0.28,12,8,0,Math.PI*2,Math.PI*0.48,Math.PI*0.52),mBrd);
+  brd.scale.set(1.06,1.0,0.94);brd.position.set(0,1.38,0.09);G.add(brd);
+  var mEW=new P({color:0xfafafa,shininess:60});var mED=new P({color:0x180800,shininess:90});
+  var mES=new P({color:0xffffff,emissive:0xffffff,emissiveIntensity:0.8});
+  [-0.11,0.11].forEach(function(ex){
+    var ew=new THREE.Mesh(new THREE.SphereGeometry(0.062,7,7),mEW);ew.position.set(ex,1.58,0.26);G.add(ew);
+    var ei=new THREE.Mesh(new THREE.SphereGeometry(0.038,7,7),mED);ei.position.set(ex,1.58,0.28);G.add(ei);
+    var es=new THREE.Mesh(new THREE.SphereGeometry(0.013,5,5),mES);es.position.set(ex+0.018,1.60,0.30);G.add(es);
+  });
+  var nose=new THREE.Mesh(new THREE.SphereGeometry(0.052,6,6),mDkSk);nose.scale.set(0.75,0.65,1.15);nose.position.set(0,1.50,0.29);G.add(nose);
+  add(new THREE.BoxGeometry(0.20,0.060,0.04),mWht, 0,1.40,0.27);
+  add(new THREE.CylinderGeometry(0.33,0.33,0.055,18),mBlk, 0,1.79,0);
+  var dome=new THREE.Mesh(new THREE.SphereGeometry(0.33,16,10,0,Math.PI*2,0,Math.PI*0.56),mCapG);dome.position.set(0,1.79,0);G.add(dome);
+  add(new THREE.BoxGeometry(0.38,0.042,0.22),new P({color:0x090909,shininess:55}), 0,1.78,0.26);
+  var moon=new THREE.Mesh(new THREE.TorusGeometry(0.068,0.018,5,16,Math.PI*1.3),mGold);moon.position.set(-0.09,1.96,0.20);moon.rotation.x=-0.38;moon.rotation.z=0.52;G.add(moon);
+  [[-0.04,2.01,0.18],[0.09,1.97,0.17],[0.05,2.07,0.11]].forEach(function(p){
+    var st=new THREE.Mesh(new THREE.OctahedronGeometry(0.030),mGold);st.position.set(p[0],p[1],p[2]);G.add(st);
+  });
+  mbzThree={renderer:renderer,scene:scene,camera:camera,LW:LW,RW:RW,G:G};
+}
+function drawMBZPlayer(ctx,x,y,flash){
+  if(typeof THREE==="undefined"){
+    ctx.fillStyle="#8a4a25";ctx.beginPath();ctx.arc(x,y-40,16,0,Math.PI*2);ctx.fill();return;
+  }
+  if(!mbzThree) initMBZ3DChar();
+  if(!mbzThree) return;
+  if(flash&&Math.floor(Date.now()/80)%2===0) return;
+  mbz3DAngle+=0.14;
+  mbzThree.LW.rotation.x=mbz3DAngle;
+  mbzThree.RW.rotation.x=mbz3DAngle;
+  mbzThree.G.position.y=Math.sin(mbz3DAngle*0.28)*0.035;
+  mbzThree.renderer.render(mbzThree.scene,mbzThree.camera);
+  ctx.drawImage(mbzThree.renderer.domElement,x-75,y-196,150,210);
+}
+function draw3DKey(ctx,k,g){
+  var p=proj3D(k.lane,k.z,g);var sc=p.sc;
+  k.spin=(k.spin||0)+0.07;
+  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(k.spin);ctx.scale(sc,sc);
+  ctx.shadowColor="#FFD60A";ctx.shadowBlur=18;
+  ctx.strokeStyle="#FFD60A";ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);ctx.stroke();
+  ctx.fillStyle="#1a1a2a";ctx.beginPath();ctx.arc(0,0,5,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle="#FFD60A";ctx.lineWidth=6;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(30,0);ctx.stroke();
+  ctx.lineWidth=3.5;ctx.beginPath();ctx.moveTo(20,0);ctx.lineTo(20,8);ctx.stroke();ctx.beginPath();ctx.moveTo(26,0);ctx.lineTo(26,8);ctx.stroke();
+  ctx.shadowBlur=0;ctx.restore();
+}
+var carColors=[["#e74c3c","#922b21"],["#3498db","#1a5276"],["#2ecc71","#1a6637"],["#9b59b6","#6c3483"],["#e67e22","#9c5c12"],["#1abc9c","#0e7a67"],["#f39c12","#8a6500"]];
+function draw3DCar(ctx,o,g){
+  var p=proj3D(o.lane,o.z,g);var sc=p.sc;
+  var w=75*sc,h=40*sc,roof=20*sc;
+  ctx.save();ctx.translate(p.x,p.y);
+  ctx.fillStyle="rgba(0,0,0,0.3)";ctx.beginPath();ctx.ellipse(0,h*0.6,w*0.5,h*0.18,0,0,Math.PI*2);ctx.fill();
+  var bg=ctx.createLinearGradient(-w/2,-h/2,w/2,h/2);bg.addColorStop(0,o.colorLight);bg.addColorStop(1,o.colorDark);ctx.fillStyle=bg;
+  if(ctx.roundRect){ctx.beginPath();ctx.roundRect(-w/2,-h/2,w,h,9*sc);ctx.fill();}else{ctx.fillRect(-w/2,-h/2,w,h);}
+  ctx.fillStyle=o.colorDark;
+  if(ctx.roundRect){ctx.beginPath();ctx.roundRect(-w*0.33,-h/2-roof,w*0.66,roof+4,7*sc);ctx.fill();}else{ctx.fillRect(-w*0.33,-h/2-roof,w*0.66,roof+4);}
+  ctx.fillStyle="rgba(140,210,255,0.55)";
+  if(ctx.roundRect){ctx.beginPath();ctx.roundRect(-w*0.3,-h/2-roof+3,w*0.6,roof-2,4*sc);ctx.fill();}
+  ctx.fillStyle="rgba(140,210,255,0.35)";ctx.fillRect(-w/2+6,-h/2+5,w-12,h/2-8);
+  ctx.save();ctx.shadowColor="#ffff80";ctx.shadowBlur=12*sc;ctx.fillStyle="#ffffa0";
+  ctx.beginPath();ctx.ellipse(-w*0.34,-h*0.42,8*sc,5*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(w*0.34,-h*0.42,8*sc,5*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.shadowBlur=0;ctx.restore();
+  ctx.fillStyle="#ff3333";ctx.beginPath();ctx.ellipse(-w*0.34,h*0.42,7*sc,4*sc,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(w*0.34,h*0.42,7*sc,4*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#111";ctx.beginPath();ctx.ellipse(-w*0.34,h*0.55,10*sc,6*sc,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(w*0.34,h*0.55,10*sc,6*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.ellipse(-w*0.34,-h*0.55,10*sc,6*sc,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(w*0.34,-h*0.55,10*sc,6*sc,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle="#666";ctx.beginPath();ctx.arc(-w*0.34,h*0.55,5*sc,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(w*0.34,h*0.55,5*sc,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function proj3D(lane,z,g){
+  var lx=g.LANES3D[lane];
+  var sx=g.VPX+(lx-g.VPX)*z;
+  var sy=g.VPY+(g.RBY-g.VPY)*z;
+  var sc=Math.pow(z,1.08)*1.3;
+  return {x:sx,y:sy,sc:sc};
+}
+function spawnMBZParticle(x,y){var g=mbzGame;for(var i=0;i<10;i++){var a=Math.random()*Math.PI*2;var sp=2+Math.random()*5;g.particles.push({x:x,y:y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:35,maxLife:35});}}
+var mbzThree=null;var mbz3DAngle=0;
+var mbzGame={running:false,initialized:false,score:0,lives:3,lane:1,targetLane:1,frame:0,speed:0.006,hi:parseInt(localStorage.getItem("mbz_hi")||"0"),obstacles:[],keys:[],particles:[],invincible:0,raf:null,canvas:null,ctx:null,bgOffset:0,keyTimer:0,obsTimer:0,roadLines:[],VPX:0,VPY:0,RBY:0,RHW:0,LANES3D:[0,0,0],currentX:0,targetX:0,touchStartX:0,touchStartY:0};
+function initGameTab(){
+  if(mbzGame.initialized)return;
+  mbzGame.initialized=true;
+  var wrap=document.getElementById("game-wrap");
+  var c=document.getElementById("game-canvas");
+  c.width=wrap.offsetWidth;c.height=wrap.offsetHeight;
+  mbzGame.canvas=c;mbzGame.ctx=c.getContext("2d");
+  var g=mbzGame;
+  var skyH=c.height*0.38;
+  g.VPX=c.width/2;g.VPY=skyH+18;g.RBY=c.height-18;g.RHW=c.width*0.46;
+  var ls=g.RHW*0.62;
+  g.LANES3D=[g.VPX-ls,g.VPX,g.VPX+ls];
+  g.currentX=g.LANES3D[1];g.targetX=g.LANES3D[1];
+  for(var i=0;i<12;i++)g.roadLines.push(i/12);
+  document.getElementById("game-hi-start").textContent="\uD83C\uDFC6 Best: "+g.hi;
+  c.addEventListener("touchstart",function(e){g.touchStartX=e.touches[0].clientX;g.touchStartY=e.touches[0].clientY;},{passive:true});
+  c.addEventListener("touchend",function(e){
+    if(!g.running){startMBZGame();return;}
+    var dx=e.changedTouches[0].clientX-g.touchStartX;
+    var dy=e.changedTouches[0].clientY-g.touchStartY;
+    if(Math.abs(dx)>Math.abs(dy)){
+      if(dx<-25){g.lane=Math.max(0,g.lane-1);}
+      else if(dx>25){g.lane=Math.min(2,g.lane+1);}
+      g.targetX=g.LANES3D[g.lane];
+    }
+  },{passive:true});
+  document.addEventListener("keydown",function(e){
+    if(!g.running)return;
+    if(e.key==="ArrowLeft"||e.key==="a"){g.lane=Math.max(0,g.lane-1);g.targetX=g.LANES3D[g.lane];}
+    if(e.key==="ArrowRight"||e.key==="d"){g.lane=Math.min(2,g.lane+1);g.targetX=g.LANES3D[g.lane];}
+  });
+  drawIdleScene();
+}
+function drawIdleScene(){var g=mbzGame,c=g.canvas,ctx=g.ctx;ctx.clearRect(0,0,c.width,c.height);drawMBZBG(ctx,c,0);draw3DRoad(ctx,c,g,0);drawMBZPlayer(ctx,g.LANES3D[1],g.RBY-55,false);}
+function startMBZGame(){
+  var g=mbzGame;if(g.raf)cancelAnimationFrame(g.raf);
+  g.score=0;g.lives=3;g.lane=1;g.frame=0;g.speed=0.006;g.bgOffset=0;g.invincible=0;
+  g.obstacles=[];g.keys=[];g.particles=[];g.keyTimer=0;g.obsTimer=0;
+  g.currentX=g.LANES3D[1];g.targetX=g.LANES3D[1];
+  document.getElementById("game-start").style.display="none";
+  document.getElementById("game-over-screen").style.display="none";
+  document.getElementById("game-hud").style.display="block";
+  updateMBZHUD();g.running=true;mbzGameLoop();
+}
+function endMBZGame(){var g=mbzGame;g.running=false;if(g.score>g.hi){g.hi=g.score;localStorage.setItem("mbz_hi",g.hi);}document.getElementById("game-hud").style.display="none";document.getElementById("game-final-score").textContent="\uD83D\uDD11 "+g.score+" Keys Collected";document.getElementById("game-hi-over").textContent="\uD83C\uDFC6 Best: "+g.hi;document.getElementById("game-over-screen").style.display="flex";}
+function updateMBZHUD(){var g=mbzGame;var h="";for(var i=0;i<g.lives;i++)h+="\u2764\uFE0F";for(var i=g.lives;i<3;i++)h+="\uD83D\uDDA4";document.getElementById("hud-lives").innerHTML=h;document.getElementById("hud-score").innerHTML="\uD83D\uDD11 "+g.score;}
+function spawnMBZKey(){var g=mbzGame;g.keys.push({lane:Math.floor(Math.random()*3),z:0.04,spin:0});}
+function spawnMBZObs(){var g=mbzGame;var n=g.score>15&&Math.random()<0.28?2:1;var used=[];for(var i=0;i<n;i++){var l;do{l=Math.floor(Math.random()*3);}while(used.indexOf(l)>=0);used.push(l);var cc=carColors[Math.floor(Math.random()*carColors.length)];g.obstacles.push({lane:l,z:0.04,colorLight:cc[0],colorDark:cc[1]});}}
+function mbzGameLoop(){
+  var g=mbzGame;if(!g.running)return;
+  var c=g.canvas,ctx=g.ctx;g.frame++;
+  ctx.clearRect(0,0,c.width,c.height);
+  // Background
+  g.bgOffset=(g.bgOffset+g.speed*55)%46;
+  drawMBZBG(ctx,c,g.bgOffset);
+  // Animate road depth lines
+  for(var ri=0;ri<g.roadLines.length;ri++){g.roadLines[ri]+=g.speed*0.75;if(g.roadLines[ri]>1.0)g.roadLines[ri]=0.02;}
+  draw3DRoad(ctx,c,g,g.bgOffset);
+  // Smooth lane slide
+  g.currentX+=(g.targetX-g.currentX)*0.10;
+  // Speed up
+  g.speed=Math.min(0.006+g.score*0.00028,0.022);
+  // Spawn
+  g.keyTimer++;if(g.keyTimer>Math.max(65-g.score*0.8,22)){spawnMBZKey();g.keyTimer=0;}
+  g.obsTimer++;if(g.obsTimer>Math.max(115-g.score*1.8,48)){spawnMBZObs();g.obsTimer=0;}
+  // Sort objects: far to near
+  var all=[];
+  g.keys.forEach(function(k){all.push({t:"k",o:k});});
+  g.obstacles.forEach(function(o){all.push({t:"c",o:o});});
+  all.sort(function(a,b){return a.o.z-b.o.z;});
+  var remK=[],remO=[];
+  all.forEach(function(item){
+    item.o.z+=g.speed;
+    if(item.t==="k"){
+      if(item.o.z>1.08){remK.push(item.o);return;}
+      if(item.o.z>0.83&&item.o.lane===g.lane){g.score++;spawnMBZParticle(proj3D(item.o.lane,item.o.z,g).x,proj3D(item.o.lane,item.o.z,g).y);updateMBZHUD();remK.push(item.o);return;}
+      draw3DKey(ctx,item.o,g);
+    } else {
+      if(item.o.z>1.08){remO.push(item.o);return;}
+      if(g.invincible<=0&&item.o.z>0.80&&item.o.lane===g.lane){g.lives--;g.invincible=90;updateMBZHUD();if(g.lives<=0){endMBZGame();return;}}
+      draw3DCar(ctx,item.o,g);
+    }
+  });
+  g.keys=g.keys.filter(function(k){return remK.indexOf(k)<0;});
+  g.obstacles=g.obstacles.filter(function(o){return remO.indexOf(o)<0;});
+  // Particles
+  g.particles=g.particles.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.life--;var a=p.life/p.maxLife;ctx.fillStyle="rgba(255,214,10,"+a+")";ctx.beginPath();ctx.arc(p.x,p.y,3.5*a,0,Math.PI*2);ctx.fill();return p.life>0;});
+  // Draw player at bottom center of road
+  if(g.invincible>0)g.invincible--;
+  var flash=g.invincible>0&&Math.floor(g.invincible/6)%2===1;
+  drawMBZPlayer(ctx,g.currentX,g.RBY-58,flash);
+  // Speed motion lines
+  if(g.speed>0.013){
+    ctx.strokeStyle="rgba(255,214,10,0.10)";ctx.lineWidth=1.5;
+    for(var sl=0;sl<8;sl++){var slx=30+Math.random()*(c.width-60);var sly=g.VPY+10+Math.random()*(c.height-g.VPY-20);ctx.beginPath();ctx.moveTo(slx,sly);ctx.lineTo(slx-25,sly);ctx.stroke();}
+  }
+  g.raf=requestAnimationFrame(mbzGameLoop);
+}
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').then(function(reg){
+      console.log('SW registered', reg.scope);
+    }).catch(function(err){
+      console.log('SW failed', err);
+    });
+  });
+}
+
+// Commercial video seamless playlist
+(function() {
+  var v1 = document.getElementById('commercialVid');
+  var v2 = document.getElementById('commercialVid2');
+  if (v1 && v2) {
+    v1.addEventListener('ended', function() {
+      v1.style.display = 'none';
+      v2.style.display = 'block';
+      v2.play();
+    });
+    v2.addEventListener('ended', function() {
+      // Loop back to start of v1 if desired
+      v2.style.display = 'none';
+      v1.style.display = 'block';
+      v1.currentTime = 0;
+    });
+  }
+})();
+</script>
+<div id="page-membership" class="page" style="padding-bottom:100px;min-height:100vh;overflow-y:auto">
+  <div style="padding:52px 20px 16px">
+    <h1 style="font-size:28px;font-weight:700;letter-spacing:-0.6px">Members</h1>
+    <p style="font-size:13px;color:#888;margin-top:4px">VIP access &amp; exclusive member rates</p>
+  </div>
+  <div style="padding:0 16px">
+    <div style="background:linear-gradient(135deg,rgba(255,214,10,0.18),rgba(255,214,10,0.08));border:1px solid rgba(255,214,10,0.4);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:20px">
+      <div style="font-size:40px;margin-bottom:8px">&#11088;</div>
+      <div style="font-size:22px;font-weight:700;color:#FFD60A;margin-bottom:6px">Mike Bzzz VIP</div>
+      <div style="font-size:14px;color:#aaa;margin-bottom:20px">Only $7.99/month &mdash; cancel anytime</div>
+      <div style="background:rgba(0,0,0,0.3);border-radius:14px;padding:16px;margin-bottom:20px;text-align:left">
+        <div style="font-size:13px;color:#ccc;line-height:2">
+          &#10003; Up to 20% off daily rates<br>
+          &#10003; Priority booking &mdash; first pick of the fleet<br>
+          &#10003; Members-only deals and flash sales<br>
+          &#10003; Direct text line to Mike<br>
+          &#10003; Cancel anytime, no contracts
+        </div>
+      </div>
+      <a id="subscribe-btn" href="/api/stripe/simple-checkout" style="display:block;background:#FFD60A;color:#000;border-radius:14px;padding:15px;font-size:16px;font-weight:700;text-decoration:none;margin-bottom:10px">Subscribe for $7.99/month</a>
+      <div style="font-size:11px;color:#666">Secure payment via Stripe</div>
+    </div>
+  </div>
+  <script>
+    (function(){
+      var p=new URLSearchParams(location.search);
+      if(p.get('member')==='1'){
+        switchTab('membership');
+        var b=document.getElementById('subscribe-btn');
+        if(b){b.textContent='You are a VIP Member!';b.style.background='#34A853';b.style.color='#fff';b.removeAttribute('href');}
+      }
+    })();
+  </script>
+</div></body>
+</html>

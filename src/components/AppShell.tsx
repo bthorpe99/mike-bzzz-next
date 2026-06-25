@@ -21,8 +21,9 @@ export default function AppShell({ user, isMember }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const videos = [
-    '/media/2012-ford-fusion-dark-green.mp4',
-    '/media/2015-ford-fusion-black.mp4',
+    '/media/bg-video-1.mp4',
+    '/media/bg-video-2.mp4',
+    '/media/bg-video-3.mp4',
   ]
   const [vidIdx, setVidIdx] = useState(0)
 
