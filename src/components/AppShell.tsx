@@ -4,11 +4,12 @@ import { useState, useEffect, useRef } from 'react'
 import type { User } from '@supabase/supabase-js'
 import HomeTab from './tabs/HomeTab'
 import BrowseTab from './tabs/BrowseTab'
+import ReviewsTab from './tabs/ReviewsTab'
 import MembershipTab from './tabs/MembershipTab'
-import DealsTab from './tabs/DealsTab'
 import ProfileTab from './tabs/ProfileTab'
+import GameTab from './tabs/GameTab'
 
-type Tab = 'home' | 'browse' | 'membership' | 'deals' | 'profile'
+type Tab = 'home' | 'browse' | 'reviews' | 'membership' | 'profile' | 'game'
 
 interface Props {
   user: User | null
@@ -36,19 +37,24 @@ export default function AppShell({ user, isMember }: Props) {
   }, [vidIdx])
 
   const tabs: { id: Tab; icon: string; label: string }[] = [
-    { id: 'home', icon: '🏠', label: 'Home' },
-    { id: 'browse', icon: '🚗', label: 'Browse' },
+    { id: 'home',       icon: '🏠', label: 'Home' },
+    { id: 'browse',     icon: '🚗', label: 'Fleet' },
+    { id: 'reviews',    icon: '🏷️', label: 'Reviews' },
     { id: 'membership', icon: '⭐', label: 'Members' },
-    { id: 'deals', icon: '🔥', label: 'Deals' },
-    { id: 'profile', icon: '👤', label: 'Profile' },
+    { id: 'profile',    icon: '👤', label: 'Profile' },
+    { id: 'game',       icon: '🎮', label: 'Game' },
   ]
+
+  const isGameTab = activeTab === 'game'
 
   return (
     <div style={{ maxWidth: 430, margin: '0 auto', position: 'relative', minHeight: '100vh' }}>
-      {/* Background video */}
-      <div className="bg-video-wrap">
-        <video ref={videoRef} className="bg-video" autoPlay muted playsInline />
-      </div>
+      {/* Background video (hide on game tab) */}
+      {!isGameTab && (
+        <div className="bg-video-wrap">
+          <video ref={videoRef} className="bg-video" autoPlay muted playsInline />
+        </div>
+      )}
 
       {/* Tab content */}
       {activeTab === 'home' && (
@@ -57,14 +63,17 @@ export default function AppShell({ user, isMember }: Props) {
       {activeTab === 'browse' && (
         <BrowseTab user={user} isMember={isMember} />
       )}
+      {activeTab === 'reviews' && (
+        <ReviewsTab />
+      )}
       {activeTab === 'membership' && (
         <MembershipTab user={user} isMember={isMember} />
       )}
-      {activeTab === 'deals' && (
-        <DealsTab isMember={isMember} />
-      )}
       {activeTab === 'profile' && (
         <ProfileTab user={user} isMember={isMember} onTabChange={setActiveTab} />
+      )}
+      {activeTab === 'game' && (
+        <GameTab />
       )}
 
       {/* Tab Bar */}
