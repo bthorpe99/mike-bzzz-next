@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server'
-import Stripe from 'stripe'
+import { stripe } from '@/lib/stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-04-10' })
-const PRICE_ID = 'price_1Tm74MCKZXCqFvhFR1aOuxcb'
+const PRICE_ID = process.env.STRIPE_MEMBERSHIP_PRICE_ID || 'price_1Tm74MCKZXCqFvhFR1aOuxcb'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mikebzz.com'
 
 export async function GET() {
