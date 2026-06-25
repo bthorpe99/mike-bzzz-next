@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 
-const PRICE_ID = process.env.STRIPE_MEMBERSHIP_PRICE_ID || 'price_1Tm74MCKZXCqFvhFR1aOuxcb'
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mikebzz.com'
+const PRICE_ID = 'price_1Tm74MCKZXCqFvhFR1aOuxcb'
+const SITE_URL = 'https://www.mikebzzrentals.com'
 
 export async function GET() {
   const session = await stripe.checkout.sessions.create({
