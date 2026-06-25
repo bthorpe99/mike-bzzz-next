@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1614,40 +1614,22 @@ if('serviceWorker' in navigator){
 
       html += '<div class="fc-card" data-idx="' + i + '" style="position:absolute;top:0;left:0;width:' + cw + 'px;height:' + ch + 'px;transform-style:preserve-3d;visibility:hidden;">';
 
-      // ---- THICKNESS LAYERS ----
-      for (var li = 0; li < THICKNESS.length; li++) {
-        var z = THICKNESS[li];
-        var isFront = li === THICKNESS.length - 1;
-        var isBack  = li === 0;
+      // ---- SINGLE CARD FACE ----
+      html += '<div style="position:absolute;inset:0;border-radius:18px;background:#111;border:1px solid rgba(255,255,255,0.12);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.6);">';
+      if (vid) {
+        html += '<video autoplay loop muted playsinline src="' + vid + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;"></video>';
+      } else if (photo) {
+        html += '<img src="' + photo + '" alt="' + name + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;">';
+      }
+      html += '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.05) 55%,transparent);border-radius:18px;"></div>';
+      html += '<div style="position:absolute;bottom:12px;left:14px;right:14px;">';
+      html += '<div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:-0.3px;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,0.8);">' + name + '</div>';
+      html += '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px;margin-bottom:8px;">' + color + '</div>';
+      html += '<a href="sms:+18047292812?body=' + smsMsg + '" style="display:block;background:#FFD60A;color:#000;border-radius:10px;padding:9px;text-align:center;font-size:13px;font-weight:700;text-decoration:none;">Book Now</a>';
+      html += '</div>';
+      html += '<div style="position:absolute;top:12px;left:14px;background:#FFD60A;color:#000;border-radius:10px;padding:3px 8px;font-size:11px;font-weight:700;">$' + price + '/day</div>';
+      html += '</div>';
 
-        if (!isFront && !isBack) {
-          // Middle structural slice
-          html += '<div style="position:absolute;inset:0;border-radius:18px;background:#808080;border:1px solid #808080;transform:translateZ(' + z + 'px);pointer-events:none;"></div>';
-          continue;
-        }
-
-        if (isFront) {
-          html += '<div style="position:absolute;inset:0;border-radius:18px;background:#0f0f0f;border:1px solid rgba(255,255,255,0.15);transform:translateZ(' + z + 'px);overflow:hidden;backface-visibility:hidden;box-shadow:inset 0 1px 1px rgba(255,255,255,0.15);">';
-          // Media background
-          if (vid) {
-            html += '<video autoplay loop muted playsinline src="' + vid + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;"></video>';
-          } else if (photo) {
-            html += '<img src="' + photo + '" alt="' + name + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;">';
-          }
-          // Dark overlay
-          html += '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.82) 0%,rgba(0,0,0,0.1) 55%,transparent);border-radius:18px;"></div>';
-          // Car name + price + book button bottom
-          html += '<div style="position:absolute;bottom:12px;left:14px;right:14px;">';
-          html += '<div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:-0.3px;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,0.8);">' + name + '</div>';
-          html += '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px;margin-bottom:8px;">' + color + '</div>';
-          html += '<a href="sms:+18047292812?body=' + smsMsg + '" style="display:block;background:#FFD60A;color:#000;border-radius:10px;padding:9px;text-align:center;font-size:13px;font-weight:700;text-decoration:none;">Book Now</a>';
-          html += '</div>';
-          // Price badge top-left
-          html += '<div style="position:absolute;top:12px;left:14px;background:#FFD60A;color:#000;border-radius:10px;padding:3px 8px;font-size:11px;font-weight:700;">$' + price + '/day</div>';
-          html += '</div>'; // end front
-        }
-
-      } // end thickness loop
       html += '</div>'; // end card
     }
 
