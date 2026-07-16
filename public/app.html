@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head><style>body{padding-top:env(safe-area-inset-top);}.tab-bar{padding-bottom:calc(8px + env(safe-area-inset-bottom));}.page{padding-top:env(safe-area-inset-top);}</style>
 <meta charset="UTF-8">
@@ -555,7 +555,7 @@
     <div class="browse-sub" id="browse-sub">23 Vehicles · Ft. Lauderdale, FL</div>
     <div class="avail-badge">● 23 Available Now</div>
   </div>
-  <div id="fleet-carousel" style="position:relative;width:100%;height:calc(100vh - 110px);overflow:hidden;background:#000;"></div>
+  <div class="cars-list fade-up" id="cars-list"></div>
 </div>
 
 <!-- BOOKING -->
@@ -789,7 +789,7 @@ function switchTab(t){
   document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
   document.getElementById('tab-'+t)&&document.getElementById('tab-'+t).classList.add('active');
   if(t==='home') showPage('home');
-  else if(t==='browse'){doSearch();setTimeout(initBrowseCarousel,150);}
+  else if(t==='browse'){doSearch();}
   else if(t==='deals') showPage('deals');
   else if(t==='profile') showPage('profile');
   else if(t==='game'){showPage('game');setTimeout(function(){if(typeof initGameTab==='function')initGameTab();},50);}
@@ -1618,228 +1618,7 @@ if('serviceWorker' in navigator){
 })();
 </script>
 
-</div>
-<!-- FLEET 3D CAROUSEL -->
-<script>
-(function(){
-  var carouselRaf = null;
-  var carouselProgress = { val: 0 };
-  var carouselMouse = { x:0, y:0, tx:0, ty:0 };
-  var cardRefs = [];
-  var isActive = false;
-  var touchStartY = 0;
-  var touchStartTime = 0;
-  var targetProgress = 0;
-  var displayedCarIdx = 0;
-
-  var THICKNESS = [-1.47, -0.73, 0, 0.73, 1.47];
-
-  function getCardW() {
-    var w = window.innerWidth;
-    var h = window.innerHeight;
-    var cw = Math.round(w * 0.16 + 130);
-    var hf = Math.min(1.0, Math.max(0.65, h / 850));
-    cw = Math.round(cw * hf);
-    return Math.min(336, Math.max(200, cw));
-  }
-
-  function buildCarouselHTML() {
-    var cw = getCardW();
-    var ch = Math.round(cw / 1.5925);
-    var cars = typeof CARS !== "undefined" ? CARS : [];
-    var n = cars.length;
-
-    var html = '<video autoplay loop muted playsinline src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.6;z-index:0;pointer-events:none;"></video>';
-    html += '<div id="fc-scene" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:1350px;z-index:1;">';
-    html += '<div id="fc-stage" style="position:relative;width:' + cw + 'px;height:' + ch + 'px;transform-style:preserve-3d;">';
-
-    for (var i = 0; i < n; i++) {
-      var car = cars[i];
-      var photo = (typeof PHOTOS !== "undefined" && PHOTOS[car.id]) ? PHOTOS[car.id] : '';
-      var vid   = (typeof VIDEOS !== "undefined" && VIDEOS[car.id]) ? VIDEOS[car.id] : '';
-      var price = car.price || 50;
-      var name  = car.name || '';
-      var color = car.color || '';
-      var smsMsg = encodeURIComponent('I want to book the ' + name + ' (' + color + ')');
-
-      html += '<div class="fc-card" data-idx="' + i + '" style="position:absolute;top:0;left:0;width:' + cw + 'px;height:' + ch + 'px;transform-style:preserve-3d;visibility:hidden;">';
-
-      // ---- SINGLE CARD FACE ----
-      html += '<div style="position:absolute;inset:0;border-radius:18px;background:#111;border:1px solid rgba(255,255,255,0.12);overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.6);">';
-      if (vid) {
-        html += '<video autoplay loop muted playsinline src="' + vid + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;"></video>';
-      } else if (photo) {
-        html += '<img src="' + photo + '" alt="' + name + '" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:18px;">';
-      }
-      html += '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.05) 55%,transparent);border-radius:18px;"></div>';
-      html += '<div style="position:absolute;bottom:12px;left:14px;right:14px;">';
-      html += '<div style="font-size:13px;font-weight:700;color:#fff;letter-spacing:-0.3px;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,0.8);">' + name + '</div>';
-      html += '<div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:2px;margin-bottom:8px;">' + color + '</div>';
-      html += '<a href="sms:+18047292812?body=' + smsMsg + '" style="display:block;background:#FFD60A;color:#000;border-radius:10px;padding:9px;text-align:center;font-size:13px;font-weight:700;text-decoration:none;">Book Now</a>';
-      html += '</div>';
-      html += '<div style="position:absolute;top:12px;left:14px;background:#FFD60A;color:#000;border-radius:10px;padding:3px 8px;font-size:11px;font-weight:700;">$' + price + '/day</div>';
-      html += '</div>';
-
-      html += '</div>'; // end card
-    }
-
-    html += '</div></div>'; // stage + scene
-
-    // Swipe hint
-    html += '<div id="fc-hint" style="position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.35);pointer-events:none;">Swipe to browse · ' + n + ' vehicles</div>';
-
-    return html;
-  }
-
-  function renderLoop() {
-    if (!isActive) return;
-
-    // Ease progress toward target
-    carouselProgress.val += (targetProgress - carouselProgress.val) * 0.07;
-
-    // Mouse inertia
-    carouselMouse.x += (carouselMouse.tx - carouselMouse.x) * 0.08;
-    carouselMouse.y += (carouselMouse.ty - carouselMouse.y) * 0.08;
-
-    var cards = cardRefs;
-    var n = cards.length;
-    if (!n) { carouselRaf = requestAnimationFrame(renderLoop); return; }
-
-    var h = window.innerHeight;
-    var cw = getCardW();
-    var ch = Math.round(cw / 1.5925);
-    var D = 1350;
-
-    // Clamp progress to valid range
-    carouselProgress.val = Math.max(0, Math.min(n - 1, carouselProgress.val));
-    var cont = carouselProgress.val;
-    var rounded = Math.round(cont);
-    var diff = cont - rounded;
-    var eased = Math.sign(diff) * Math.pow(Math.abs(diff) * 2, 4.2) / 2;
-    var vActive = Math.max(0, Math.min(n - 1, rounded + eased));
-
-    // Update displayed car index for info
-    var ci = Math.max(0, Math.min(n - 1, Math.round(cont)));
-    if (ci !== displayedCarIdx) {
-      displayedCarIdx = ci;
-    }
-
-    for (var i = 0; i < n; i++) {
-      var card = cards[i];
-      if (!card) continue;
-
-      var offset = i - vActive;
-      // no wrapping — clamped list
-
-      var abs = Math.abs(offset);
-      var sign = Math.sign(offset);
-
-      if (abs > 3.0) { card.style.visibility = 'hidden'; continue; }
-      card.style.visibility = 'visible';
-
-      var gap = 36, peek = -55;
-      var y = 0, z = 0, rot = 0;
-
-      if (abs <= 1) {
-        var t = abs, et = t*t*(3-2*t);
-        y = -sign * (et * (ch + gap));
-        z = 400 + et * (220 - 400);
-        rot = et * 132;
-      } else if (abs <= 2) {
-        var t2 = abs - 1, et2 = t2*t2*(3-2*t2);
-        var zEnd = -60, rotEnd = 175;
-        var sEnd = D/(D-zEnd);
-        var yEnd = (h/2 - peek)/sEnd - (ch/2);
-        y = -sign * ((ch+gap) + et2*(yEnd-(ch+gap)));
-        z = 220 + et2*(zEnd-220);
-        rot = 132 + et2*(rotEnd-132);
-      } else {
-        var t3 = Math.min(abs-2,1), et3 = t3*t3*(3-2*t3);
-        var z3 = -250, rot3 = 195;
-        var s2 = D/(D-(-60));
-        var y2 = (h/2-peek)/s2-(ch/2);
-        var s3 = D/(D-z3);
-        var y3 = (h/2+100)/s3+(ch/2);
-        y = -sign*(y2+et3*(y3-y2));
-        z = -60+et3*(z3-(-60));
-        rot = 175+et3*(rot3-175);
-      }
-
-      var localRot = -sign * rot;
-      var cf = Math.max(0, 1-abs);
-      var tx = carouselMouse.x * 15 * cf;
-      var ty = -carouselMouse.y * 12 * cf;
-
-      card.style.zIndex = Math.round(z);
-      card.style.transform = 'translateY('+y.toFixed(2)+'px) translateZ('+z.toFixed(2)+'px) rotateX('+(localRot+ty).toFixed(2)+'deg) rotateY('+tx.toFixed(2)+'deg) rotateZ(-3deg)';
-    }
-
-    carouselRaf = requestAnimationFrame(renderLoop);
-  }
-
-  function onMouseMove(e) {
-    var rx = (e.clientX - window.innerWidth/2) / (window.innerWidth/2);
-    var ry = (e.clientY - window.innerHeight/2) / (window.innerHeight/2);
-    carouselMouse.tx = Math.max(-1, Math.min(1, rx));
-    carouselMouse.ty = Math.max(-1, Math.min(1, ry));
-  }
-  function onMouseLeave() { carouselMouse.tx = 0; carouselMouse.ty = 0; }
-
-  function onWheel(e) {
-    e.preventDefault();
-    var n = cardRefs.length;
-    targetProgress = Math.max(0, Math.min(n - 1, targetProgress + (e.deltaY > 0 ? 1 : -1)));
-  }
-
-  function onTouchStart(e) {
-    touchStartY = e.touches[0].clientY;
-    touchStartTime = Date.now();
-  }
-  function onTouchEnd(e) {
-    var dy = touchStartY - e.changedTouches[0].clientY;
-    var dt = Date.now() - touchStartTime;
-    var n = cardRefs.length;
-    if (Math.abs(dy) > 40 || (Math.abs(dy) > 20 && dt < 250)) {
-      targetProgress = Math.max(0, Math.min(n - 1, targetProgress + (dy > 0 ? 1 : -1)));
-    }
-  }
-
-  window.initBrowseCarousel = function() {
-    var container = document.getElementById('fleet-carousel');
-    if (!container) return;
-    // Always stop previous loop cleanly
-    isActive = false;
-    if (carouselRaf) { cancelAnimationFrame(carouselRaf); carouselRaf = null; }
-    cardRefs = [];
-
-    container.innerHTML = buildCarouselHTML();
-
-    // Collect card refs
-    cardRefs = Array.from(container.querySelectorAll('.fc-card'));
-
-    // Reset progress
-    carouselProgress.val = 0;
-    targetProgress = 0;
-    isActive = true;
-
-    // Events
-    window.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave);
-    container.addEventListener('wheel', onWheel, { passive: false });
-    container.addEventListener('touchstart', onTouchStart, { passive: true });
-    container.addEventListener('touchend', onTouchEnd, { passive: true });
-
-    carouselRaf = requestAnimationFrame(renderLoop);
-  };
-
-  window.stopBrowseCarousel = function() {
-    isActive = false;
-    if (carouselRaf) cancelAnimationFrame(carouselRaf);
-    window.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseleave', onMouseLeave);
-  };
-})();
-</script><style>
+</div><style>
 .legal-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;backdrop-filter:blur(4px);overflow-y:auto;padding:20px;}
 .legal-modal-bg.open{display:flex;align-items:flex-start;justify-content:center;}
 .legal-modal{background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:20px;max-width:600px;width:100%;padding:28px 24px 32px;margin:auto;position:relative;}
