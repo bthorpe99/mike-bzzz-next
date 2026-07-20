@@ -1615,11 +1615,6 @@ if('serviceWorker' in navigator){
     if(banner){ banner.style.display='block'; }
   }
 
-  var p = new URLSearchParams(location.search);
-  if(p.get('member')==='1'){
-    setVipActive();
-  }
-
   fetch('/api/membership/status', { credentials: 'include' })
     .then(function(r){ return r.ok ? r.json() : null; })
     .then(function(data){

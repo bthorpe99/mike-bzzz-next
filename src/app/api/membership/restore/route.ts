@@ -1,12 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { createHmac, timingSafeEqual } from 'crypto'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getSiteUrl } from '@/lib/site-url'
+
+function cleanEnv(value: string | undefined) {
+  return (value || '').replace(/^\uFEFF/, '').trim()
+}
+
+function restoreToken(email: string) {
+  return createHmac('sha256', cleanEnv(process.env.SUPABASE_SERVICE_ROLE_KEY))
+    .update(email)
+    .digest('base64url')
+}
+
+function isValidToken(email: string, token: string | null) {
+  if (!token) return false
+  const expected = restoreToken(email)
+  const actualBuffer = Buffer.from(token)
+  const expectedBuffer = Buffer.from(expected)
+  return actualBuffer.length === expectedBuffer.length && timingSafeEqual(actualBuffer, expectedBuffer)
+}
 
 export async function GET(req: NextRequest) {
   const siteUrl = getSiteUrl()
   const email = req.nextUrl.searchParams.get('email')?.toLowerCase()
+  const token = req.nextUrl.searchParams.get('token')
 
-  if (!email) {
+  if (!email || !isValidToken(email, token)) {
     return NextResponse.redirect(`${siteUrl}/?tab=membership&member=0`)
   }
 
