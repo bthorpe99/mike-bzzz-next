@@ -7,7 +7,7 @@ export async function GET() {
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
     line_items: [{ price: MEMBERSHIP_PRICE_ID, quantity: 1 }],
-    success_url: `${siteUrl}/?member=1`,
+    success_url: `${siteUrl}/api/membership/complete?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/`,
   })
   return NextResponse.redirect(session.url!)

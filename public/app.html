@@ -1608,13 +1608,24 @@ if('serviceWorker' in navigator){
   document.querySelectorAll('#page-membership .fade-up').forEach(function(el){ obs.observe(el); });
 
   // Member active state
-  var p = new URLSearchParams(location.search);
-  if(p.get('member')==='1'){
+  function setVipActive(){
     var btn = document.getElementById('pr-subscribe-btn');
     var banner = document.getElementById('pr-active-banner');
     if(btn){ btn.style.display='none'; }
     if(banner){ banner.style.display='block'; }
   }
+
+  var p = new URLSearchParams(location.search);
+  if(p.get('member')==='1'){
+    setVipActive();
+  }
+
+  fetch('/api/membership/status', { credentials: 'include' })
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(data){
+      if(data && data.active){ setVipActive(); }
+    })
+    .catch(function(){});
 })();
 </script>
 
