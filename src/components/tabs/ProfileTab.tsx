@@ -73,7 +73,7 @@ export default function ProfileTab({ user, isMember, onTabChange }: Props) {
               <span style={{ fontWeight: 700, fontSize: 15 }}>⭐ Mike Bzzz VIP</span>
               <span style={{ fontSize: 12, background: 'var(--green-soft)', color: 'var(--green)', padding: '3px 10px', borderRadius: 20, fontWeight: 600 }}>Active</span>
             </div>
-            <p style={{ fontSize: 13, color: 'var(--label2)', marginBottom: 14 }}>$7.99 / month · All perks unlocked</p>
+            <p style={{ fontSize: 13, color: 'var(--label2)', marginBottom: 14 }}>$9.99 / month · All perks unlocked</p>
             <button onClick={handleManageBilling} disabled={loading} style={{ background: 'var(--fill)', color: 'var(--yellow)', border: '1px solid var(--separator)', borderRadius: 10, padding: '10px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer', width: '100%' }}>
               {loading ? 'Loading...' : 'Manage Billing'}
             </button>
@@ -81,7 +81,7 @@ export default function ProfileTab({ user, isMember, onTabChange }: Props) {
         ) : (
           <div style={{ background: 'var(--card)', border: '1px solid var(--separator)', borderRadius: 'var(--radius)', padding: '18px 16px', marginBottom: 12 }}>
             <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 6 }}>No active membership</p>
-            <p style={{ fontSize: 13, color: 'var(--label2)', marginBottom: 14 }}>Join for $7.99/mo to unlock VIP perks</p>
+            <p style={{ fontSize: 13, color: 'var(--label2)', marginBottom: 14 }}>Join for $9.99/mo to unlock VIP perks</p>
             <button onClick={() => onTabChange('membership')} style={{ background: 'var(--yellow)', color: '#000', border: 'none', borderRadius: 10, padding: '11px 16px', fontSize: 14, fontWeight: 700, cursor: 'pointer', width: '100%' }}>
               ⭐ Join Membership
             </button>

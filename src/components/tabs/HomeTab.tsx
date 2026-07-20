@@ -133,7 +133,7 @@ export default function HomeTab({ user, isMember, onTabChange }: Props) {
           <div style={{ fontSize: 32 }}>⭐</div>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 2 }}>Join Mike Bzzz VIP</div>
-            <div style={{ fontSize: 12, color: 'var(--label2)' }}>Get 20% off every rental for $7.99/mo</div>
+            <div style={{ fontSize: 12, color: 'var(--label2)' }}>Get 20% off every rental for $9.99/mo</div>
           </div>
           <div style={{ fontSize: 18, color: 'var(--yellow)' }}>›</div>
         </div>

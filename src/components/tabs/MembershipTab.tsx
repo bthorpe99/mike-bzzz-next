@@ -98,7 +98,7 @@ export default function MembershipTab({ user, isMember }: Props) {
           minWidth: 200,
         }}>
           <div style={{ fontSize: 42, fontWeight: 800, color: 'var(--yellow)', letterSpacing: -1 }}>
-            $7.99
+            $9.99
           </div>
           <div style={{ fontSize: 13, color: 'var(--label2)', marginTop: 2 }}>per month · cancel anytime</div>
         </div>
@@ -154,7 +154,7 @@ export default function MembershipTab({ user, isMember }: Props) {
                 marginBottom: 10,
               }}
             >
-              {loading ? 'Loading...' : user ? '⚡ Join for $7.99 / mo' : '⚡ Sign Up & Join'}
+              {loading ? 'Loading...' : user ? '⚡ Join for $9.99 / mo' : '⚡ Sign Up & Join'}
             </button>
             {error && (
               <p style={{ color: 'var(--red)', fontSize: 13, marginTop: 6 }}>{error}</p>
