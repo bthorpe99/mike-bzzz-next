@@ -1610,10 +1610,19 @@ if('serviceWorker' in navigator){
     }
     if(accountState.active){ setVipActive(); }
   }
+  function cleanAuthValue(value){
+    return String(value || '').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'');
+  }
   function authPayload(){
+    var emailEl=document.getElementById('pr-email');
+    var passEl=document.getElementById('pr-password');
+    var email=cleanAuthValue(emailEl && emailEl.value).trim().toLowerCase();
+    var password=cleanAuthValue(passEl && passEl.value);
+    if(emailEl) emailEl.value=email;
+    if(passEl && passEl.value!==password) passEl.value=password;
     return {
-      email:(document.getElementById('pr-email')||{}).value || '',
-      password:(document.getElementById('pr-password')||{}).value || ''
+      email:email,
+      password:password
     };
   }
   function postJson(url, body){
