@@ -1472,6 +1472,7 @@ if('serviceWorker' in navigator){
 .pr-btn-primary:hover { background:#fff; }
 .pr-btn-secondary { background:rgba(255,255,255,0.08); color:#fff; border:1px solid rgba(255,255,255,0.12); }
 .pr-btn-secondary:hover { background:rgba(255,255,255,0.14); }
+.pr-manage-btn{display:none;margin-top:-10px;margin-bottom:24px;background:rgba(255,214,10,0.12);border-color:rgba(255,214,10,0.35);color:#FFD60A;}
 
 /* Feature list */
 .pr-features { list-style:none; padding:0; margin:0; flex:1; display:flex; flex-direction:column; gap:0; }
@@ -1586,6 +1587,7 @@ if('serviceWorker' in navigator){
             <div id="pr-account-msg" class="pr-account-msg"></div>
           </div>
           <a id="pr-subscribe-btn" href="javascript:void(0)" onclick="mbzCheckout()" class="pr-btn-primary">Get VIP Access</a>
+          <a id="pr-manage-btn" href="javascript:void(0)" onclick="mbzManageMembership()" class="pr-btn-secondary pr-manage-btn">Manage or Cancel Membership</a>
           <ul class="pr-features">
             <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Browse full fleet</li>
             <li class="pr-feat"><span class="pr-check-wrap"><span class="material-symbols-outlined pr-check-icon" style="font-size:12px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24">check</span></span>Standard daily rates</li>
@@ -1643,8 +1645,10 @@ if('serviceWorker' in navigator){
   function setVipActive(){
     var btn = document.getElementById('pr-subscribe-btn');
     var banner = document.getElementById('pr-active-banner');
+    var manageBtn = document.getElementById('pr-manage-btn');
     if(btn){ btn.style.display='none'; }
     if(banner){ banner.style.display='block'; }
+    if(manageBtn){ manageBtn.style.display='block'; }
   }
   function setAccountState(data){
     accountState.signedIn = !!(data && data.signedIn);
@@ -1654,6 +1658,11 @@ if('serviceWorker' in navigator){
     var signedBox=document.getElementById('pr-signed-box');
     var signedEmail=document.getElementById('pr-signed-email');
     var btn=document.getElementById('pr-subscribe-btn');
+    var manageBtn=document.getElementById('pr-manage-btn');
+    var banner=document.getElementById('pr-active-banner');
+    if(btn) btn.style.display='block';
+    if(manageBtn) manageBtn.style.display='none';
+    if(banner) banner.style.display='none';
     if(accountState.signedIn){
       if(accountBox) accountBox.style.display='none';
       if(signedBox) signedBox.style.display='block';
@@ -1716,6 +1725,14 @@ if('serviceWorker' in navigator){
       .then(function(data){ if(data.url){ location.href=data.url; } })
       .catch(function(err){ setMsg(err.message); });
   };
+  window.mbzManageMembership=function(){
+    if(!accountState.signedIn){ setMsg('Log in first to manage your membership.'); return; }
+    setMsg('Opening secure membership portal...');
+    fetch('/api/stripe/portal',{method:'POST',credentials:'include'})
+      .then(function(r){ return r.json().then(function(j){ if(!r.ok){ throw new Error(j.error || 'Could not open membership portal'); } return j; }); })
+      .then(function(data){ if(data.url){ location.href=data.url; } })
+      .catch(function(err){ setMsg(err.message); });
+  };
   window.mbzRefreshAccount();
 })();
 </script>
@@ -1752,7 +1769,7 @@ if('serviceWorker' in navigator){
     <h3>5. Payment</h3>
     <p>All payments are processed securely by Stripe. By subscribing, you authorize Mike Bzzz Rentals LLC to charge your payment method on a monthly recurring basis until you cancel.</p>
     <h3>6. Cancellation</h3>
-    <p>You may cancel your VIP Membership at any time by texting (804) 729-2812 or emailing us. Cancellations take effect at the end of the current billing period. No partial refunds are issued for unused days in a billing cycle.</p>
+    <p>You may cancel your VIP Membership at any time from the secure Stripe customer portal by logging in on the Members tab and selecting Manage or Cancel Membership. You may also text (804) 729-2812 for help. Cancellations take effect at the end of the current billing period. No partial refunds are issued for unused days in a billing cycle.</p>
     <h3>7. Limitation of Liability</h3>
     <p>Mike Bzzz Rentals LLC is not liable for indirect, incidental, or consequential damages arising from use of our services. Our total liability shall not exceed the amount paid by you in the prior 30 days.</p>
     <h3>8. Governing Law</h3>
@@ -1799,7 +1816,7 @@ if('serviceWorker' in navigator){
     <h2>Cancellation &amp; Refund Policy</h2>
     <span class="legal-date">Effective: June 2025 &nbsp;&middot;&nbsp; Mike Bzzz Rentals LLC &nbsp;&middot;&nbsp; Fort Lauderdale, FL</span>
     <h3>VIP Membership Cancellation</h3>
-    <p>You may cancel your $7.99/month VIP Membership at any time. To cancel, text (804) 729-2812 with &ldquo;Cancel Membership&rdquo; and we will stop your next billing cycle immediately. Your membership benefits remain active through the end of the current paid period.</p>
+    <p>You may cancel your $7.99/month VIP Membership at any time through the secure Stripe customer portal. Log in on the Members tab, choose Manage or Cancel Membership, and follow Stripe&rsquo;s cancellation steps. You can also text (804) 729-2812 with &ldquo;Cancel Membership&rdquo; if you need help. Your membership benefits remain active through the end of the current paid period.</p>
     <h3>Membership Refunds</h3>
     <p>Membership fees are non-refundable once a billing cycle has started. If you are charged in error, contact us within 5 days for a full refund review.</p>
     <h3>Vehicle Rental Cancellations</h3>
