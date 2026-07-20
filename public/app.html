@@ -1311,11 +1311,14 @@ function mbzGameLoop(now){
 <script>
 if('serviceWorker' in navigator){
   window.addEventListener('load', function(){
-    navigator.serviceWorker.register('sw.js').then(function(reg){
-      console.log('SW registered', reg.scope);
-    }).catch(function(err){
-      console.log('SW failed', err);
-    });
+    navigator.serviceWorker.getRegistrations().then(function(regs){
+      regs.forEach(function(reg){ reg.unregister(); });
+    }).catch(function(){});
+    if(window.caches && caches.keys){
+      caches.keys().then(function(keys){
+        keys.forEach(function(key){ caches.delete(key); });
+      }).catch(function(){});
+    }
   });
 }
 
@@ -1584,6 +1587,13 @@ if('serviceWorker' in navigator){
   // Account-backed member state
   var accountState = { signedIn: false, active: false, email: '' };
   function setMsg(msg){ var el=document.getElementById('pr-account-msg'); if(el){ el.textContent=msg || ''; } }
+  function friendlyAuthMessage(err){
+    var msg = err && err.message ? err.message : String(err || '');
+    if(/ByteString|65279|greater than 255/i.test(msg)){
+      return 'Please retype your full email and password manually. A hidden copy/paste character was removed.';
+    }
+    return msg || 'Something went wrong';
+  }
   function setVipActive(){
     var btn = document.getElementById('pr-subscribe-btn');
     var banner = document.getElementById('pr-active-banner');
@@ -1611,7 +1621,7 @@ if('serviceWorker' in navigator){
     if(accountState.active){ setVipActive(); }
   }
   function cleanAuthValue(value){
-    return String(value || '').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'');
+    return String(value || '').replace(/[\u200B-\u200D\u2060\uFEFF]/g,'').replace(/[^\x20-\x7E]/g,'');
   }
   function authPayload(){
     var emailEl=document.getElementById('pr-email');
@@ -1640,14 +1650,14 @@ if('serviceWorker' in navigator){
     postJson('/api/auth/signup', authPayload()).then(function(data){
       setMsg(data.needsEmailConfirmation ? 'Check your email to confirm, then log in.' : 'Account created. You can get VIP now.');
       return window.mbzRefreshAccount();
-    }).catch(function(err){ setMsg(err.message); });
+    }).catch(function(err){ setMsg(friendlyAuthMessage(err)); });
   };
   window.mbzLogin=function(){
     setMsg('Logging in...');
     postJson('/api/auth/login', authPayload()).then(function(){
       setMsg('Logged in. You can get VIP now.');
       return window.mbzRefreshAccount();
-    }).catch(function(err){ setMsg(err.message); });
+    }).catch(function(err){ setMsg(friendlyAuthMessage(err)); });
   };
   window.mbzLogout=function(){
     fetch('/api/auth/logout',{method:'POST',credentials:'include'}).then(function(){ location.reload(); });

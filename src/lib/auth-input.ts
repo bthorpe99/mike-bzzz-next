@@ -1,11 +1,12 @@
-const invisibleAuthChars = /[\u200B-\u200D\u2060\uFEFF]/g
+const unsafeAuthChars = /[\u200B-\u200D\u2060\uFEFF]/g
+const nonAsciiChars = /[^\x20-\x7E]/g
 
 export function normalizeEmail(value: unknown) {
-  return String(value ?? '').replace(invisibleAuthChars, '').trim().toLowerCase()
+  return String(value ?? '').replace(unsafeAuthChars, '').replace(nonAsciiChars, '').trim().toLowerCase()
 }
 
 export function normalizePassword(value: unknown) {
-  return String(value ?? '').replace(invisibleAuthChars, '')
+  return String(value ?? '').replace(unsafeAuthChars, '').replace(nonAsciiChars, '')
 }
 
 export function friendlyAuthError(error: unknown) {
