@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react'
 
+const rand = () => Math.random()
+
 interface GameState {
   running: boolean
   initialized: boolean
@@ -208,11 +210,11 @@ export default function GameTab() {
 
   function spawnObs() {
     const g = gameRef.current
-    const n = g.score>15 && Math.random()<0.28 ? 2 : 1
+    const n = g.score>15 && rand()<0.28 ? 2 : 1
     const used: number[] = []
     for(let i=0;i<n;i++){
-      let l: number; do { l=Math.floor(Math.random()*3) } while(used.includes(l)); used.push(l)
-      const cc = carColors[Math.floor(Math.random()*carColors.length)]
+      let l: number; do { l=Math.floor(rand()*3) } while(used.includes(l)); used.push(l)
+      const cc = carColors[Math.floor(rand()*carColors.length)]
       g.obstacles.push({lane:l, z:0.04, colorLight:cc[0], colorDark:cc[1]})
     }
   }
@@ -220,7 +222,7 @@ export default function GameTab() {
   function spawnParticle(x: number, y: number) {
     const g = gameRef.current
     for(let i=0;i<10;i++){
-      const a=Math.random()*Math.PI*2,sp=2+Math.random()*5
+      const a=rand()*Math.PI*2,sp=2+rand()*5
       g.particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:35,maxLife:35})
     }
   }
@@ -228,7 +230,7 @@ export default function GameTab() {
   function endGame() {
     const g = gameRef.current
     g.running = false
-    if(g.score>g.hi){ g.hi=g.score; try{localStorage.setItem('mbz_hi',''+g.hi)}catch(e){} }
+    if(g.score>g.hi){ g.hi=g.score; try{localStorage.setItem('mbz_hi',''+g.hi)}catch{} }
     if(hudRef.current) hudRef.current.style.display='none'
     if(finalScoreRef.current) finalScoreRef.current.textContent='🔑 '+g.score+' Keys Collected'
     if(hiOverRef.current) hiOverRef.current.textContent='🏆 Best: '+g.hi
@@ -276,7 +278,7 @@ export default function GameTab() {
     drawSimplePlayer(ctx,g.currentX,g.RBY-45,flash)
     if(g.speed>0.013){
       ctx.strokeStyle='rgba(255,214,10,0.10)';ctx.lineWidth=1.5
-      for(let sl=0;sl<8;sl++){const slx=30+Math.random()*(c.width-60),sly=g.VPY+10+Math.random()*(c.height-g.VPY-20);ctx.beginPath();ctx.moveTo(slx,sly);ctx.lineTo(slx-25,sly);ctx.stroke()}
+      for(let sl=0;sl<8;sl++){const slx=30+rand()*(c.width-60),sly=g.VPY+10+rand()*(c.height-g.VPY-20);ctx.beginPath();ctx.moveTo(slx,sly);ctx.lineTo(slx-25,sly);ctx.stroke()}
     }
     g.raf=requestAnimationFrame(gameLoop)
   }
@@ -296,7 +298,7 @@ export default function GameTab() {
 
   useEffect(() => {
     const g = gameRef.current
-    try { g.hi = parseInt(localStorage.getItem('mbz_hi')||'0')||0 } catch(e){}
+    try { g.hi = parseInt(localStorage.getItem('mbz_hi')||'0')||0 } catch{}
     if(hiStartRef.current) hiStartRef.current.textContent='🏆 Best: '+g.hi
 
     const wrap = document.getElementById('mbz-game-wrap')

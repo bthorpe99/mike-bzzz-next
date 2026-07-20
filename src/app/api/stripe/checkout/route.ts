@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { stripe, MEMBERSHIP_PRICE_ID } from '@/lib/stripe'
+import { getSiteUrl } from '@/lib/site-url'
 
 export async function POST() {
+  const siteUrl = getSiteUrl()
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -37,8 +39,8 @@ export async function POST() {
     mode: 'subscription',
     payment_method_types: ['card'],
     line_items: [{ price: MEMBERSHIP_PRICE_ID, quantity: 1 }],
-    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}?tab=membership&success=1`,
-    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}?tab=membership`,
+    success_url: `${siteUrl}/?tab=membership&success=1`,
+    cancel_url: `${siteUrl}/?tab=membership`,
     subscription_data: {
       metadata: { supabase_user_id: user.id },
     },

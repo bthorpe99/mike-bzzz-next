@@ -3,6 +3,10 @@ import { stripe } from '@/lib/stripe'
 import { createServerClient } from '@supabase/ssr'
 import Stripe from 'stripe'
 
+type StripeSubscriptionWithPeriod = Stripe.Subscription & {
+  current_period_end?: number
+}
+
 function getSupabase() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -31,7 +35,7 @@ export async function POST(req: NextRequest) {
   switch (event.type) {
     case 'customer.subscription.created':
     case 'customer.subscription.updated': {
-      const sub = event.data.object as Stripe.Subscription
+      const sub = event.data.object as StripeSubscriptionWithPeriod
       const userId = getUserId(sub)
       if (!userId) break
       await supabase.from('memberships').upsert({
@@ -39,7 +43,7 @@ export async function POST(req: NextRequest) {
         stripe_subscription_id: sub.id,
         stripe_customer_id: sub.customer as string,
         status: sub.status === 'active' ? 'active' : 'inactive',
-        current_period_end: new Date((sub as any).current_period_end * 1000).toISOString(),
+        current_period_end: sub.current_period_end ? new Date(sub.current_period_end * 1000).toISOString() : null,
       }, { onConflict: 'user_id' })
       break
     }

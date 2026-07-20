@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
+import { getSiteUrl } from '@/lib/site-url'
 
 export async function POST() {
+  const siteUrl = getSiteUrl()
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -22,7 +24,7 @@ export async function POST() {
 
   const session = await stripe.billingPortal.sessions.create({
     customer: profile.stripe_customer_id,
-    return_url: `${process.env.NEXT_PUBLIC_SITE_URL}?tab=membership`,
+    return_url: `${siteUrl}/?tab=membership`,
   })
 
   return NextResponse.json({ url: session.url })

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import type { User } from '@supabase/supabase-js'
+import type { TabKey } from './types'
 
 const GOOGLE_ICON = (
   <svg width="18" height="18" viewBox="0 0 48 48">
@@ -25,7 +26,7 @@ const doubled = [...REVIEWS, ...REVIEWS]
 interface Props {
   user: User | null
   isMember: boolean
-  onTabChange: (tab: any) => void
+  onTabChange: (tab: TabKey) => void
 }
 
 export default function HomeTab({ user, isMember, onTabChange }: Props) {
@@ -157,7 +158,7 @@ export default function HomeTab({ user, isMember, onTabChange }: Props) {
                   <div style={{ marginLeft: 'auto' }}>{GOOGLE_ICON}</div>
                 </div>
                 <div style={{ color: '#FBBC05', fontSize: 13, marginBottom: 8 }}>★★★★★</div>
-                <div style={{ fontSize: 13, color: 'var(--label2)', lineHeight: 1.55 }}>"{r.text}"</div>
+                <div style={{ fontSize: 13, color: 'var(--label2)', lineHeight: 1.55 }}>&quot;{r.text}&quot;</div>
               </div>
             ))}
           </div>

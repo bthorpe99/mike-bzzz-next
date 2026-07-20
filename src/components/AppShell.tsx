@@ -8,8 +8,13 @@ import ReviewsTab from './tabs/ReviewsTab'
 import MembershipTab from './tabs/MembershipTab'
 import ProfileTab from './tabs/ProfileTab'
 import GameTab from './tabs/GameTab'
+import type { TabKey } from './tabs/types'
 
-type Tab = 'home' | 'browse' | 'reviews' | 'membership' | 'profile' | 'game'
+const BG_VIDEOS = [
+  '/media/bg-video-1.mp4',
+  '/media/bg-video-2.mp4',
+  '/media/bg-video-3.mp4',
+]
 
 interface Props {
   user: User | null
@@ -17,27 +22,21 @@ interface Props {
 }
 
 export default function AppShell({ user, isMember }: Props) {
-  const [activeTab, setActiveTab] = useState<Tab>('home')
+  const [activeTab, setActiveTab] = useState<TabKey>('home')
   const videoRef = useRef<HTMLVideoElement>(null)
-
-  const videos = [
-    '/media/bg-video-1.mp4',
-    '/media/bg-video-2.mp4',
-    '/media/bg-video-3.mp4',
-  ]
   const [vidIdx, setVidIdx] = useState(0)
 
   useEffect(() => {
     const v = videoRef.current
     if (!v) return
-    v.src = videos[vidIdx]
+    v.src = BG_VIDEOS[vidIdx]
     v.play().catch(() => {})
-    const onEnd = () => setVidIdx(i => (i + 1) % videos.length)
+    const onEnd = () => setVidIdx(i => (i + 1) % BG_VIDEOS.length)
     v.addEventListener('ended', onEnd)
     return () => v.removeEventListener('ended', onEnd)
   }, [vidIdx])
 
-  const tabs: { id: Tab; icon: string; label: string }[] = [
+  const tabs: { id: TabKey; icon: string; label: string }[] = [
     { id: 'home',       icon: '🏠', label: 'Home' },
     { id: 'browse',     icon: '🚗', label: 'Fleet' },
     { id: 'reviews',    icon: '🏷️', label: 'Reviews' },

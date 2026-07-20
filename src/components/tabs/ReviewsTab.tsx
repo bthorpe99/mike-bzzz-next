@@ -47,7 +47,7 @@ export default function ReviewsTab() {
                   <div style={{ marginLeft: 'auto' }}>{GOOGLE_ICON}</div>
                 </div>
                 <div style={{ color: '#FBBC05', fontSize: 13, marginBottom: 8 }}>★★★★★</div>
-                <div style={{ fontSize: 13, color: 'var(--label2)', lineHeight: 1.55 }}>"{r.text}"</div>
+                <div style={{ fontSize: 13, color: 'var(--label2)', lineHeight: 1.55 }}>&quot;{r.text}&quot;</div>
               </div>
             ))}
           </div>
@@ -105,7 +105,7 @@ export default function ReviewsTab() {
               {GOOGLE_ICON}
             </div>
             <div style={{ color: '#FBBC05', fontSize: 14, marginBottom: 8 }}>★★★★★</div>
-            <div style={{ fontSize: 13, color: 'var(--label2)', lineHeight: 1.6 }}>"{r.text}"</div>
+            <div style={{ fontSize: 13, color: 'var(--label2)', lineHeight: 1.6 }}>&quot;{r.text}&quot;</div>
           </div>
         ))}
       </div>

@@ -4,11 +4,12 @@ import { useState } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
 import AuthModal from '../auth/AuthModal'
+import type { TabKey } from './types'
 
 interface Props {
   user: User | null
   isMember: boolean
-  onTabChange: (tab: any) => void
+  onTabChange: (tab: TabKey) => void
 }
 
 export default function ProfileTab({ user, isMember, onTabChange }: Props) {
