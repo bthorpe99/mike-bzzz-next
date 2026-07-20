@@ -59,6 +59,7 @@
   /* AVAILABLE STRIP */
   .avail-strip{margin:0 16px 14px;background:var(--card);border-radius:var(--radius);padding:14px 16px;}
   .avail-strip-title{font-size:13px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;}
+  .avail-strip-note{font-size:12px;color:var(--label3);line-height:1.45;margin:-4px 0 10px;}
   .avail-cars{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
   .avail-cars::-webkit-scrollbar{display:none;}
   .avail-car-thumb{flex-shrink:0;width:110px;border-radius:12px;overflow:hidden;cursor:pointer;border:1px solid rgba(255,214,10,0.15);}
@@ -66,6 +67,7 @@
   .avail-car-label{padding:6px 8px;background:rgba(255,214,10,0.07);}
   .avail-car-name{font-size:10px;font-weight:600;color:var(--label);line-height:1.3;}
   .avail-car-price{font-size:10px;color:var(--yellow);font-weight:700;}
+  .avail-view-all{display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(255,214,10,0.08);min-height:104px;color:var(--yellow);font-size:11px;font-weight:700;line-height:1.35;padding:8px;}
 
   /* CUSTOMER STRIP */
   .customer-strip{margin:0 16px 14px;border-radius:var(--radius);overflow:hidden;position:relative;height:88px;}
@@ -387,14 +389,34 @@
 
     <div class="avail-strip">
       <div class="avail-strip-title">Fully Rented Right Now</div>
+      <div class="avail-strip-note">All 23 vehicles are currently rented. Scroll the booked fleet preview or tap to view the full list.</div>
       <div class="avail-cars">
         <div class="avail-car-thumb" onclick="switchTab('browse')">
+          <img src="media/car-1.jpg" alt="2010 Ford Fusion Baby Blue">
+          <div class="avail-car-label"><div class="avail-car-name">2010 Ford Fusion</div><div class="avail-car-price">Booked</div></div>
+        </div>
+        <div class="avail-car-thumb" onclick="switchTab('browse')">
+          <img src="media/car-2.jpg" alt="2010 Ford Fusion Black">
+          <div class="avail-car-label"><div class="avail-car-name">2010 Ford Fusion</div><div class="avail-car-price">Booked</div></div>
+        </div>
+        <div class="avail-car-thumb" onclick="switchTab('browse')">
+          <img src="media/car-13.jpg" alt="2016 Ford Fusion Grey">
+          <div class="avail-car-label"><div class="avail-car-name">2016 Ford Fusion</div><div class="avail-car-price">Booked</div></div>
+        </div>
+        <div class="avail-car-thumb" onclick="switchTab('browse')">
+          <img src="media/car-15.jpg" alt="2005 Toyota Camry Blue">
+          <div class="avail-car-label"><div class="avail-car-name">2005 Toyota Camry</div><div class="avail-car-price">Booked</div></div>
+        </div>
+        <div class="avail-car-thumb" onclick="switchTab('browse')">
           <img src="media/2012-ford-fusion-dark-green.jpg" alt="2012 Ford Fusion Dark Green">
-          <div class="avail-car-label"><div class="avail-car-name">2012 Ford Fusion</div><div class="avail-car-price">$50/day</div></div>
+          <div class="avail-car-label"><div class="avail-car-name">2012 Ford Fusion</div><div class="avail-car-price">Booked</div></div>
         </div>
         <div class="avail-car-thumb" onclick="switchTab('browse')">
           <img src="media/2015-ford-fusion-black.jpg" alt="2015 Ford Fusion Black">
-          <div class="avail-car-label"><div class="avail-car-name">2015 Ford Fusion</div><div class="avail-car-price">$55/day</div></div>
+          <div class="avail-car-label"><div class="avail-car-name">2015 Ford Fusion</div><div class="avail-car-price">Booked</div></div>
+        </div>
+        <div class="avail-car-thumb avail-view-all" onclick="switchTab('browse')">
+          View all 23<br>rented vehicles
         </div>
       </div>
     </div>
@@ -554,7 +576,7 @@
   <div class="browse-header">
     <div class="browse-title">Available Fleet</div>
     <div class="browse-sub" id="browse-sub">23 Vehicles &rsaquo; Ft. Lauderdale, FL</div>
-    <div class="avail-badge">0 Fully Rented Right Now</div>
+    <div class="avail-badge">23 Rented Right Now</div>
   </div>
   <div class="cars-list fade-up" id="cars-list"></div>
 </div>
