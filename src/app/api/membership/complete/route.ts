@@ -30,7 +30,9 @@ async function findOrCreateUser(email: string, name?: string | null) {
 }
 
 async function upsertMembershipFromSession(session: Stripe.Checkout.Session) {
-  const email = session.customer_details?.email || session.customer_email
+  const stripeCustomer = typeof session.customer === 'string' ? null : session.customer
+  const customerName = session.customer_details?.name || (stripeCustomer && !stripeCustomer.deleted ? stripeCustomer.name : null)
+  const email = session.customer_details?.email || session.customer_email || (stripeCustomer && !stripeCustomer.deleted ? stripeCustomer.email : null)
   if (!email) throw new Error('Stripe session did not include a customer email')
 
   const subscriptionId = typeof session.subscription === 'string'
@@ -43,13 +45,13 @@ async function upsertMembershipFromSession(session: Stripe.Checkout.Session) {
     ? session.customer
     : session.customer?.id || String(subscription.customer)
 
-  const userId = await findOrCreateUser(email, session.customer_details?.name)
+  const userId = await findOrCreateUser(email, customerName)
   const supabase = createAdminClient()
 
   await supabase.from('profiles').upsert({
     id: userId,
     email: email.toLowerCase(),
-    full_name: session.customer_details?.name || null,
+    full_name: customerName || null,
     stripe_customer_id: customerId,
   })
 

@@ -39,7 +39,7 @@ export async function POST() {
     mode: 'subscription',
     payment_method_types: ['card'],
     line_items: [{ price: MEMBERSHIP_PRICE_ID, quantity: 1 }],
-    success_url: `${siteUrl}/?tab=membership&success=1`,
+    success_url: `${siteUrl}/api/membership/complete?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${siteUrl}/?tab=membership`,
     subscription_data: {
       metadata: { supabase_user_id: user.id },
