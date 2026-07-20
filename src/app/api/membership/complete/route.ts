@@ -63,7 +63,7 @@ async function upsertMembershipFromSession(session: Stripe.Checkout.Session) {
       : null,
   }, { onConflict: 'user_id' })
 
-  return { email: email.toLowerCase(), active: subscription.status === 'active' }
+  return { email: email.toLowerCase(), active: subscription.status === 'active', userId }
 }
 
 export async function GET(req: NextRequest) {
@@ -86,6 +86,13 @@ export async function GET(req: NextRequest) {
     const result = await upsertMembershipFromSession(session)
     const res = NextResponse.redirect(`${siteUrl}/?tab=membership&member=1`)
     if (result.active) {
+      res.cookies.set('mbz_vip_user', result.userId, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 365,
+        path: '/',
+      })
       res.cookies.set('mbz_vip_email', result.email, {
         httpOnly: true,
         secure: true,

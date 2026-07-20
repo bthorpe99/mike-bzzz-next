@@ -2,17 +2,29 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export async function GET(req: NextRequest) {
+  const supabase = createAdminClient()
+  const userId = req.cookies.get('mbz_vip_user')?.value
   const email = req.cookies.get('mbz_vip_email')?.value?.toLowerCase()
-  if (!email) {
-    return NextResponse.json({ active: false })
+
+  let profile: { id: string; email: string | null } | null = null
+
+  if (userId) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('id,email')
+      .eq('id', userId)
+      .maybeSingle()
+    profile = data
   }
 
-  const supabase = createAdminClient()
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('id,email')
-    .eq('email', email)
-    .single()
+  if (!profile && email) {
+    const { data } = await supabase
+      .from('profiles')
+      .select('id,email')
+      .eq('email', email)
+      .maybeSingle()
+    profile = data
+  }
 
   if (!profile?.id) {
     return NextResponse.json({ active: false })
