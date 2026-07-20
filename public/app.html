@@ -806,6 +806,7 @@ let S = {from:'',to:'',car:null,addons:{cdw:false,road:false,gps:false},rates:{c
   document.getElementById('home-to').value=fmt(t3);
   S.from=fmt(t2);S.to=fmt(t3);
   renderCars();
+  openInitialTabFromUrl();
 })();
 
 function switchTab(t){
@@ -829,6 +830,15 @@ function showPage(p){
 }
 function goBack(){showPage('browse');}
 function goHome(){showPage('home');}
+function openInitialTabFromUrl(){
+  try{
+    var params=new URLSearchParams(window.location.search || '');
+    var tab=params.get('tab');
+    if(tab && ['home','browse','deals','profile','game','membership'].indexOf(tab)>-1){
+      switchTab(tab);
+    }
+  }catch(e){}
+}
 function doSearch(){
   S.from=document.getElementById('home-from').value;
   S.to=document.getElementById('home-to').value;
@@ -1586,6 +1596,7 @@ if('serviceWorker' in navigator){
             </div>
             <div id="pr-account-msg" class="pr-account-msg"></div>
           </div>
+          <p class="pr-desc" style="font-size:12px;margin-top:4px;margin-bottom:16px;">Already VIP? Log in here, then the secure Manage or Cancel Membership button will show on this card.</p>
           <a id="pr-subscribe-btn" href="javascript:void(0)" onclick="mbzCheckout()" class="pr-btn-primary">Get VIP Access</a>
           <a id="pr-manage-btn" href="javascript:void(0)" onclick="mbzManageMembership()" class="pr-btn-secondary pr-manage-btn">Manage or Cancel Membership</a>
           <ul class="pr-features">
