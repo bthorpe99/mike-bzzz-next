@@ -806,7 +806,6 @@ let S = {from:'',to:'',car:null,addons:{cdw:false,road:false,gps:false},rates:{c
   document.getElementById('home-to').value=fmt(t3);
   S.from=fmt(t2);S.to=fmt(t3);
   renderCars();
-  openInitialTabFromUrl();
 })();
 
 function switchTab(t){
@@ -838,6 +837,11 @@ function openInitialTabFromUrl(){
       switchTab(tab);
     }
   }catch(e){}
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', openInitialTabFromUrl);
+}else{
+  openInitialTabFromUrl();
 }
 function doSearch(){
   S.from=document.getElementById('home-from').value;
