@@ -12,8 +12,9 @@ const requiredEnv = [
 ]
 
 const hasRealValue = (key: string) => {
-  const value = process.env[key]
-  return !!value && !/your_|placeholder|example/i.test(value)
+  const value = process.env[key]?.trim()
+  if (!value) return false
+  return !/^(your_|placeholder|example$|example_)/i.test(value)
 }
 
 export async function GET() {
