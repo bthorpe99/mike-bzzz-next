@@ -14,7 +14,8 @@ const requiredEnv = [
 const hasRealValue = (key: string) => {
   const value = process.env[key]?.trim()
   if (!value) return false
-  return !/^(your_|placeholder|example$|example_)/i.test(value)
+  const lower = value.toLowerCase()
+  return !['your_value', 'your_secret', 'placeholder', 'example', 'changeme'].includes(lower)
 }
 
 export async function GET() {
