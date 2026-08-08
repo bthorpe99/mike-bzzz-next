@@ -109,8 +109,8 @@
   /* TAB BAR */
   .tab-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(10,9,0,0.96);backdrop-filter:blur(20px);border-top:1px solid var(--separator);display:flex;padding:8px 0 22px;z-index:999;}
   .tab-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;border:none;background:none;font-family:inherit;}
-  .tab-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:var(--yellow);}
-  .tab-svg{width:23px;height:23px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;} .tab-label{font-size:10px;font-weight:500;color:var(--label3);}
+  .tab-icon{width:23px;height:23px;display:flex;align-items:center;justify-content:center;color:var(--yellow);}
+  .tab-svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;} .tab-label{font-size:9px;font-weight:500;color:var(--label3);}
   .tab-item.active .tab-label{color:var(--yellow-dark);}
 
   /* BROWSE */
@@ -293,16 +293,19 @@
 .hz-card-book{background:linear-gradient(145deg,rgba(255,214,10,0.14),rgba(255,214,10,0.05));border:1px solid rgba(255,214,10,0.3);}
 .hz-card-vip{background:linear-gradient(145deg,rgba(140,100,255,0.14),rgba(140,100,255,0.05));border:1px solid rgba(140,100,255,0.3);}
 .hz-card-reviews{background:linear-gradient(145deg,rgba(52,168,83,0.14),rgba(52,168,83,0.05));border:1px solid rgba(52,168,83,0.3);}
+.hz-card-agreement{background:linear-gradient(145deg,rgba(255,255,255,0.13),rgba(255,214,10,0.04));border:1px solid rgba(255,255,255,0.18);}
 .hz-card-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
 .hz-card-book .hz-card-icon{background:rgba(255,214,10,0.15);}
 .hz-card-vip .hz-card-icon{background:rgba(140,100,255,0.15);}
 .hz-card-reviews .hz-card-icon{background:rgba(52,168,83,0.15);}
+.hz-card-agreement .hz-card-icon{background:rgba(255,255,255,0.12);}
 .hz-card-title{font-family:"Inter",sans-serif;font-size:19px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-0.01em;}
 .hz-card-sub{font-family:"Inter",sans-serif;font-size:14px;color:rgba(255,255,255,0.55);line-height:1.6;margin-bottom:14px;}
 .hz-card-cta{font-family:"Inter",sans-serif;font-size:13px;font-weight:600;display:inline-block;}
 .hz-card-book .hz-card-cta{color:#FFD60A;}
 .hz-card-vip .hz-card-cta{color:#C4AAFF;}
 .hz-card-reviews .hz-card-cta{color:#6EE7A0;}
+.hz-card-agreement .hz-card-cta{color:#fff;}
 .hz-divider{height:1px;background:rgba(255,255,255,0.07);margin:0 16px 24px;}
 @keyframes hzFadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 .hz-fade{animation:hzFadeUp 0.6s ease both;}
@@ -356,6 +359,12 @@
     <div class="hz-card-title">5-Star on Google</div>
     <div class="hz-card-sub">Real customers, perfect reviews. See why everyone keeps coming back to Mike Bzzz Rentals.</div>
     <span class="hz-card-cta">Read Reviews &rsaquo;</span>
+  </div>
+  <div class="hz-card hz-card-agreement hz-fade-3" onclick="switchTab('agreement')">
+    <div class="hz-card-icon">&#9997;</div>
+    <div class="hz-card-title">Sign Rental Agreement</div>
+    <div class="hz-card-sub">Clients can review Mike's contract, sign electronically, and get an email copy.</div>
+    <span class="hz-card-cta">Open Agreement &rsaquo;</span>
   </div>
 </div>
 
@@ -723,9 +732,65 @@
   <button class="tab-item active" id="tab-home" onclick="switchTab('home')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9.5 20v-5h5v5"/></svg></span><span class="tab-label">Home</span></button>
   <button class="tab-item" id="tab-browse" onclick="switchTab('browse')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15l1.7-5.2A3 3 0 0 1 8.6 7h6.8a3 3 0 0 1 2.9 2.8L20 15"/><path d="M3 15h18v4H3z"/><circle cx="7" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></span><span class="tab-label">Fleet</span></button>
   <button class="tab-item" id="tab-deals" onclick="switchTab('deals')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.7 5.5 6.1.9-4.4 4.3 1 6.1L12 16.9 6.6 19.8l1-6.1-4.4-4.3 6.1-.9L12 3z"/></svg></span><span class="tab-label">Reviews</span></button>
+  <button class="tab-item" id="tab-agreement" onclick="switchTab('agreement')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3l5 5L8 21H3v-5L16 3z"/><path d="M14 5l5 5"/></svg></span><span class="tab-label">Sign</span></button>
   <button class="tab-item" id="tab-profile" onclick="switchTab('profile')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg></span><span class="tab-label">Profile</span></button>
   <button class="tab-item" id="tab-game" onclick="switchTab('game')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="10" rx="4"/><path d="M8 13h4"/><path d="M10 11v4"/><circle cx="16.5" cy="12" r=".7"/><circle cx="18.5" cy="14" r=".7"/></svg></span><span class="tab-label">Game</span></button>
   <button class="tab-item" id="tab-membership" onclick="switchTab('membership')"><span class="tab-icon"><svg class="tab-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.2 4.5 5 .7-3.6 3.5.8 5-4.4-2.3-4.4 2.3.8-5L4.8 8.2l5-.7L12 3z"/><path d="M7 21h10"/></svg></span><span class="tab-label">Members</span></button>
+</div>
+
+<!-- AGREEMENT PAGE -->
+<div id="page-agreement" class="page" style="background:#050505;overflow-y:auto;padding-bottom:110px;">
+  <style>
+    #page-agreement *{box-sizing:border-box;}
+    .ag-wrap{padding:52px 16px 28px;}
+    .ag-pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;border:1px solid rgba(255,214,10,0.24);background:rgba(255,214,10,0.08);padding:5px 12px;font-size:11px;color:#FFD60A;margin-bottom:16px;font-weight:700;}
+    .ag-title{font-size:29px;line-height:1.05;color:#fff;font-weight:800;letter-spacing:-0.04em;margin:0 0 10px;}
+    .ag-sub{font-size:13px;color:rgba(255,255,255,0.58);line-height:1.55;margin:0 0 18px;}
+    .ag-card{border:1px solid rgba(255,214,10,0.16);background:linear-gradient(145deg,rgba(255,214,10,0.08),rgba(255,255,255,0.03));border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 18px 40px rgba(0,0,0,0.28);}
+    .ag-row{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px;}
+    .ag-input,.ag-select{width:100%;height:46px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:#101010;color:#fff;padding:0 13px;font-size:14px;outline:none;font-family:inherit;}
+    .ag-input:focus,.ag-select:focus{border-color:rgba(255,214,10,0.72);box-shadow:0 0 0 3px rgba(255,214,10,0.12);}
+    .ag-label{display:block;font-size:11px;color:rgba(255,255,255,0.48);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin:0 0 6px 2px;}
+    .ag-doc-link{display:flex;align-items:center;justify-content:space-between;gap:12px;border-radius:14px;border:1px solid rgba(255,214,10,0.26);background:rgba(255,214,10,0.09);color:#FFD60A;text-decoration:none;padding:13px 14px;font-size:13px;font-weight:800;margin-bottom:14px;}
+    .ag-check{display:flex;align-items:flex-start;gap:10px;color:rgba(255,255,255,0.68);font-size:12px;line-height:1.55;margin:12px 0;}
+    .ag-check input{width:18px;height:18px;accent-color:#FFD60A;flex-shrink:0;margin-top:1px;}
+    .ag-sig-wrap{background:#fff;border-radius:14px;padding:8px;margin-top:8px;}
+    #ag-signature{width:100%;height:180px;display:block;border-radius:10px;background:#fff;touch-action:none;}
+    .ag-sig-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;}
+    .ag-clear{border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.08);color:#fff;border-radius:999px;padding:10px 15px;font-size:12px;font-weight:800;cursor:pointer;}
+    .ag-submit{width:100%;border:none;border-radius:15px;background:#FFD60A;color:#000;padding:15px 18px;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 10px 28px rgba(255,214,10,0.32);}
+    .ag-msg{min-height:18px;margin-top:12px;font-size:12px;color:rgba(255,255,255,0.62);line-height:1.45;}
+    .ag-msg.ok{color:#CCFF00;}
+    .ag-msg.err{color:#FF6B35;}
+    @media(min-width:390px){.ag-row.two{grid-template-columns:1fr 1fr;}}
+  </style>
+  <div class="ag-wrap">
+    <div class="ag-pill"><span>&#128221;</span> Rental Agreement</div>
+    <h2 class="ag-title">Sign before pickup.</h2>
+    <p class="ag-sub">Review Mike's rental agreement, fill out the client info, sign below, and the site will email a confirmation copy to Mike and the client.</p>
+    <a class="ag-doc-link" href="/mike-rental-agreement.pdf" target="_blank" rel="noopener"><span>Open full agreement PDF</span><span>&rsaquo;</span></a>
+    <div class="ag-card">
+      <div class="ag-row two">
+        <div><label class="ag-label" for="ag-name">Full name</label><input class="ag-input" id="ag-name" autocomplete="name" placeholder="Client full name"></div>
+        <div><label class="ag-label" for="ag-phone">Phone</label><input class="ag-input" id="ag-phone" autocomplete="tel" placeholder="Phone number"></div>
+      </div>
+      <div class="ag-row"><div><label class="ag-label" for="ag-email">Email for copy</label><input class="ag-input" id="ag-email" type="email" autocomplete="email" placeholder="client@email.com"></div></div>
+      <div class="ag-row two">
+        <div><label class="ag-label" for="ag-license">Driver license</label><input class="ag-input" id="ag-license" placeholder="License number"></div>
+        <div><label class="ag-label" for="ag-vehicle">Vehicle</label><select class="ag-select" id="ag-vehicle"><option value="">Select vehicle</option></select></div>
+      </div>
+      <div class="ag-row two">
+        <div><label class="ag-label" for="ag-pickup">Pickup date</label><input class="ag-input" id="ag-pickup" type="date"></div>
+        <div><label class="ag-label" for="ag-return">Return date</label><input class="ag-input" id="ag-return" type="date"></div>
+      </div>
+      <label class="ag-check"><input type="checkbox" id="ag-agree"><span>I have opened or been shown the rental agreement PDF and agree to sign it electronically.</span></label>
+      <label class="ag-label">Client signature</label>
+      <div class="ag-sig-wrap"><canvas id="ag-signature"></canvas></div>
+      <div class="ag-sig-actions"><button class="ag-clear" type="button" onclick="mbzClearAgreementSignature()">Clear Signature</button><span style="font-size:11px;color:rgba(255,255,255,0.4);">Use finger or mouse</span></div>
+      <div style="margin-top:16px;"><button id="ag-submit" class="ag-submit" onclick="mbzSubmitAgreement()">Send Signed Agreement</button></div>
+      <div id="ag-msg" class="ag-msg"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -796,6 +861,128 @@ const CARS = [
   {id:23, name:'2018 Honda Civic L',                color:'Black',     booked:true, price:55, type:'Sedan'},
 ];
 
+var agState={ready:false,signed:false,drawing:false,lastX:0,lastY:0};
+function initAgreementTab(){
+  var select=document.getElementById('ag-vehicle');
+  if(select && !select.dataset.loaded){
+    CARS.forEach(function(c){
+      var opt=document.createElement('option');
+      opt.value=c.name+' - '+c.color;
+      opt.textContent=c.name+' ('+c.color+')';
+      select.appendChild(opt);
+    });
+    select.dataset.loaded='1';
+  }
+  var c=document.getElementById('ag-signature');
+  if(!c)return;
+  resizeAgreementCanvas();
+  if(agState.ready)return;
+  agState.ready=true;
+  window.addEventListener('resize', resizeAgreementCanvas);
+  c.addEventListener('pointerdown', function(e){
+    agState.drawing=true;
+    c.setPointerCapture(e.pointerId);
+    var p=agreementPoint(e,c);
+    agState.lastX=p.x;agState.lastY=p.y;
+  });
+  c.addEventListener('pointermove', function(e){
+    if(!agState.drawing)return;
+    var ctx=c.getContext('2d');
+    var p=agreementPoint(e,c);
+    ctx.strokeStyle='#111';
+    ctx.lineWidth=3.2;
+    ctx.lineCap='round';
+    ctx.lineJoin='round';
+    ctx.beginPath();
+    ctx.moveTo(agState.lastX,agState.lastY);
+    ctx.lineTo(p.x,p.y);
+    ctx.stroke();
+    agState.lastX=p.x;agState.lastY=p.y;
+    agState.signed=true;
+  });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(type){
+    c.addEventListener(type,function(){agState.drawing=false;});
+  });
+}
+function agreementPoint(e,c){
+  var r=c.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*(c.width/r.width),y:(e.clientY-r.top)*(c.height/r.height)};
+}
+function resizeAgreementCanvas(){
+  var c=document.getElementById('ag-signature');
+  if(!c)return;
+  var data=agState.signed?c.toDataURL('image/png'):null;
+  var r=c.getBoundingClientRect();
+  var dpr=Math.max(1,window.devicePixelRatio||1);
+  c.width=Math.floor(r.width*dpr);
+  c.height=Math.floor(180*dpr);
+  var ctx=c.getContext('2d');
+  ctx.fillStyle='#fff';
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.strokeStyle='rgba(0,0,0,0.16)';
+  ctx.lineWidth=1*dpr;
+  ctx.beginPath();
+  ctx.moveTo(18*dpr,138*dpr);
+  ctx.lineTo((r.width-18)*dpr,138*dpr);
+  ctx.stroke();
+  ctx.font=(12*dpr)+'px Arial';
+  ctx.fillStyle='rgba(0,0,0,0.35)';
+  ctx.fillText('Sign here',18*dpr,160*dpr);
+  if(data){
+    var img=new Image();
+    img.onload=function(){ctx.drawImage(img,0,0,c.width,c.height);};
+    img.src=data;
+  }
+}
+function mbzClearAgreementSignature(){
+  agState.signed=false;
+  resizeAgreementCanvas();
+  setAgreementMsg('', '');
+}
+function setAgreementMsg(msg,type){
+  var el=document.getElementById('ag-msg');
+  if(!el)return;
+  el.textContent=msg||'';
+  el.className='ag-msg '+(type||'');
+}
+function agreementValue(id){
+  var el=document.getElementById(id);
+  return el?String(el.value||'').trim():'';
+}
+function mbzSubmitAgreement(){
+  initAgreementTab();
+  var c=document.getElementById('ag-signature');
+  var btn=document.getElementById('ag-submit');
+  var payload={
+    fullName:agreementValue('ag-name'),
+    email:agreementValue('ag-email'),
+    phone:agreementValue('ag-phone'),
+    license:agreementValue('ag-license'),
+    vehicle:agreementValue('ag-vehicle'),
+    pickupDate:agreementValue('ag-pickup'),
+    returnDate:agreementValue('ag-return'),
+    agreed:!!(document.getElementById('ag-agree')&&document.getElementById('ag-agree').checked),
+    signatureDataUrl:(agState.signed&&c)?c.toDataURL('image/png'):''
+  };
+  if(!payload.fullName||!payload.email||!payload.phone||!payload.license||!payload.vehicle||!payload.pickupDate||!payload.returnDate){
+    setAgreementMsg('Please fill out every field before sending.','err');return;
+  }
+  if(!payload.agreed){setAgreementMsg('Please check the agreement box before sending.','err');return;}
+  if(!agState.signed){setAgreementMsg('Please sign inside the signature box.','err');return;}
+  if(btn){btn.disabled=true;btn.style.opacity='0.65';btn.textContent='Sending...';}
+  setAgreementMsg('Sending signed agreement...','');
+  fetch('/api/agreements/sign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .then(function(r){return r.json().then(function(j){if(!r.ok){throw new Error(j.error||'Could not send agreement.');}return j;});})
+    .then(function(){
+      ['ag-name','ag-email','ag-phone','ag-license','ag-vehicle','ag-pickup','ag-return'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+      var ck=document.getElementById('ag-agree');if(ck)ck.checked=false;
+      mbzClearAgreementSignature();
+      setAgreementMsg('Agreement sent. Mike and the client should receive an email copy.','ok');
+    })
+    .catch(function(err){setAgreementMsg(err.message,'err');})
+    .finally(function(){if(btn){btn.disabled=false;btn.style.opacity='1';btn.textContent='Send Signed Agreement';}});
+}
+
 let S = {from:'',to:'',car:null,addons:{cdw:false,road:false,gps:false},rates:{cdw:12,road:6,gps:5}};
 
 (function init(){
@@ -814,6 +1001,7 @@ function switchTab(t){
   if(t==='home') showPage('home');
   else if(t==='browse'){doSearch();}
   else if(t==='deals') showPage('deals');
+  else if(t==='agreement'){showPage('agreement');setTimeout(function(){if(typeof initAgreementTab==='function')initAgreementTab();},50);}
   else if(t==='profile') showPage('profile');
   else if(t==='game'){showPage('game');setTimeout(function(){if(typeof initGameTab==='function')initGameTab();},50);}
   else if(t==='membership'){showPage('membership');}
@@ -823,7 +1011,7 @@ function showPage(p){
   const pg=document.getElementById('page-'+p);
   if(pg) pg.classList.add('active');
   document.querySelectorAll('.tab-item').forEach(i=>i.classList.remove('active'));
-  var tabMap={home:'tab-home',browse:'tab-browse',deals:'tab-deals',profile:'tab-profile',game:'tab-game',membership:'tab-membership'};
+  var tabMap={home:'tab-home',browse:'tab-browse',deals:'tab-deals',agreement:'tab-agreement',profile:'tab-profile',game:'tab-game',membership:'tab-membership'};
   if(tabMap[p]&&document.getElementById(tabMap[p])) document.getElementById(tabMap[p]).classList.add('active');
   window.scrollTo(0,0);
 }
@@ -833,7 +1021,7 @@ function openInitialTabFromUrl(){
   try{
     var params=new URLSearchParams(window.location.search || '');
     var tab=params.get('tab');
-    if(tab && ['home','browse','deals','profile','game','membership'].indexOf(tab)>-1){
+    if(tab && ['home','browse','deals','agreement','profile','game','membership'].indexOf(tab)>-1){
       switchTab(tab);
     }
   }catch(e){}

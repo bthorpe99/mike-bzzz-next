@@ -32,6 +32,8 @@ export async function GET() {
         stripe: hasRealValue('STRIPE_SECRET_KEY') && hasRealValue('STRIPE_MEMBERSHIP_PRICE_ID') ? 'configured' : 'missing',
         supabase: hasRealValue('NEXT_PUBLIC_SUPABASE_URL') && hasRealValue('SUPABASE_SERVICE_ROLE_KEY') ? 'configured' : 'missing',
         sentry: sentryConfigured ? 'configured' : 'not_configured',
+        agreementEmail:
+          hasRealValue('RESEND_API_KEY') && hasRealValue('MIKE_AGREEMENTS_TO_EMAIL') ? 'configured' : 'not_configured',
       },
       missing,
     },
